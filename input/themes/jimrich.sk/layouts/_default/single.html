@@ -1,0 +1,13 @@
+{{partial "header.html" .}}
+<h1>{{.Title}}</h1>
+<p>
+  Language: <img src="/{{.Params.ji_lang_code}}.svg" alt="{{.Params.ji_lang_name}} flag" class="flag" /> {{.Params.ji_lang_name}}<br/>
+  Published: {{.Date.Format "02 January 2006"}}<br/>
+  Length: {{.ReadingTime}} {{if eq .ReadingTime 1}}minute{{else}}minutes{{end}} ({{.WordCount}} {{if eq .WordCount 1}}word{{else}}words{{end}})
+</p>
+{{partial "navigation.html" .}}
+<div lang="{{.Params.ji_lang_code}}" class="content">
+{{.Content}}
+</div>
+{{partial "navigation.html" .}}
+{{partial "footer.html" .}}
