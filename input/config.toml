@@ -1,3 +1,11 @@
-baseURL = "http://example.org/"
-languageCode = "en-us"
-title = "My New Hugo Site"
+baseURL = "https://jimrich.sk/"
+title = "Jaroslav IMRICH - Open Source Developer" 
+theme = "jimrich.sk"
+languageCode = "en"
+
+# Disables automatic interpretation of fractions with sub and sup elements
+[blackfriday]
+  fractions = false
+ 
+# Disables building of "tags" and "categories"
+[taxonomies]
