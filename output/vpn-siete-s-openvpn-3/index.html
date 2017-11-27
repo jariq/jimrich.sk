@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Jaroslav IMRICH - Open Source Developer</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/site.css" type="text/css" media="screen" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  
+</head>
+<body>
+<h1>VPN siete s OpenVPN (3)</h1>
+<p>
+  Language: <img src="/sk.svg" alt="Slovak flag" class="flag" /> Slovak<br/>
+  Published: 11 November 2008<br/>
+  Length: 8 minutes (1619 words)
+</p>
+<p>
+Move to <a href="https://jimrich.sk/vpn-siete-s-openvpn-2/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/vpn-siete-s-openvpn-4/">newer post</a>.
+</p>
+<div lang="sk" class="content">
+
+
+<p>Všetky diely seriálu:
+<a href="/vpn-siete-s-openvpn-1/">1</a>
+<a href="/vpn-siete-s-openvpn-2/">2</a>
+3
+<a href="/vpn-siete-s-openvpn-4/">4</a>
+<a href="/vpn-siete-s-openvpn-5/">5</a></p>
+
+<p>V tretej časti seriálu sa zameriame na vylepšenie konfigurácie VPN siete vytvorenej v predchádzajúcej časti a podrobnejšie sa pozrieme aj na využitie OpenVPN pri tunelovaní proxy serverov.</p>
+
+<h1 id="1-konfiguračné-súbory">1. Konfiguračné súbory</h1>
+
+<p>Vráťme sa k VPN sieti opisovanej v predchádzajúcej časti.</p>
+
+<p><img src="static2.png" alt="Sieťový diagram" /></p>
+
+<p>Medzi počítačmi A a B sme vytvorili VPN sieť 10.1.1.0/255.255.255.252.
+Systém A v tomto prípade plnil úlohu VPN servera a systém B bol v úlohe VPN klienta.
+Aplikáciu OpenVPN sme na týchto systémoch spúšťali nasledovnými príkazmi:</p>
+
+<pre><code>root@A:~# openvpn --dev tun --ifconfig 10.1.1.1 10.1.1.2 --secret static.key
+root@B:~# openvpn –remote 192.168.1.1 --dev tun --ifconfig 10.1.1.2 10.1.1.1 --secret static.key
+</code></pre>
+
+<p>Všetky konfiguračné parametre uvedené v týchto príkazoch je možné zapísať do konfiguračného súboru.
+Vytvorme teda na počítači A konfiguračný súbor <code>/root/mojasiet-server.conf</code> s nasledovným obsahom:</p>
+
+<pre><code># Konfiguracny subor VPN servera
+dev tun
+ifconfig 10.1.1.1 10.1.1.2
+secret /root/static.key
+comp-lzo
+keepalive 10 60
+ping-timer-rem
+persist-tun
+persist-key
+user openvpn
+group openvpn
+daemon
+</code></pre>
+
+<p>Význam prvých troch parametrov je známy z predchádzajúcej časti.
+Parameter <code>comp-lzo</code> zabezpečí, že dáta budú pred prenosom VPN sieťou komprimované.
+Použitím tohto parametra by sa mala zvýšiť prenosová rýchlosť, no zároveň bude viac zaťažený procesor.
+Parametre <code>keepalive 10 60</code> a <code>ping-timer-rem</code> nepriamo zabezpečujú, že časový limit spojenia medzi VPN serverom a VPN klientom na sieťových prvkoch nachádzajúcich sa medzi nimi nevyprší, pretože VPN server bude v pravidelných intervaloch &ldquo;pingovať&rdquo; klienta.
+Parametre <code>persist-tun</code> a <code>persist-key</code> zabezpečia, že v prípade automatického reštartu tunelu sa nebude znova konfigurovať virtuálne sieťové rozhranie a čítať šifrovací kľúč.
+To má význam hlavne pri použití direktív <code>user openvpn</code> a <code>group openvpn</code>, ktoré zabezpečia, že po štarte proces uvoľní privilégia roota a bude ďalej bežať pod bežným používateľom, ktorý nemá na tieto operácie dostatočné oprávnenia.
+Vďaka direktíve <code>daemon</code> bude proces bežať na pozadí a nebude vypisovať hlásenia na terminál, ale ich zaznamená prostredníctvom syslog daemona.</p>
+
+<p>Pred samotným spustením OpenVPN je ešte potrebné vytvoriť neprivilegovaného používateľa openvpn patriaceho do rovnomennej skupiny.
+Môžeme to urobiť napríklad pomocou príkazov:</p>
+
+<pre><code>root@A:~# groupadd openvpn
+root@A:~# useradd -g openvpn openvpn
+root@A:~# passwd openvpn
+</code></pre>
+
+<p>Keď je používateľ vytvorený, môžeme spustiť OpenVPN a odovzdať mu cestu ku konfiguračnému súboru pomocou parametra <code>--config</code>.</p>
+
+<pre><code>root@A:~# openvpn --config /root/mojasiet-server.conf
+</code></pre>
+
+<p>Následne odporúčam overiť, či proces beží príkazom:</p>
+
+<pre><code>root@A:~# ps aux | grep openvpn
+</code></pre>
+
+<p>Výstup by sa mal podobať tomuto:</p>
+
+<pre><code>openvpn 4308 0.0 0.1 4324 932 ? Ss 18:43 0:00 openvpn --config /root/mojasiet-server.conf
+</code></pre>
+
+<p>Treba pamätať na to, že sme OpenVPN spustili v daemonizovanom móde, a preto prípadnú chybu konfigurácie nevypíše na terminál, ale zaznamená prostredníctvom syslog daemona.
+Ak by teda predchádzajúci príkaz nevyprodukoval žiadny výstup, znamená to, že je v konfigurácii chyba a jej bližší popis je možné nájsť v systémových logoch.</p>
+
+<p>Na počítači B je postup obdobný.
+Taktiež je nutné vytvoriť konfiguračný súbor VPN klienta s názvom <code>mojasiet-client.conf</code> a nasledovným obsahom:</p>
+
+<pre><code># Konfiguracny subor VPN klienta
+dev tun
+remote 192.168.1.1
+ifconfig 10.1.1.2 10.1.1.1
+secret /root/static.key
+comp-lzo
+keepalive 10 60
+ping-timer-rem
+persist-tun
+persist-key
+user openvpn
+group openvpn
+daemon
+</code></pre>
+
+<p>Význam jednotlivých konfiguračných direktív je rovnaký ako pri VPN serveri.
+Po vytvorení neprivilegovaného používateľa openvpn patriaceho do skupiny openvpn je možné spustiť OpenVPN podobne ako na počítači A príkazom:</p>
+
+<pre><code>root@B:~# openvpn --config /root/mojasiet-client.conf
+</code></pre>
+
+<p>Aj v tomto prípade odporúčam overiť, či proces beží pomocou nástroja <code>ps</code> resp. kontrolou systémových logov.
+Overenie funkčnosti samotnej VPN siete je možné vykonať spôsobom popísaným v predchádzajúcom článku pomocou programu <code>ping</code>.</p>
+
+<h1 id="2-openvpn-v-ubuntu">2. OpenVPN v Ubuntu</h1>
+
+<p>Distribúcia Ubuntu sa používateľovi snaží vytváranie OpenVPN sietí čo najviac uľahčiť a robí to najmä vhodnou kombináciou parametrov odovzdávaných z príkazového riadka (v init skripte) s parametrami načítavanými z konfiguračných súborov.
+Tvorca balíka OpenVPN pre distribúciu Ubuntu predpokladá, že používateľ bude ukladať konfiguračné súbory pre jednotlivé VPN siete do adresára <code>/etc/openvpn</code> a dá im príponu <code>conf</code>.
+Po spustení init skript vyhľadá v spomínanom adresári všetky súbory s touto príponou a spustí pre ne samostatnú inštanciu procesu <code>openvpn</code>.</p>
+
+<p>Ak chcete použiť tento distribúciou Ubuntu preferovaný spôsob, musíte statický kľúč presunúť do adresára <code>/etc/openvpn</code>.
+Pre zvýšenie bezpečnosti je tiež vhodné pre súbor s kľúčom nastaviť prístupové práva tak, aby ho mohol čítať iba používateľ root.
+Môžete to vykonať napríklad príkazmi:</p>
+
+<pre><code>root@A:~# mv static.key /etc/openvpn
+root@A:~# chown root.root /etc/openvpn/static.key
+root@A:~# chmod 600 /etc/openvpn/static.key
+</code></pre>
+
+<p>Do toho istého adresára je potrebné prekopírovať aj konfiguračný súbor <code>mojasiet-server.conf</code>, ktorý sme použili v predchádzajúcom odseku a opraviť v ňom cestu ku súboru so statickým kľúčom z absolútnej <code>/root/static.key</code> na relatívnu <code>static.key</code>.
+Na záver už ostáva len spustiť OpenVPN ako službu pomocou init skriptu:</p>
+
+<pre><code>root@A:~# /etc/init.d/openvpn start
+* Starting virtual private network daemon.
+* mojasiet-server (OK)
+                  [ OK ]
+</code></pre>
+
+<p>Ak by ste chceli systém pripojiť do ďalšej VPN siete, stačí pre ňu vytvoriť konfiguračný súbor a reštartovať spojenia pomocou init skriptu.</p>
+
+<h1 id="3-tunelovanie-proxy-servera">3. Tunelovanie proxy servera</h1>
+
+<p>V predchádzajúcom dieli som spomínal, že medzi hlavné výhody použitia OpenVPN so statickým kľúčom patrí o.i. jednoduchá konfigurácia a skutočnosť, že na server sa môže pripojiť len jeden klient.
+Práve kvôli týmto dvom vlastnostiam s obľubou používam konfiguráciu so statickým kľúčom na tunelovanie proxy serverov alebo prechod cez príliš reštriktívne firewally.</p>
+
+<p>Určite poznáte prípad, keď sa vám správcovia siete snažia za každú cenu znepríjemňovať život monitorovaním a obmedzovaním na každom kroku.
+Samozrejme ich k tomu môže viesť potreba zvýšenia bezpečnosti lokálnej siete, ale občas môžete získať pocit, že to robia skôr kvôli zvyšovaniu sebavedomia a pocitu moci.
+Ak sa rozhodnete tu popísanú techniku použiť vo vašej sieti, dovolím si vám pripomenúť, že v nej môže byť zakázaná a môžete jej použitím porušiť pravidlá používania danej siete, čo sa väčšinou neobíde bez následkov.</p>
+
+<p>Na tomto mieste by som rád zdôraznil, že <strong>každý tunel má dve strany</strong>, a preto musíte mať v externej sieti dostupný počítač, na ktorom môžete spustiť OpenVPN server.
+Pri tunelovaní proxy servera pomocou OpenVPN sa využíva najmä skutočnosť, že SSL spojenie vytvorené aplikáciou OpenVPN je pre bežne nakonfigurovaný proxy server alebo firewall nerozoznateľné od ostatných spojení využívajúcich protokol HTTPS.
+Opisovaná technika sa samozrejme dá použiť aj v sieťach, ktoré nepoužívajú proxy server, ale sú chránené sieťovým firewallom.
+Na jej realizáciu stačí do externých sietí otvorený jediný UDP alebo TCP port.</p>
+
+<p><img src="proxy.png" alt="Sieťový diagram" /></p>
+
+<p>Predpokladajme scenár, keď chceme na systéme &ldquo;PrivateSystem&rdquo; získať pripojenie k internetu bez obmedzení, no jediná cesta do externých sietí vedie cez systém &ldquo;ProxyServer&rdquo;.
+Pri realizácii tohto zámeru použijeme napríklad domáci počítač &ldquo;PublicSystem&rdquo;, ktorý má verejnú IP adresu alebo je naň &ldquo;forwardovaný&rdquo; port 443/TCP zo systému, ktorý ňou disponuje.</p>
+
+<p>Pre realizáciu tohto zámeru je potrebné:</p>
+
+<ul>
+<li>na systéme &ldquo;PublicSystem&rdquo; spustiť OpenVPN server počúvajúci na porte 443/TCP</li>
+<li>na systéme &ldquo;PublicSystem&rdquo; nakonfigurovať <a href="https://en.wikipedia.org/wiki/Network_address_translation">NAT</a> pre spojenia VPN klienta &ldquo;PrivateSystem&rdquo; smerujúce do internetu</li>
+<li>nakonfigurovať OpenVPN na systéme &ldquo;PrivateSystem&rdquo; tak, aby sa pripájal na &ldquo;PublicSystem&rdquo; cez &ldquo;ProxyServer&rdquo;</li>
+<li>presmerovať sieťovú komunikáciu VPN klienta &ldquo;PrivateSystem&rdquo; smerujúcu do internetu cez VPN server &ldquo;PublicSystem&rdquo;</li>
+</ul>
+
+<p>Spustenie OpenVPN serveru počúvajúceho na porte 443/TCP na systéme &ldquo;PublicSystem&rdquo; by vám už nemalo robiť problém.
+Stačí vygenerovať statický kľúč a použiť konfiguračný súbor s nasledovným obsahom:</p>
+
+<pre><code># Konfiguracny subor VPN servera
+dev tun
+ifconfig 10.1.1.1 10.1.1.2
+proto tcp-server
+port 443
+secret static.key
+comp-lzo
+keepalive 10 60
+ping-timer-rem
+persist-tun
+persist-key
+daemon
+</code></pre>
+
+<p>Pred konfiguráciou prekladu zdrojových adries (NAT) na systéme &ldquo;PublicSystem&rdquo; je najskôr potrebné povoliť preposielanie paketov medzi sieťami, do ktorých je tento systém pripojený.
+Môžeme to urobiť napríklad príkazom:</p>
+
+<pre><code>root@PublicSystem:~# echo &quot;1&quot; &gt; /proc/sys/net/ipv4/ip_forward
+</code></pre>
+
+<p>Predpokladajme, že &ldquo;PublicSystem&rdquo; používa na pripojenie k internetu sieťové rozrhranie <code>eth0</code> a VPN klient &ldquo;PrivateSystem&rdquo; používa vo VPN sieti IP adresu 10.1.1.2.
+NAT-ovanie spojení tohto klienta smerujúcich cez &ldquo;PublicSystem&rdquo; do internetu je možné zapnúť pravidlom firewallu nastaveným pomocou nástroja iptables:</p>
+
+<pre><code>root@PublicSystem:~# iptables -t nat -A POSTROUTING -s 10.1.1.2 -o eth0 -j MASQUERADE
+</code></pre>
+
+<p>Len pre istotu pripomínam, že ak systém &ldquo;PublicSystem&rdquo; nebude chránený externým firewallom, je potrebné ho zabezpečiť aj ďalšími pravidlami.
+Ak nemáte s konfiguráciou pravidiel firewallu pomocou iptables skúsenosti, môže vám pomôcť napríklad článok <a href="/firewall-linuxu-s-iptables/">&ldquo;Firewall linuxu s iptables&rdquo;</a>.</p>
+
+<p>Spustenie OpenVPN klienta na systéme &ldquo;PrivateSystem&rdquo; by vám taktiež nemalo robiť problém.
+Musíte samozrejme použiť rovnaký statický kľúč ako na serveri a konfiguračný súbor s nasledovným obsahom:</p>
+
+<pre><code># Konfiguracny subor VPN klienta
+dev tun
+remote &lt;PublicSystemIP&gt;
+port 443
+proto tcp-client
+http-proxy &lt;ProxyServerIP&gt; &lt;ProxyServerPort&gt;
+http-proxy-retry
+http-proxy-option AGENT Mozilla/5.0+(Windows;+U;+Windows+NT+5.1;+en-US;+rv:1.9.0.3)+Gecko/2008092417+Firefox/3.0.3+(.NET+CLR+3.5.30729)
+ifconfig 10.1.1.2 10.1.1.1
+secret static.key
+redirect-gateway
+comp-lzo
+keepalive 10 60
+ping-timer-rem
+persist-tun
+persist-key
+daemon
+</code></pre>
+
+<p>Význam väčšiny konfiguračných direktív už bol objasnený v predchádzajúcom texte.
+Nová je napríklad direktíva <code>http-proxy</code>, ktorá definuje proxy server, cez ktorý sa nadväzuje VPN spojenie.
+Táto direktíva musí byť nasledovaná IP adresou a portom tohoto proxy servera.
+Direktíva <code>http-proxy-option</code> nasledovaná kľúčovým slovom <code>AGENT</code> a identifikačným reťazcom prehliadača zabezpečí, že proxy serveru bude spojenie prezentované ako spojenie vykonané pomocou prehliadača Mozilla Firefox 3.0.3.</p>
+
+<p>Direktíva <code>redirect-gateway</code> je v celom procese kľúčová, pretože zabezpečuje úpravu smerovacej tabuľky (angl. <a href="https://en.wikipedia.org/wiki/Routing_table">routing table</a>) operačného systému a presmerovanie sieťovej komunikácie VPN klienta &ldquo;PrivateSystem&rdquo; smerom do internetu cez VPN server &ldquo;PublicSystem&rdquo;.
+Toto presmerovanie pozostáva z vytvorenia statickej cesty (angl. route) na &ldquo;PublicSystem&rdquo; cez aktuálnu predvolenú bránu (angl. default gateway) a zmeny tejto brány na adresu vzdialeného VPN servera.
+Pri rozpojení VPN siete je smerovacia tabuľka vrátená späť do pôvodného stavu.</p>
+
+<p>Systémy &ldquo;PublicSystem&rdquo; a &ldquo;PrivateSystem&rdquo; sú v tomto momente pripravené poskytovať výhody neobmedzeného internetu :)</p>
+
+<h1 id="4-záver">4. Záver</h1>
+
+<p>Princíp tunelovania proxy servera alebo firewallového systému prezentovaný v tomto článku nie je ničím novým a je využívaný aj mnohými trójskymi koňmi a inými typmi škodlivého kódu.
+Skúste si predstaviť, čo sa môže stať, keď do svojho systému nainštalujete aplikáciu z nedôveryhodného zdroja a tá sa pripojí do útočníkom ovládanej VPN siete.
+Útočník tak v momente získa prístup do vašej lokálnej siete a pri páchaní škôd sa takmer určite nezamerá iba na lokálne zdroje, ale bude cez váš systém pristupovať do ďalších sietí, z tých do ďalších, z tých do ďalších a nakoniec sa stane len veľmi ťažko stopovateľným.</p>
+
+<p>V ďalšej časti sa bližšie pozrieme na vytvorenie a prevádzku certifikačnej autority, ktorá je schopná vydávať certifikáty pre OpenVPN servery i klientov.
+No a samozrejme sa budeme venovať aj konfigurácii OpenVPN v móde s certifikátmi.</p>
+
+<p><a href="https://linuxos.sk/clanok/vpn-siete-s-openvpn-3/">Článok bol publikovaný aj na portáli linuxos.sk</a></p>
+
+<p>Všetky diely seriálu:
+<a href="/vpn-siete-s-openvpn-1/">1</a>
+<a href="/vpn-siete-s-openvpn-2/">2</a>
+3
+<a href="/vpn-siete-s-openvpn-4/">4</a>
+<a href="/vpn-siete-s-openvpn-5/">5</a></p>
+
+</div>
+<p>
+Move to <a href="https://jimrich.sk/vpn-siete-s-openvpn-2/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/vpn-siete-s-openvpn-4/">newer post</a>.
+</p>
+<p>
+  License: Unless stated otherwise, all published content is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
+  Disclaimer: The views expressed on this website are mine alone and not those of my employer.<br/>
+  Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
+  Technology: This website lives in its own <a href="https://github.com/jariq/jimrich.sk">git repository</a> and breaths thanks to <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
+</p>
+</body>
+</html>

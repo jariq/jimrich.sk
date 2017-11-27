@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Jaroslav IMRICH - Open Source Developer</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/site.css" type="text/css" media="screen" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  
+</head>
+<body>
+<h1>Troubleshooting Pkcs11Interop with PKCS11-LOGGER</h1>
+<p>
+  Language: <img src="/en.svg" alt="English flag" class="flag" /> English<br/>
+  Published: 14 December 2015<br/>
+  Length: 3 minutes (592 words)
+</p>
+<p>
+Move to <a href="https://jimrich.sk/basic-analysis-of-segmentation-fault-on-linux-platforms/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/vyhotovovanie-elektronickych-podpisov-na-dialku/">newer post</a>.
+</p>
+<div lang="en" class="content">
+<p><a href="https://www.pkcs11interop.net/">Pkcs11Interop</a> is managed library written in C# that brings full power of PKCS#11 API to the .NET environment.
+It loads unmanaged PKCS#11 library provided by the cryptographic device vendor and makes its functions accessible to .NET application.</p>
+
+<p>Following figure presents the typical usage of Pkcs11Interop library in .NET application:</p>
+
+<p><img src="pkcs11interop-without-logger.png" alt="Pkcs11Interop without logger" /></p>
+
+<p>Next code sample shows how to load PKCS#11 library via Pkcs11Interop in .NET application:</p>
+
+<pre><code>string pkcs11Library = null;
+
+if (Net.Pkcs11Interop.Common.Platform.Uses64BitRuntime)
+{
+    pkcs11Library = @&quot;c:\path\to\pkcs11-x64.dll&quot;;
+}
+else
+{
+    pkcs11Library = @&quot;c:\path\to\pkcs11-x86.dll&quot;;
+}
+
+using (var pkcs11 = new Net.Pkcs11Interop.HighLevelAPI.Pkcs11(pkcs11Library, true))
+{
+    // Do something interesting
+}
+</code></pre>
+
+<p>Due to the complexity of PKCS#11 API it is not rare that user needs to troubleshoot communication problems between application and PKCS#11 library.
+That is the moment when <a href="https://github.com/pkcs11interop/pkcs11-logger">PKCS11-LOGGER</a> may come handy.</p>
+
+<p>Logger takes place between the application and the original PKCS#11 library.
+Application calls PKCS#11 function provided by logger, logger calls the same function provided by the original PKCS#11 library and while logging everything it returns the result to the application.</p>
+
+<p>Following figure presents the typical usage of Pkcs11Interop library with PKCS11-LOGGER proxy in .NET application:</p>
+
+<p><img src="pkcs11interop-with-pkcs11-logger.png" alt="Pkcs11Interop with logger" /></p>
+
+<p>Next code sample shows how to load PKCS#11 library via PKCS11-LOGGER and Pkcs11Interop in .NET application:</p>
+
+<pre><code>string pkcs11Library = null;
+string loggerLibrary = null;
+string logFile = null;
+
+if (Net.Pkcs11Interop.Common.Platform.Uses64BitRuntime)
+{
+    pkcs11Library = @&quot;c:\path\to\pkcs11-x64.dll&quot;;
+    loggerLibrary = @&quot;c:\path\to\pkcs11-logger-x64.dll&quot;;
+    logFile = @&quot;c:\path\to\pkcs11-logger-x64.log&quot;;
+}
+else
+{
+    pkcs11Library = @&quot;c:\path\to\pkcs11-x86.dll&quot;;
+    loggerLibrary = @&quot;c:\path\to\pkcs11-logger-x86.dll&quot;;
+    logFile = @&quot;c:\path\to\pkcs11-logger-x86.log&quot;;
+}
+
+System.Environment.SetEnvironmentVariable(&quot;PKCS11_LOGGER_LIBRARY_PATH&quot;, pkcs11Library);
+System.Environment.SetEnvironmentVariable(&quot;PKCS11_LOGGER_LOG_FILE_PATH&quot;, logFile);
+System.Environment.SetEnvironmentVariable(&quot;PKCS11_LOGGER_FLAGS&quot;, @&quot;64&quot;);
+
+using (var pkcs11 = new Net.Pkcs11Interop.HighLevelAPI.Pkcs11(loggerLibrary, true))
+{
+    // Do something interesting
+}
+</code></pre>
+
+<p>Analysis of the logged information should be performed by a person familiar with <a href="https://github.com/pkcs11interop/PKCS11-SPECS">PKCS#11 specifications</a>.</p>
+
+<p>Here’s the short sample of the content extracted from the beginning of the log file:</p>
+
+<pre><code>0x000013c8 : 0x00001078 : ****************************** 2015-12-14 23:56:07 ***
+0x000013c8 : 0x00001078 : PKCS11-LOGGER 2.1.0
+0x000013c8 : 0x00001078 : PKCS#11 logging proxy module
+0x000013c8 : 0x00001078 : Developed as a part of the Pkcs11Interop project
+0x000013c8 : 0x00001078 : Please visit www.pkcs11interop.net for more information
+0x000013c8 : 0x00001078 : ****************************** 2015-12-14 23:56:07 ***
+0x000013c8 : 0x00001078 : Successfuly loaded C:\SoftHSM2\lib\softhsm2-x64.dll
+0x000013c8 : 0x00001078 : Memory contents are dumped without endianness conversion
+0x000013c8 : 0x00001078 : ****************************** 2015-12-14 23:56:07 ***
+0x000013c8 : 0x00001078 : Calling C_GetFunctionList
+0x000013c8 : 0x00001078 : Input
+0x000013c8 : 0x00001078 :  ppFunctionList: 000000C98228E8E0
+0x000013c8 : 0x00001078 : Output
+0x000013c8 : 0x00001078 :  Note: Returning function list of PKCS11-LOGGER
+0x000013c8 : 0x00001078 : Returning 0 (CKR_OK)
+0x000013c8 : 0x00001078 : ****************************** 2015-12-14 23:56:07 ***
+0x000013c8 : 0x00001078 : Calling C_Initialize
+0x000013c8 : 0x00001078 : Input
+0x000013c8 : 0x00001078 :  pInitArgs: 000000C9E59AF5E0
+0x000013c8 : 0x00001078 :   CreateMutex: 0000000000000000
+0x000013c8 : 0x00001078 :   DestroyMutex: 0000000000000000
+0x000013c8 : 0x00001078 :   LockMutex: 0000000000000000
+0x000013c8 : 0x00001078 :   UnlockMutex: 0000000000000000
+0x000013c8 : 0x00001078 :   Flags: 2
+0x000013c8 : 0x00001078 :    CKF_LIBRARY_CANT_CREATE_OS_THREADS: FALSE
+0x000013c8 : 0x00001078 :    CKF_OS_LOCKING_OK: TRUE
+0x000013c8 : 0x00001078 :   pReserved: 0000000000000000
+0x000013c8 : 0x00001078 : Returning 0 (CKR_OK)
+0x000013c8 : 0x00001078 : ****************************** 2015-12-14 23:56:07 ***
+0x000013c8 : 0x00001078 : Calling C_GetInfo
+0x000013c8 : 0x00001078 : Input
+0x000013c8 : 0x00001078 :  pInfo: 000000C98228E7F0
+0x000013c8 : 0x00001078 : Output
+0x000013c8 : 0x00001078 :  pInfo: 000000C98228E7F0
+0x000013c8 : 0x00001078 :   cryptokiVersion:
+0x000013c8 : 0x00001078 :    major: 2
+0x000013c8 : 0x00001078 :    minor: 30
+0x000013c8 : 0x00001078 :   manufacturerID: SoftHSM                         
+0x000013c8 : 0x00001078 :   flags: 0
+0x000013c8 : 0x00001078 :   libraryDescription: Implementation of PKCS11        
+0x000013c8 : 0x00001078 :   libraryVersion:
+0x000013c8 : 0x00001078 :    major: 2
+0x000013c8 : 0x00001078 :    minor: 0
+0x000013c8 : 0x00001078 : Returning 0 (CKR_OK)
+</code></pre>
+
+<p><strong>Warning: Log files produced by PKCS11-LOGGER may contain sensitive information and should not be shared publicly.</strong></p>
+
+</div>
+<p>
+Move to <a href="https://jimrich.sk/basic-analysis-of-segmentation-fault-on-linux-platforms/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/vyhotovovanie-elektronickych-podpisov-na-dialku/">newer post</a>.
+</p>
+<p>
+  License: Unless stated otherwise, all published content is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
+  Disclaimer: The views expressed on this website are mine alone and not those of my employer.<br/>
+  Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
+  Technology: This website lives in its own <a href="https://github.com/jariq/jimrich.sk">git repository</a> and breaths thanks to <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
+</p>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Jaroslav IMRICH - Open Source Developer</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/site.css" type="text/css" media="screen" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  
+</head>
+<body>
+<h1>Turbo Delphi a jazyk C</h1>
+<p>
+  Language: <img src="/sk.svg" alt="Slovak flag" class="flag" /> Slovak<br/>
+  Published: 06 April 2007<br/>
+  Length: 3 minutes (457 words)
+</p>
+<p>
+Move to <a href="https://jimrich.sk/programovanie-lpt-v-linuxe/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/windows-ako-router/">newer post</a>.
+</p>
+<div lang="sk" class="content">
+
+
+<p>Vyvíjate aplikácie v <a href="http://www.turboexplorer.com/delphi">Turbo Delphi</a>?
+Stalo sa vám už, že ste chceli v niektorej z nich použiť knižnicu, ktorá poskytovala rozhranie iba pre jazyk C?
+Hľadali ste na internete prepis hlavičkových súborov tejto knižnice použiteľný v Delphi, no vaša snaha bola márna?
+Ak ste aspoň na dve z predchádzajúcich otázok odpovedali kladne, je tento článok určený práve pre vás.
+Predstavuje spôsob, ako napísať časť programu v jazyku C a použiť ju v Delphi.</p>
+
+<h1 id="úvod">Úvod</h1>
+
+<p>Jednou z hlavných úloh tohto článku je názorne predviesť, ako v prostredí <a href="https://www.visualstudio.com/">Microsoft Visual Studio 2005 Professional</a> vytvoriť dynamicky linkovanú knižnicu (DLL súbor), ktorá exportuje funkcie obsahujúce potrebný kód napísaný v jazyku C a ako ju následne pripojiť k projektu vyvíjanému v Turbo Delphi.</p>
+
+<h1 id="vytvorenie-dll-knižnice-vo-visual-c">Vytvorenie DLL knižnice vo Visual C++</h1>
+
+<p>Vo Visual Studiu zvoľte možnosť založiť nový projekt pomocou menu &ldquo;File &gt; New &gt; Project&rdquo;.</p>
+
+<p>V okne &ldquo;Project Types&rdquo; vyberte voľbu &ldquo;Visual C++ &gt; Win32 &gt; Win32 Console Application&rdquo; a zvoľte názov projektu <code>DLLtest</code>.</p>
+
+<p><img src="dll1.jpg" alt="Screenshot" /></p>
+
+<p>V nasledujúcom okne s názvom &ldquo;Win32 Application Wizard&rdquo; zvoľte &ldquo;Application Type: DLL&rdquo; a &ldquo;Additional options: Export symbols&rdquo;.</p>
+
+<p><img src="dll2.jpg" alt="Screenshot" /></p>
+
+<p>Visual Studio vygeneruje súbor <code>DLLtest.cpp</code>, v ktorom sa nachádza ukážková funkcia <code>fnDLLtest</code>:</p>
+
+<pre><code>DLLTEST_API int fnDLLtest(void)
+{
+  return 42;
+}
+</code></pre>
+
+<p>Dopíšte pod ňu vlastnú funkciu <code>fnDLLtext</code> pracujúcu s reťazcami:</p>
+
+<pre><code>DLLTEST_API char * fnDLLtext(char * retazec)
+{
+  return retazec;
+}
+</code></pre>
+
+<p><img src="dll3.jpg" alt="Screenshot" /></p>
+
+<p>V paneli &ldquo;Solution Explorer&rdquo; kliknite pravým tlačidlom myši na váš projekt a z kontextového menu vyberte voľbu &ldquo;Add &gt; New item&rdquo;.</p>
+
+<p><img src="dll4.jpg" alt="Screenshot" /></p>
+
+<p>V okne &ldquo;Add New Item - DLLtest&rdquo; vyberte voľbu &ldquo;Visual C++ &gt; Code &gt; Module-Definition File (.def)&rdquo; a ako názov nového súboru zadajte <code>DLLtest</code>.</p>
+
+<p><img src="dll5.jpg" alt="Screenshot" /></p>
+
+<p>Upravte čerstvo pridaný súbor <code>DLLtest.def</code> tak, aby obsahoval mená exportovaných funkcií:</p>
+
+<pre><code>LIBRARY &quot;DLLtest&quot;
+EXPORTS
+fnDLLtest
+fnDLLtext
+</code></pre>
+
+<p><img src="dll6.jpg" alt="Screenshot" /></p>
+
+<p>Výberom z rolovacieho menu &ldquo;Solution Configurations&rdquo; na paneli &ldquo;Standard toolbar&rdquo; zmeňte profil z &ldquo;Debug&rdquo; na &ldquo;Release&rdquo; a skompilujte knižnicu pomocou menu &ldquo;BUILD &gt; Build solution&rdquo;.</p>
+
+<p><img src="dll7.jpg" alt="Screenshot" /></p>
+
+<p>V adresári projektu by sa mal nachádzať podadresár <code>release</code> obsahujúci výslednú knižnicu <code>DLLtest.dll</code>.</p>
+
+<h1 id="volanie-funkcií-z-dll-v-borland-delphi">Volanie funkcií z DLL v Borland Delphi</h1>
+
+<p>Prekopírujte knižnicu <code>DLLtest.dll</code> priamo do adresára vášho delphi projektu.</p>
+
+<p>Za deklaráciou funkcií z knižnice použite klauzuly <a href="https://en.wikipedia.org/wiki/Calling_convention"><code>cdecl</code></a> a <code>external</code>.</p>
+
+<p>Nasledujúci jednoduchý program demonštruje použitie funkcií exportovaných DLL knižnicou vytvorenou podla tohto článku:</p>
+
+<pre><code>program Project1;
+
+{$APPTYPE CONSOLE}
+
+uses
+SysUtils;
+
+function fnDLLtest() : integer; cdecl; external 'DLLtest.dll';
+function fnDLLtext(retazec : pchar) : pchar; cdecl; external 'DLLtest.dll';
+
+begin
+
+writeln('Vystup funkcie vracajucej integer: ' + IntToStr( fnDLLtest() ));
+writeln('Vystup funkcie vracajucej &quot;string&quot;: ' + fnDLLtext( Pchar('ahoj') ));
+readln;
+
+end.
+</code></pre>
+
+<h1 id="záver">Záver</h1>
+
+<p>Za nevýhodu tohto riešenia sa dá označiť fakt, že spolu s finálnou verziou vašej aplikácie musíte distribuovať aj balík <a href="https://www.microsoft.com/en-us/download/details.aspx?id=3387">Microsoft Visual C++ 2005 Redistributable Package</a>, bez ktorého bude vytvorená DLL knižnica nepoužiteľná.
+Ak teda máte dostatok času a skúseností, môže byť vhodnejším riešením prepísať hlavičkové súbory spomínanej knižnice z jazyka C do jazyka Object Pascal, alebo celú aplikáciu vyvíjať v <a href="http://www.turboexplorer.com/cpp">Turbo C++</a>.</p>
+
+</div>
+<p>
+Move to <a href="https://jimrich.sk/programovanie-lpt-v-linuxe/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/windows-ako-router/">newer post</a>.
+</p>
+<p>
+  License: Unless stated otherwise, all published content is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
+  Disclaimer: The views expressed on this website are mine alone and not those of my employer.<br/>
+  Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
+  Technology: This website lives in its own <a href="https://github.com/jariq/jimrich.sk">git repository</a> and breaths thanks to <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
+</p>
+</body>
+</html>

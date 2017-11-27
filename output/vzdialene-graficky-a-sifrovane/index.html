@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Jaroslav IMRICH - Open Source Developer</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/site.css" type="text/css" media="screen" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  
+</head>
+<body>
+<h1>Vzdialene, graficky a šifrovane</h1>
+<p>
+  Language: <img src="/sk.svg" alt="Slovak flag" class="flag" /> Slovak<br/>
+  Published: 23 February 2006<br/>
+  Length: 3 minutes (610 words)
+</p>
+<p>
+Move to <a href="https://jimrich.sk/openbsd-na-sun-sparcstation4/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/diplomova-praca-web-release/">newer post</a>.
+</p>
+<div lang="sk" class="content">
+
+
+<p>Po náročnom dni odchádzate z práce a na firemnom počítači beží v grafickom prostredí program, ktorý bude za pár hodín potrebovať váš zásah.
+Môžete sa k nemu vrátiť na druhý deň, môžete ostať v práci dlhšie, alebo môžete firemný počítač ovládať pohodlne z domu.
+Ovládať vzdialene grafické prostredie nie je v linuxe žiadny problém.
+Slúži na to napríklad systém pre vzdialenú správu <a href="https://en.wikipedia.org/wiki/VNC">VNC</a>, ktorý sa dá jednoducho zabezpečiť vytvorením šifrovaného <a href="https://en.wikipedia.org/wiki/SSH">SSH</a> tunelu.</p>
+
+<h1 id="1-tunelovacie-schopnosti-protokolu-ssh">1. Tunelovacie schopnosti protokolu SSH</h1>
+
+<p>Ako jednu zo zásadných vlastností <a href="https://www.openssh.com/">OpenSSH</a> uvádzajú jeho autori možnosť vytvárať šifrované tunely.
+Tunelovanie alebo tiež &ldquo;port forwarding&rdquo; sa využíva najmä na &ldquo;obaľovanie&rdquo; aplikačných protokolov rodiny TCP, ktoré prenášajú dáta nešifrované.
+Výrazne sa tak zvyšuje ich bezpečnosť a odolnosť voči odpočúvaniu.</p>
+
+<p>Port forwarding môžeme rozdeliť na:</p>
+
+<ul>
+<li><strong>remote port forwarding</strong> - naviazanie vzdialeného portu na lokálny;</li>
+<li><strong>local port forwarding</strong> - naviazanie lokálneho portu na vzdialený.</li>
+</ul>
+
+<h1 id="2-local-port-forwarding">2. Local port forwarding</h1>
+
+<p>Často sa používa práve na už spomínané obaľovanie aplikačných protokolov šifrovaným spojením.
+Predpokladajme, že sa chceme pripojiť z domácej pracovnej stanice (KLIENT) prostredníctvom protokolu VNC na firemný unixový server (SERVER), na ktorom beží okrem VNC démona aj SSH démon z balíka OpenSSH.
+Pripojíme sa teda na server pomocou SSH klienta s nastaveným naviazaním nášho lokálneho portu 3333/TCP na vzdialený port 5900/TCP servera, čím vznikne šifrovaný tunel.
+Pomocou VNC klienta sa následne už nepripájame na server, ale na port 3333/TCP localhostu a spojenie je automaticky smerované na port 5900/TCP serveru.</p>
+
+<p><img src="vnc.gif" alt="Local port forwarding" /></p>
+
+<pre><code>user@klient$ ssh -L 3333:127.0.0.1:5900 user@server
+</code></pre>
+
+<p>Rozdiel oproti priamemu pripojeniu VNC klienta na port 5900/TCP servera je v tom, že všetky informácie pre VNC server sú prenášané v šifrovanom spojení, tzv. SSH tuneli.</p>
+
+<h1 id="3-vnc-démon">3. VNC démon</h1>
+
+<p>Ako VNC démon sa mi zatiaľ najviac osvedčil <a href="http://www.karlrunge.com/x11vnc/">x11vnc</a>, ktorý je schopný vzdialenému klientovi sprístupniť reálny displej x-servera.
+Po jeho skompilovaní je treba najskôr vytvoriť prístupové heslo, ktoré bude VNC démon vyžadovať od klienta.</p>
+
+<pre><code>user@server$ x11vnc -storepasswd vaseheslo ~/.vncpasswd
+</code></pre>
+
+<p>Keďže je toto heslo uložené v súbore <code>~/.vncpasswd</code>, je nutné mu nastaviť správne prístupové práva, aby ho nemohol čítať nikto iný, než vlastník.</p>
+
+<pre><code>user@server$ chmod 600 ~/.vncpasswd
+</code></pre>
+
+<p>Na samotné spustenie VNC démona potom už stačí iba použiť príkaz:</p>
+
+<pre><code>user@server$ x11vnc -display :0 -localhost -rfbauth ~/.vncpasswd -forever -bg
+</code></pre>
+
+<p>Paramater <code>-display :0</code> určuje, ktorý displej grafického servera má VNC démon sprístupniť klientom.
+Parameter <code>-localhost</code> zabezpečí, že VNC démon bude očakávať prichádzajúce spojenia iba na rozhraní localhostu, a teda bez vytvoreného SSH tunelu sa na neho nepripojíte.
+Vyžiadanie hesla pri pokuse o pripojenie zabezpečuje parameter <code>-rfbauth ~/.vncpasswd</code>.
+Parameter <code>-forever</code> zas zaistí, že VNC démon neukončí svoju činnosť po vybavení prvého spojenia, ako to bez tohoto parametra bežne robí.
+No a vďaka parametru <code>-bg</code> sa x11vnc po naviazaní na displej :0 presunie do pozadia.</p>
+
+<h1 id="4-remote-port-forwarding">4. Remote port forwarding</h1>
+
+<p>Situácia sa mierne komplikuje, ak sa firemný server nachádza v sieti chránenej firewallom, ktorý nám bráni nadviazať priame spojenie na akýkoľvek TCP port tohto servera.
+Vtedy je nutné vytvoriť SSH tunel opačným smerom.
+Zo serveru sa teda pripojíme na SSH démon bežiaci na klientskej stanici s nastaveným naviazaním vzdialeného portu 3333/TCP na lokálny port 5900/TCP servera, čím sa vytvorí identický šifrovaný tunel ako v prípade local port forwardingu.
+Z domácej klientskej stanice sa potom pomocou VNC klienta pripájame podobne ako v prvom prípade, na port 3333/TCP localhostu a spojenie je automaticky smerované na port 5900/TCP serveru.</p>
+
+<p><img src="vnc2.gif" alt="Remote port forwarding" /></p>
+
+<pre><code>user@server$ ssh -R 3333:127.0.0.1:5900 user@klient
+</code></pre>
+
+<h1 id="záver">Záver</h1>
+
+<p>K používaniu vzdialenej správy grafického prostredia je treba pristupovať s veľkou opatrnosťou.
+Takéto spojenie by nikdy nemalo prebiehať nešifrované, a preto je nanajvýš vhodné využiť tunelovacie schopnosti protokolu SSH.
+Navyše šifrované SSH tunely odstraňujú bariéry vytvárané sieťovými firewallmi.
+Pri vhodnej kombinácii local a remote port forwardingu je za prítomnosti z oboch sietí dostupného SSH servera, možné spojiť aj počítače, ktoré sa oba nachádzajú v chránených sieťach.</p>
+
+</div>
+<p>
+Move to <a href="https://jimrich.sk/openbsd-na-sun-sparcstation4/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/diplomova-praca-web-release/">newer post</a>.
+</p>
+<p>
+  License: Unless stated otherwise, all published content is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
+  Disclaimer: The views expressed on this website are mine alone and not those of my employer.<br/>
+  Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
+  Technology: This website lives in its own <a href="https://github.com/jariq/jimrich.sk">git repository</a> and breaths thanks to <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
+</p>
+</body>
+</html>

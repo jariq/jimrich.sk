@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Jaroslav IMRICH - Open Source Developer</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/site.css" type="text/css" media="screen" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  
+</head>
+<body>
+<h1>VPN siete s OpenVPN (4)</h1>
+<p>
+  Language: <img src="/sk.svg" alt="Slovak flag" class="flag" /> Slovak<br/>
+  Published: 01 December 2008<br/>
+  Length: 9 minutes (1913 words)
+</p>
+<p>
+Move to <a href="https://jimrich.sk/vpn-siete-s-openvpn-3/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/vpn-siete-s-openvpn-5/">newer post</a>.
+</p>
+<div lang="sk" class="content">
+
+
+<p>Všetky diely seriálu:
+<a href="/vpn-siete-s-openvpn-1/">1</a>
+<a href="/vpn-siete-s-openvpn-2/">2</a>
+<a href="/vpn-siete-s-openvpn-3/">3</a>
+4
+<a href="/vpn-siete-s-openvpn-5/">5</a></p>
+
+<p>Vo štvrtej časti seriálu sa zoznámime s významom pojmu PKI a pozrieme sa bližšie na konfiguráciu OpenVPN s certifikátmi.</p>
+
+<h1 id="1-asymetrické-šifrovanie-a-elektronický-podpis">1. Asymetrické šifrovanie a elektronický podpis</h1>
+
+<p>V jednej z predchádzajúcich častí seriálu som spomínal, že asymetrické šifry používajú kľúčový pár (napr. RSA) pozostávajúci z privátnej a verejnej časti a že dáta zašifrované verejným kľúčom je možné dešifrovať len privátnym kľúčom a naopak.
+Pre ľahšie pochopenie významu certifikátov sa najskôr zameriame na pojem elektronický podpis.
+Veľmi zjednodušene je možné povedať, že elektronický podpis je dátová štruktúra alebo súbor, ktorý obsahuje hash dokumentu zašifrovaný pomocou privátneho kľúča podpisujúcej osoby.</p>
+
+<p>Predpokladajme, že Alice vlastní kľúčový pár a chce elektronicky podpísať dokument.
+Musí teda vypočítať hash (napr. SHA1) tohto dokumentu a výsledok zašifrovať pomocou svojho privátneho kľúča.
+Pôvodný dokument pošle Alice spolu s podpisom Bobovi e-mailom.</p>
+
+<p>Ak chce mať Bob istotu, že dokument, ktorý dostal e-mailom naozaj pochádza od Alice, musí overiť jej elektronický podpis.
+To znamená, že vypočíta hash prijatého dokumentu pomocou rovnakého algoritmu aký použila Alice, čo je v tomto prípade SHA1.
+Následne použije Bob verejný kľúč Alice na dešifrovanie hashu dokumentu z elektronického podpisu, ktorý vytvorila Alice svojím privátnym kľúčom.
+Ak je Bobom vypočítaný hash dokumentu zhodný s hashom dešifrovaným z elektronického podpisu, Bob môže zodpovedne prehlásiť, že dokument pochádza od Alice a nebol cestou k nemu nikým pozmenený.</p>
+
+<p>Z predchádzajúceho textu je možné získať základnú predstavu o elektronickom podpise, no nezodpovedanou otázkou ostáva, ako sa dostal verejný kľúč Alice k Bobovi.
+Ak by ho Alice poslala Bobovi e-mailom, mohol by ho cestou niekto vymeniť za iný verejný kľúč a Bob by dokumenty podpísané útočníkom považoval za dokumenty pochádzajúce od Alice.
+Je teda veľmi dôležité sprostredkovať medzi zúčastnenými stranami výmenu verejného kľúča dôveryhodným spôsobom.
+V tomto jednoduchom príklade by dôveryhodný spôsob mohol vypadať tak, že Alice donesie Bobovi svoj verejný kľúč osobne na USB kľúči.</p>
+
+<p>Predstavme si ale, že chceme používať elektronický podpis (asymetrické šifrovanie) v oveľa väčšom merítku.
+Napríklad v organizácii, ktorá má stovky zamestnancov.
+Ak by sme použili spôsob výmeny verejných kľúčov osobným prenosom na USB kľúči, musel by každý zamestnanec odniesť svoj kľúč všetkým svojim kolegom.
+To by znamenalo, že zamestnanci by nerobili nič iné, iba by si medzi sebou vymieňali verejné kľúče.
+A to nepočítame s tým, že pri prezradení alebo strate privátneho kľúča by si zamestnanec musel vygenerovať nový kľúčový pár a opäť rozdistribuovať nový verejný kľúč.</p>
+
+<p>Riešení tohto problému je viacero.
+<a href="https://www.gnupg.org/">GnuPG</a> sa ho snaží riešiť princípom tzv. <a href="https://en.wikipedia.org/wiki/Web_of_trust">pavučiny dôvery</a> (z angl. web of trust), no v praxi oveľa viac bežný a rozšírený je princíp <a href="https://en.wikipedia.org/wiki/Public_key_infrastructure">PKI</a> (Public Key Infrastructure) u nás často nazývaný infraštruktúrou verejného kľúča.</p>
+
+<h1 id="2-pki">2. PKI</h1>
+
+<p>Aby sme zabránili chaosu pri výmene verejných kľúčov modelom &ldquo;každý s každým&rdquo;, poveríme jedného zamestnanca evidenciou verejných kľúčov všetkých ostatných - spravíme z neho certifikačnú autoritu (ďalej len CA).
+Úlohou tejto CA bude dôveryhodným spôsobom zozbierať verejné kľúče všetkých zamestnancov a podpísať ich svojim privátnym kľúčom - vydať certifikáty.</p>
+
+<p>Ak bude niekto chcieť overiť podpis dokumentu vytvorený certifikátom ktoréhokoľvek zamestnanca, použije verejný kľúč CA na overenie pravosti verejného kľúča zamestnanca (overí podpis CA na certifikáte zamestnanca) a až potom overí podpis samotného dokumentu.
+Všetci zamestnanci teda budú potrebovať dôveryhodným spôsobom získať iba verejný kľúč (certifikát) CA.</p>
+
+<p>Certifikát bežne obsahuje unikátne sériové číslo, identifikáciu vlastníka kľúčového páru tzv. Subject, verejný kľúč, špecifikáciu platnosti certifikátu (zvyčajne 1 rok) a tiež účel, na ktorý môže byť používaný.
+V prípade, že dôjde k prezradeniu privátneho kľúča zamestnanca alebo zamestnanec ukončí s firmou pracovný pomer, CA pridá sériové číslo jeho certifikátu na zoznam zrušených certifikátov - CRL (Certificate Revocation List).
+Pri overovaní podpisu je preto vždy potrebné okrem kontroly pravosti certifikátu skontrolovať aj jeho platnosť voči CRL.</p>
+
+<p>Osobne za najväčší problém PKI považujem preukázateľnosť dôveryhodnosti CA, čo je vec, ktorá sa bohužiaľ nedá vyriešiť technologicky.
+Certifikačné autority síce svoje privátne kľúče uchovávajú v bezpečnom úložisku (kryptografický hardvér podobný čipovej karte), ale ak spravia napríklad pri overovaní identity žiadateľa o certifikát vedome alebo nevedome chybu či výnimku, má to negatívny dopad na všetkých používateľov PKI dôverujúcich tejto autorite.</p>
+
+<h1 id="3-certifikačná-autorita-s-gnomint">3. Certifikačná autorita s gnoMint</h1>
+
+<p>Predpokladám, že základné pojmy ako PKI, certifikát, CA alebo CRL sú z predchádzajúceho textu jasné, a tak sa môžeme smelo pustiť do vytvorenia vlastnej PKI infraštruktúry.
+Asi nikomu netreba predstavovať aplikáciu <a href="https://www.openssl.org/">OpenSSL</a>, ktorá je de facto štandardným riešením pokiaľ sa jedná o vydávanie certifikátov a prevádzkovanie jednoduchej CA.
+Balík OpenVPN tiež obsahuje sadu skriptov s názvom <a href="https://openvpn.net/index.php/documentation/miscellaneous/rsa-key-management.html">EasyRSA</a>, ktoré prácu s OpenSSL výrazne uľahčujú.</p>
+
+<p>Osobne však na správu CA preferujem grafické nástroje, kde je ponuka tiež široká.
+Môžete sa napríklad rozhodnúť pre multiplatformovú aplikáciu <a href="https://sourceforge.net/projects/xca/">XCA</a> využívajúcu knižnicu OpenSSL a grafický toolkit Qt, alebo môžete siahnuť po aplikácii <a href="http://gnomint.sourceforge.net/">gnoMint</a>, ktorá je grafickou nadstavbou nad knižnicou GnuTLS a využíva grafický toolkit GTK.</p>
+
+<p>Nech už sa rozhodnete pre ktorúkoľvek zo spomínaných aplikácií, pre ďalší postup podľa tohoto článku budete potrebovať vytvoriť self-signed certifikačnú autoritu, vydať certifikáty pre jeden server a dvoch klientov, zrušiť certifikát jedného klienta a vygenerovať CRL.</p>
+
+<p>Pôvodne som chcel na tomto mieste popísať proces vytvorenia a prevádzky CA s aplikáciou gnoMint pomocou screenshot-ov, no kvôli značnej rozsiahlosti som od tohto zámeru upustil a pripravil som radšej <a href="https://www.youtube.com/watch?v=KbInXaFbC8g">video</a>.
+K dispozícii sú tiež anglické a slovenské titulky, ktoré je nutné manuálne zapnúť v pravom dolnom rohu videa.</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/KbInXaFbC8g?rel=0" frameborder="0" allowfullscreen></iframe>
+
+<p>Ak ste postupovali podľa videa a vydali ste všetky potrebné certifikáty, mali by ste mať k dispozícii nasledovné súbory:</p>
+
+<ul>
+<li><code>openvpnca.cer</code><br />
+Certifikát CA v PEM formáte</li>
+<li><code>openvpnca.crl</code><br />
+Zoznam zrušených certifikátov CA v PEM formáte</li>
+<li><code>192.168.1.1.key</code><br />
+Privátny kľúč servera v nešifrovanom PEM formáte</li>
+<li><code>192.168.1.1.cer</code><br />
+Certifikát servera v PEM formáte</li>
+<li><code>client1.key</code><br />
+Privátny kľúč Klienta 1 v nešifrovanom PEM formáte</li>
+<li><code>client1.cer</code><br />
+Certifikát Klienta 1 v PEM formáte</li>
+<li><code>client2.key</code><br />
+Privátny kľúč Klienta 2 v nešifrovanom PEM formáte</li>
+<li><code>client2.cer</code><br />
+Certifikát Klienta 2 v PEM formáte</li>
+</ul>
+
+<h1 id="4-openvpn-a-certifikáty">4. OpenVPN a certifikáty</h1>
+
+<p>Konfigurácia OpenVPN s certifikátmi je podobná ako pri statickom kľúči s tým rozdielom, že každá zo zúčastnených strán používa svoj vlastný privátny kľúč a certifikát.
+Rád by som upozornil, že v nasledujúcom texte už nebudem uvádzať podrobnosti typu kam uložiť konfiguráciu, ako to celé spustiť, ako otestovať či je VPN sieť funkčná alebo kde nájsť chybové hlásenia ak niečo nefunguje.
+Odpoveď na všetky uvedené otázky je totiž možné nájsť v predchádzajúcich dieloch seriálu.</p>
+
+<p>Súborom, ktoré obsahujú privátne kľúče je potrebné nastaviť prístupové práva tak, aby ich mohol čítať iba používateľ root.
+Na serveri je ešte potrebné vygenerovať súbor s parametrami pre <a href="https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange">Diffie-Hellman Key Agreement Protocol</a> (ďalej len Diffie-Hellman).
+Aj keď je tento súbor možné vygenerovať priamo v aplikácii gnoMint, vo videu som túto aktivitu zámerne vynechal, pretože so samotným PKI priamo nesúvisí.
+Potrebný súbor je možné vygenerovať pomocou aplikácie OpenSSL príkazom:</p>
+
+<pre><code>root@server:~# openssl dhparam -out dh.pem 2048
+</code></pre>
+
+<p>Konfigurácia OpenVPN servera bude nasledovná:</p>
+
+<pre><code># Konfiguracny subor VPN servera
+local 192.168.1.1
+dev tun
+server 10.1.1.0 255.255.255.0
+ca openvpnca.cer
+cert 192.168.1.1.cer
+key 192.168.1.1.key
+#crl-verify openvpnca.crl
+dh dh.pem
+push &quot;redirect-gateway&quot;
+comp-lzo
+keepalive 10 60
+ping-timer-rem
+persist-tun
+persist-key
+user openvpn
+group openvpn
+daemon
+</code></pre>
+
+<p>Väčšina parametrov je známa z predchádzajúcich dielov.
+Nový je napríklad parameter <code>server</code> nasledovaný špecifikáciou siete, ktorý v tomto konkrétnom prípade zabezpečí, že server bude klientom automaticky prideľovať IP adresy z rozsahu <a href="http://jodies.de/ipcalc?host=10.1.1.0&amp;amp;mask1=24&amp;amp;mask2=">10.1.1.0/24</a>.
+Konfiguračná direktíva <code>ca</code> určuje cestu k certifikátu CA, ktorej klienti budú serverom akceptovaní, direktíva <code>cert</code> cestu k certifikátu servera, direktíva <code>key</code> cestu k privátnemu kľúču servera a direktíva <code>crl-verify</code> cestu k zoznamu zrušených certifikátov.
+Direktívu <code>crl-verify</code> zatiaľ necháme zakomentovanú.
+Direktíva <code>dh</code> určuje cestu k súboru s parametrami pre Diffie-Hellman.
+Parameter <code>push</code> nasledovaný konfiguračnou direktívou <code>&quot;redirect-gateway&quot;</code> sa postará o to, že táto direktíva bude posielaná klientom a tí ju použijú vo svojej konfigurácii.
+Takýmto spôsobom sa dá zo servera centrálne upravovať napríklad smerovacia tabuľka klientov.</p>
+
+<p>Konfigurácia klientov bude nasledovná:</p>
+
+<pre><code># Konfiguracny subor VPN klienta
+client
+dev tun
+remote 192.168.1.1
+tls-remote 192.168.1.1
+ca openvpnca.cer
+cert client1.cer
+key client1.key
+comp-lzo
+keepalive 10 60
+ping-timer-rem
+persist-tun
+persist-key
+user openvpn
+group openvpn
+daemon
+</code></pre>
+
+<p>Aj v tomto prípade je väčšina direktív už známa.
+Novinkou je direktíva <code>client</code>, ktorá o.i. povoľuje prijímanie <code>push</code> parametrov od servera.
+Význam direktív <code>ca</code>, <code>cert</code> a <code>key</code> je rovnaký ako pri serveri s tým rozdielom, že na klientskej stanici určuje cesty k príslušným súborom patriacim Klientovi 1.
+Nad významom direktívy <code>tls-remote</code> budeme ešte polemizovať v ďalšej sekcii článku, no pre úplnosť uvediem, že je nasledovaná hodnotou položky commonName zo subject-u certifikátu servera a zabezpečuje, že sa klient odmietne pripojiť na server, ktorého certifikát nevyhovie tomuto kritériu.</p>
+
+<p>S obdobnou konfiguráciou by sa mal úspešne pripojiť aj Klient 2.
+Ak ste ale pozorne sledovali video a postupovali podľa neho pri vydávaní certifikátov, tak ste si určite všimli, že certifikát Klienta 2 bol certifikačnou autoritou zrušený, a preto by mal byť tomuto klientovi odmietnutý prístup do VPN siete.
+Odkomentujte teda direktívu <code>crl-verify</code> v konfigurácii servera, reštartujte na ňom aplikáciu OpenVPN a pokúste sa znova pripojiť s certifikátom Klienta 2.
+Ak ste nikde neurobili chybu, Klientovi 2 bude prístup do VPN siete naozaj odmietnutý.</p>
+
+<h1 id="5-nie-je-všetko-zlato-čo-sa-blyští">5. Nie je všetko zlato čo sa blyští</h1>
+
+<p>Pri používaní PKI si treba v prvom rade uvedomiť, že je len nadstavbou nad asymetrickým šifrovaním.
+Kľúčové páry používané klientom, serverom či samotnou autoritou sa principiálne nijako nelíšia, a preto je napríklad možné použiť certifikát klienta v úlohe certifikačnej autority alebo servera.
+Akousi záplatou, ktorá má zabrániť takémuto &ldquo;zneužívaniu&rdquo; kľúčov je špecifikovanie účelu, na ktorý môže byť certifikát používaný.
+Do klientskych certifikátov sa teda zvyčajne pridáva rozšírenie &ldquo;Extended key usage&rdquo; s hodnotou &ldquo;TLS Web client authentication&rdquo; a do serverových certifikátov &ldquo;TLS Web server authentication&rdquo;.</p>
+
+<p>Ak však aplikácia pracujúca s certifikátmi tieto rozšírenia ignoruje, či už zámerne alebo nedopatrením, môže to mať negatívny vplyv na bezpečnosť.
+Môžete si to jednoducho vyskúšať tak, že spustíte OpenVPN server s privátnym kľúčom a certifikátom Klienta 1 a pokúsite sa naň pripojiť s privátnym kľúčom a certifikátom Klienta 2.
+Ak vynecháte direktívu <code>tls-remote</code>, spojenie bude bez najmenších problémov nadviazané.
+Aplikácia OpenVPN totiž bez dodatočnej konfigurácie nekontroluje účel, na ktorý bol certifikát vydaný.
+Vlastník certifikátu Klient 1 by teda mohol s vysokou pravdepodobnosťou úspešne vykonať <a href="https://en.wikipedia.org/wiki/Man-in-the-middle_attack">man-in-the-middle</a> (ďalej len MITM) útok na Klienta 2 a naopak.
+Je viacero spôsobov ako tomuto útoku zabrániť, no všetky bohužiaľ vyžadujú, aby sa používateľ orientoval v problematike PKI či sieťových útokov na vyššej než bežnej úrovni.</p>
+
+<p>Prvá možnosť je pomocou direktívy <code>tls-remote</code> do konfigurácie klienta napevno zadať commonName certifikátu servera.
+Pre účely tohto článku a siete s jedným serverom je toto riešenie postačujúce, no môže sa stať zásadným problémom, ak by ste potrebovali vytvoriť cluster rozkladajúci zátaž na viacero serverov.</p>
+
+<p>Druhá možnosť je definovať účel použitia certifikátu pomocou neštandardného rozšírenia &ldquo;Netscape Certificate Type&rdquo;, ktoré OpenVPN radu 2.0 dokáže používať.
+Ako už názov tohto rozšírenia napovedá, jedná sa o proprietárne riešenie spoločnosti Netscape, ktorému by sa malo v dnešnej dobe radšej vyhýbať.
+Preto som ho nepoužil ani v tomto článku.</p>
+
+<p>Tretia a pravdepodobne &ldquo;najčistejšia&rdquo; možnosť je vydávať certifikáty pre servery samostatnou certifikačnou autoritou.
+Toto riešenie zabraňuje spomínanému MITM útoku a neznamená problém ani v prípade, že sa rozhodnete použiť cluster.
+Ak pre vás PKI nie je cudzím pojmom, určite viete, že je dobrou praktikou nepoužívať jednu certifikačnú autoritu na všetko, ale vytvoriť sústavu autorít s odlišnými politikami, ktoré vydávajú rôzne typy certifikátov.
+Táto skutočnosť často uniká dokonca aj komerčným spoločnostiam poskytujúcim certifikačné služby napriek tomu, že sa pravdepodobne jedná o najlepšie riešenie.</p>
+
+<h1 id="6-záver">6. Záver</h1>
+
+<p>Piaty diel tohto seriálu bude venovaný viacfaktorovej autentizácii a použitiu čipových kariet ako bezpečného úložiska privátnych kľúčov.
+Tento diel bude zároveň posledný, a preto sa prosím ozvite v diskusii pod článkom ak si myslíte, že som niektorej téme nevenoval dostatočný priestor.
+Pokúsim sa to napraviť :)</p>
+
+<p><a href="https://linuxos.sk/clanok/vpn-siete-s-openvpn-3/">Článok bol publikovaný aj na portáli linuxos.sk</a></p>
+
+<p>Všetky diely seriálu:
+<a href="/vpn-siete-s-openvpn-1/">1</a>
+<a href="/vpn-siete-s-openvpn-2/">2</a>
+<a href="/vpn-siete-s-openvpn-3/">3</a>
+4
+<a href="/vpn-siete-s-openvpn-5/">5</a></p>
+
+</div>
+<p>
+Move to <a href="https://jimrich.sk/vpn-siete-s-openvpn-3/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/vpn-siete-s-openvpn-5/">newer post</a>.
+</p>
+<p>
+  License: Unless stated otherwise, all published content is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
+  Disclaimer: The views expressed on this website are mine alone and not those of my employer.<br/>
+  Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
+  Technology: This website lives in its own <a href="https://github.com/jariq/jimrich.sk">git repository</a> and breaths thanks to <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
+</p>
+</body>
+</html>

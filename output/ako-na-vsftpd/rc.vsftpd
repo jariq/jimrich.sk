@@ -1,0 +1,32 @@
+#!/bin/sh
+
+vsftpd_start() {
+   /usr/sbin/vsftpd
+}
+
+vsftpd_stop() {
+   killall vsftpd
+}
+
+vsftpd_restart() {
+  vsftpd_stop
+  sleep 1
+  vsftpd_start
+}
+
+case "$1" in
+'start')
+  echo "Spustam demona vsftpd.."
+  vsftpd_start
+  ;;
+'stop')
+  echo "Zastavujem demona vsftpd.."
+  vsftpd_stop
+  ;;
+'restart')
+  echo "Restartujem demona vsftpd.."
+  vsftpd_restart
+  ;;
+*)
+  echo "Pouzitie $0 [start|stop|restart]"
+esac

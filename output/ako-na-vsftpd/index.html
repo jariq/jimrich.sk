@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Jaroslav IMRICH - Open Source Developer</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/site.css" type="text/css" media="screen" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  
+</head>
+<body>
+<h1>Ako na vsftpd</h1>
+<p>
+  Language: <img src="/sk.svg" alt="Slovak flag" class="flag" /> Slovak<br/>
+  Published: 08 November 2005<br/>
+  Length: 4 minutes (673 words)
+</p>
+<p>
+Move to <a href="https://jimrich.sk/kurz-linuxu/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/bakalarska-praca-web-release/">newer post</a>.
+</p>
+<div lang="sk" class="content">
+
+
+<p>Potrebujete po sieti prijímať väčšie množstvo súborov a už vás a ani vašich kolegov nebaví posielať ich cez icq?
+Riešenie je jednoduché - pustite na vašej pracovnej stanici ftp server.
+Neviete ako na to?
+Čítajte ďalej a tento návod vám pomôže nainštalovať a nakonfigurovať známy <a href="http://vsftpd.beasts.org/">vsftpd</a> server.
+Návod je &ldquo;šitý na mieru&rdquo; pre distribúciu Slackware, ale s výnimkou umiestnenia štartovacieho skriptu, by mal byť použiteľný aj na iných distribúciách.</p>
+
+<h1 id="1-inštalácia-a-príprava-systému">1. Inštalácia a príprava systému</h1>
+
+<p>Keďže je vsftpd súčasťou spomínanej distribúcie, nemusíme ho kompilovať zo zdrojových kódov, ale stačí napr. pomocou utility <code>slackpkg</code> nainštalovať distribučný balík.
+Ako root teda zadáme príkaz:</p>
+
+<pre><code># slackpkg install vsftpd
+</code></pre>
+
+<p>Z bezpečnostných dôvodov by žiadna sieťová služba nemala bežať pod používateľom root.
+Preto aj vsftpd poskytuje možnosť behu pod neprivilegovaným používateľom.
+Na tento účel si vytvoríme fiktívneho používateľa a skupinu s menom vsftpd:</p>
+
+<pre><code># groupadd vsftpd
+# useradd -g vsftpd vsftpd
+# passwd vsftpd
+</code></pre>
+
+<p>V ďalšom kroku vytvoríme používateľa, ktorý bude mať právo pripájať sa prostredníctvom ftp klienta na náš server.
+Tento používateľ by nemal mať právo prihlásiť sa do systému lokálne.
+Ako predvolený shell mu preto pridelíme <code>/bin/false</code>.
+Toto obmedzenie zavádzame kvôli zvýšeniu bezpečnosti systému, pretože heslá sú v komunikácii s protokolom ftp prenášané nekryptované.
+Potenciálny útočník by tak ľahko mohol získať platný login do systému.</p>
+
+<p>Skontrolujeme súbor <code>/etc/shells</code> a overíme, či sa tam nachádza záznam pre <code>/bin/false</code>.
+Ak nie, pridáme ho tam a následne vytvoríme novú skupinu a už spomínaného používateľa.</p>
+
+<pre><code># groupadd ftpusers
+# useradd -g ftpusers -d /var/ftp -s /bin/false ftpuser
+# passwd ftpuser
+</code></pre>
+
+<p>Meno tohto používateľa musíme zapísať do zoznamu používateľov, ktorí majú právo sa pripojiť na náš ftp server:</p>
+
+<pre><code># echo &quot;ftpuser&quot; &gt; /etc/vsftpd.users
+</code></pre>
+
+<p>Posledný krok v príprave systému je vytvorenie adresára, v ktorom budú súbory dostupné cez ftp a nastavenie prístupových práv.</p>
+
+<pre><code># mkdir /var/ftp
+# chown ftpuser:ftpusers /var/ftp
+</code></pre>
+
+<h1 id="2-nastavenia-v-súbore-vsftpd-conf">2. Nastavenia v súbore vsftpd.conf</h1>
+
+<p>Vsftpd server má konfiguráciu uloženú v konfiguračnom súbore <code>/etc/vsftpd.conf</code>, ktorý je síce dobre komentovaný, no ako býva zvykom, neobsahuje všetky možné direktívy.
+Tie sa môžeme dozvedieť jedine čítaním manuálu (<code>man vsftpd.conf</code>).
+Konfiguračný súbor pre náš jednoduchý server môže vyzerať napríklad takto (po každej časti uvádzam komentár, ktorý do súboru samozrejme nepatrí):</p>
+
+<pre><code>#####################################
+#   ZAKLADNA KONFIGURACIA SERVERA   #
+#####################################
+ftpd_banner=FTP-SERVER
+listen=YES
+background=YES
+nopriv_user=vsftpd
+</code></pre>
+
+<p>Tieto direktívy určujú, že démon nemá používať superserver inetd, ale má na porte počúvať sám, má bežať na pozadí a má na svoj beh využívať nami vytvoreného neprivilegovaného používateľa vsftpd.</p>
+
+<pre><code>#####################################
+#     KONFIGURACIA POUZIVATELOV     #
+#####################################
+anonymous_enable=NO
+local_enable=YES
+chroot_local_user=YES
+userlist_enable=YES
+userlist_deny=NO
+userlist_file=/etc/vsftpd.users
+</code></pre>
+
+<p>V tejto časti sa nachádzajú nastavenia vzťahujúce sa na používateľov servera.
+Je tu napríklad zakázané prihlásenie anonymného používateľa, uzamykanie používateľov do ich domovských adresárov (tzv. chrootovanie) a v neposlednom rade je tu aj zmienka o súbore <code>/etc/vsftpd.users</code>.
+Ak sa k serveru bude snažiť prihlásiť používateľ, ktorého login nebude uvedený v tomto súbore, bude odpojený ešte pred výzvou na zadanie hesla.
+Takáto konfigurácia sa pričiňuje o zvýšenie bezpečnosti.</p>
+
+<pre><code>#####################################
+#  POKROCILA KONFIGURACIA SERVERA   #
+#####################################
+write_enable=YES
+ascii_upload_enable=YES
+ascii_download_enable=YES
+local_umask=022
+connect_from_port_20=YES
+idle_session_timeout=600
+data_connection_timeout=120
+ls_recurse_enable=YES
+xferlog_enable=YES
+xferlog_std_format=YES
+xferlog_file=/var/log/vsftpd.log
+</code></pre>
+
+<p>V poslednej časti ukážkového konfiguračného súboru je napríklad povolený upload súborov.
+Tiež sú tu nastavené sieťové parametre a zapnuté logovanie udalostí.
+Napriek tomu, že takto zostavený <a href="vsftpd.conf">konfiguračný súbor</a> by mal byť pre implementáciu slabo zaťaženého servera postačujúci, ešte raz vám odporúčam si aspoň zbežne prezrieť konfiguračné direktívy popísané v manuálových stránkach (<code>man vstpd.conf</code>).</p>
+
+<h1 id="3-štartovací-skript">3. Štartovací skript</h1>
+
+<p>Pre uľahčenie spúšťania ftp servera je dobré vytvoriť si štartovací skript, ktorý môže mať napríklad <a href="rc.vsftpd">takúto podobu</a>.
+Uložíme ho do súboru <code>/etc/rc.d/rc.vsftpd</code>, a ak chceme server spúšťať priamo po štarte operačného systému, dopíšeme na koniec súboru <code>/etc/rc.d/rc.local</code> nasledovný text:</p>
+
+<pre><code>if [ -x /etc/rc.d/rc.vsfpd ]; then
+  /etc/rc.d/rc.vsftpd start
+fi
+</code></pre>
+
+<h1 id="4-pravidlá-firewallu">4. Pravidlá firewallu</h1>
+
+<p>Pre ftp prenosy v aktívnom móde je potrebné na vstupe povoliť nadviazanie spojenia na port 21/tcp.
+Ak chceme používať ftp v pasívnom móde a filtrujeme pomocou stavového firewallu sprostredkovaného netfiltrom, treba do jadra nahrať modul <code>ip_conntrack_ftp</code>, ktorý dokáže rozoznávať spojenia vytvorené pasívnym prenosom ftp.</p>
+
+<pre><code># modprobe ip_conntrack_ftp
+</code></pre>
+
+<p>Podrobnejšie sa o problematike filtrovania týchto spojení môžete dočítať v anglickom článku <a href="http://www.linuxhomenetworking.com/wiki/index.php/Quick_HOWTO_:_Ch15_:_Linux_FTP_Server_Setup">Linux FTP Server Setup</a>, ktorý je vynikajúco spracovaným zdrojom informácií o protokole ftp.</p>
+
+</div>
+<p>
+Move to <a href="https://jimrich.sk/kurz-linuxu/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/bakalarska-praca-web-release/">newer post</a>.
+</p>
+<p>
+  License: Unless stated otherwise, all published content is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
+  Disclaimer: The views expressed on this website are mine alone and not those of my employer.<br/>
+  Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
+  Technology: This website lives in its own <a href="https://github.com/jariq/jimrich.sk">git repository</a> and breaths thanks to <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
+</p>
+</body>
+</html>

@@ -1,0 +1,615 @@
+<!DOCTYPE html  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>ipwatchd.pl</title>
+<meta name="GENERATOR" content="SciTE - www.Scintilla.org" />
+<style type="text/css">
+.S0 {
+	font-family: monospace;
+	color: #808080;
+	background: #FFFFFF;
+	font-size: 9pt;
+}
+.S2 {
+	font-family: monospace;
+	color: #007F00;
+	background: #FFFFFF;
+	font-size: 9pt;
+}
+.S4 {
+	color: #007F7F;
+	background: #FFFFFF;
+}
+.S5 {
+	font-weight: bold;
+	color: #00007F;
+	background: #FFFFFF;
+}
+.S6 {
+	font-family: monospace;
+	color: #7F007F;
+	background: #FFFFFF;
+	font-size: 9pt;
+}
+.S7 {
+	font-family: monospace;
+	color: #7F007F;
+	background: #FFFFFF;
+	font-size: 9pt;
+}
+.S10 {
+	font-weight: bold;
+	color: #000000;
+	background: #FFFFFF;
+}
+.S11 {
+	color: #000000;
+	background: #FFFFFF;
+}
+.S12 {
+	color: #000000;
+	background: #FFE0E0;
+}
+.S13 {
+	color: #000000;
+	background: #FFFFE0;
+}
+.S17 {
+	color: #000000;
+	background: #A0FFA0;
+}
+.S18 {
+	color: #000000;
+	background: #F0E080;
+}
+.S20 {
+	color: #FFFF00;
+	background: #A08080;
+}
+span {
+	font-family: monospace;
+	color: #000000;
+	background: #FFFFFF;
+	font-size: 9pt;
+}
+</style>
+</head>
+<body bgcolor="#FFFFFF">
+<span><span class="S2">#!/usr/bin/perl</span><br />
+<br />
+<span class="S2">## Toto je specialna vyukova verzia programu IPwatchD s rozsirenym</span><br />
+<span class="S2">## komentarom pre ucely clanku na <a href="http://www.jariq.sk/item-23.html">http://www.jariq.sk/item-23.html</a></span><br />
+<span class="S2">## Rozsireny komentar vzdy zacina dvomi mriezkami.</span><br />
+<span class="S2">## Oficialna stranka projektu je <a href="http://ipwatchd.sourceforge.net">http://ipwatchd.sourceforge.net</a></span><br />
+<br />
+<span class="S2">#############################################################################</span><br />
+<span class="S2"># &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#</span><br />
+<span class="S2"># &nbsp;IPwatchD - IP conflict detection in Linux systems &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#</span><br />
+<span class="S2"># &nbsp;Copyright (C) 2006 &nbsp;Jaroslav Imrich &lt;jariq@users.sourceforge.net&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#</span><br />
+<span class="S2"># &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#</span><br />
+<span class="S2"># &nbsp;This program is free software; you can redistribute it and/or modify &nbsp;&nbsp;&nbsp;&nbsp;#</span><br />
+<span class="S2"># &nbsp;the Free Software Foundation; either version 2 of the License, or &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#</span><br />
+<span class="S2"># &nbsp;(at your option) any later version. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#</span><br />
+<span class="S2"># &nbsp;This program is distributed in the hope that it will be useful, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#</span><br />
+<span class="S2"># &nbsp;but WITHOUT ANY WARRANTY; without even the implied warranty of &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#</span><br />
+<span class="S2"># &nbsp;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. &nbsp;See the &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#</span><br />
+<span class="S2"># &nbsp;GNU General Public License for more details. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#</span><br />
+<span class="S2"># &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#</span><br />
+<span class="S2"># &nbsp;You should have received a copy of the GNU General Public License along &nbsp;#</span><br />
+<span class="S2"># &nbsp;51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#</span><br />
+<span class="S2"># &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#</span><br />
+<span class="S2">#############################################################################</span><br />
+<br />
+<span class="S2">## Moduly PERLU, ktore program pouziva.</span><br />
+<span class="S2">## Vsetky sa daju najst na <a href="http://search.cpan.org">http://search.cpan.org</a></span><br />
+<span class="S2">## V defaultnej instalacii perlu vacsinou nie su Net::Pcap a NetPacket</span><br />
+<span class="S2">## Doinstalovat sa daju pomocou MCPAN prikazmi:</span><br />
+<span class="S2">## perl -MCPAN -e 'install Net::Pcap'</span><br />
+<span class="S2">## perl -MCPAN -e 'install NetPacket'</span><br />
+<br />
+<span class="S5">use</span><span class="S0"> </span><span class="S11">strict</span><span class="S10">;</span><br />
+<span class="S5">use</span><span class="S0"> </span><span class="S11">POSIX</span><span class="S10">;</span><br />
+<span class="S5">use</span><span class="S0"> </span><span class="S11">Sys</span><span class="S10">::</span><span class="S11">Syslog</span><span class="S10">;</span><br />
+<span class="S5">use</span><span class="S0"> </span><span class="S11">Net</span><span class="S10">::</span><span class="S11">Pcap</span><span class="S10">;</span><br />
+<span class="S5">use</span><span class="S0"> </span><span class="S11">NetPacket</span><span class="S10">::</span><span class="S11">ARP</span><span class="S10">;</span><br />
+<span class="S5">use</span><span class="S0"> </span><span class="S11">NetPacket</span><span class="S10">::</span><span class="S11">Ethernet</span><span class="S10">;</span><br />
+<br />
+<span class="S2">## Deklaracia premennych. V strict mode musi byt kazda</span><br />
+<span class="S2">## premenna deklarovana. Ak sa uvadza na jednom riadku </span><br />
+<span class="S2">## viac premennych pouzivaju sa zatvorky</span><br />
+<br />
+<span class="S2"># Syslog options</span><br />
+<span class="S5">my</span><span class="S0"> </span><span class="S12">$syslog_facility</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S6">"daemon"</span><span class="S10">;</span><br />
+<span class="S5">my</span><span class="S0"> </span><span class="S12">$syslog_priority</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S6">"err"</span><span class="S10">;</span><br />
+<br />
+<span class="S2"># Global variables</span><br />
+<span class="S5">my</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$dev</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$mode</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$username</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$groupname</span><span class="S10">);</span><br />
+<span class="S5">my</span><span class="S0"> </span><span class="S12">$instance</span><span class="S10">;</span><br />
+<span class="S5">my</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$test</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$dev_ip</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$dev_mac</span><span class="S10">);</span><br />
+<span class="S5">my</span><span class="S0"> </span><span class="S12">$arping</span><span class="S10">;</span><br />
+<span class="S5">my</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$userid</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$groupid</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$orig_uid</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$orig_gid</span><span class="S10">);</span><br />
+<span class="S5">my</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$sigset</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$sigaction</span><span class="S10">);</span><br />
+<span class="S5">my</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$error</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$pid</span><span class="S10">);</span><br />
+<span class="S5">my</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$address</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$netmask</span><span class="S10">);</span><br />
+<span class="S5">my</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$object</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$filter</span><span class="S10">);</span><br />
+<span class="S5">my</span><span class="S0"> </span><span class="S12">$message</span><span class="S10">;</span><br />
+<br />
+<span class="S2">## Volanie vlastnej funkcie get_cmd_parameters, ktora je definovana</span><br />
+<span class="S2">## dalej v programe a zabezpecuje prebratie parametrov z prikazoveho riadka.</span><br />
+<br />
+<span class="S2"># Get parameters from command line</span><br />
+<span class="S10">&amp;</span><span class="S11">get_cmd_parameters</span><span class="S10">();</span><br />
+<br />
+<span class="S2">## $&lt; je specialna premenna je v nej UID pouzivatela &nbsp;ktory spustil program.</span><br />
+<span class="S2">## Viac o specialnych premennych <a href="http://perldoc.perl.org/perlvar.html">http://perldoc.perl.org/perlvar.html</a></span><br />
+<span class="S2">## alebo <a href="http://affy.blogspot.com/p5be/ch12.htm">http://affy.blogspot.com/p5be/ch12.htm</a></span><br />
+<span class="S2">## Ak program nespustil root ukonci sa s chybovym hlasenim a exit kodom -1.</span><br />
+<br />
+<span class="S2"># Check if program was executed by root</span><br />
+<span class="S5">if</span><span class="S0"> </span><span class="S10">(</span><span class="S5">not</span><span class="S0"> </span><span class="S12">$&lt;</span><span class="S0"> </span><span class="S10">==</span><span class="S0"> </span><span class="S4">0</span><span class="S10">)</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">print</span><span class="S0"> </span><span class="S6">"You must be root to run this program..\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">exit</span><span class="S10">(-</span><span class="S4">1</span><span class="S10">);</span><br />
+<span class="S10">}</span><br />
+<br />
+<span class="S2">## Kontrola vlastneho PID suboru. Ak by bol program nahodou nekorektne ukonceny (kill -9 PID)</span><br />
+<span class="S2">## tak PID subor moze ostat na disku. Preto je este kontrolovany zoznam procesov.</span><br />
+<br />
+<span class="S2"># Check if program is not running already</span><br />
+<span class="S5">if</span><span class="S0"> </span><span class="S10">(</span><span class="S5">-e</span><span class="S0"> </span><span class="S6">"/var/run/ipwatchd-$dev.pid"</span><span class="S10">)</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S12">$instance</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S20">`ps aux | grep ipwatchd | grep -v "grep ipwatchd" | grep -c $dev`</span><span class="S10">;</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">chomp</span><span class="S10">(</span><span class="S12">$instance</span><span class="S10">);</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">if</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$instance</span><span class="S0"> </span><span class="S5">ne</span><span class="S0"> </span><span class="S6">"1"</span><span class="S10">)</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">print</span><span class="S0"> </span><span class="S6">"There seems to be one instance of IPwatchD already running on $dev\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">exit</span><span class="S10">(-</span><span class="S4">1</span><span class="S10">);</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S10">}</span><br />
+<span class="S10">}</span><br />
+<br />
+<span class="S2">## Ziskanie IP adresy definovaneho rozhrania. Parsuje sa z textoveho vystupu</span><br />
+<span class="S2">## prikazu ifconfig. Parsovanie prebieha s vyuzitim tzv. regularnych vyrazov</span><br />
+<span class="S2">## (regular expressions). Skvele su vysvetlene v seriali na linuxsoft.cz -</span><br />
+<span class="S2">## <a href="http://www.linuxsoft.cz/article.php?id_article=947">http://www.linuxsoft.cz/article.php?id_article=947</a> a v jeho dalsich dieloch</span><br />
+<br />
+<span class="S2"># Get IP address of selected device</span><br />
+<span class="S12">$test</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S20">`ifconfig $dev | grep -c "inet addr"`</span><span class="S10">;</span><br />
+<span class="S5">chomp</span><span class="S10">(</span><span class="S12">$test</span><span class="S10">);</span><br />
+<span class="S5">if</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$test</span><span class="S0"> </span><span class="S10">==</span><span class="S0"> </span><span class="S4">1</span><span class="S10">)</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S12">$dev_ip</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S20">`ifconfig $dev | grep "inet addr"`</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">chomp</span><span class="S10">(</span><span class="S12">$dev_ip</span><span class="S10">);</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S12">$dev_ip</span><span class="S0"> </span><span class="S10">=~</span><span class="S0"> </span><span class="S17">/^.*inet addr.(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}) .*$/</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S12">$dev_ip</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S12">$1</span><span class="S10">;</span><br />
+<span class="S10">}</span><span class="S0"> </span><span class="S5">else</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"Device $dev does not exist or does not have IP address assigned.\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">exit</span><span class="S10">(-</span><span class="S4">1</span><span class="S10">)</span><br />
+<span class="S10">}</span><br />
+<br />
+<span class="S2">## Parsovanie MAC adresy zvoleneho rozhrania</span><br />
+<br />
+<span class="S2"># Get MAC address of selected device</span><br />
+<span class="S12">$test</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S20">`ifconfig $dev | grep -c "HWaddr"`</span><span class="S10">;</span><br />
+<span class="S5">chomp</span><span class="S10">(</span><span class="S12">$test</span><span class="S10">);</span><br />
+<span class="S5">if</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$test</span><span class="S0"> </span><span class="S10">==</span><span class="S0"> </span><span class="S4">1</span><span class="S10">)</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S12">$dev_mac</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S20">`ifconfig $dev | grep "HWaddr"`</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">chomp</span><span class="S10">(</span><span class="S12">$dev_mac</span><span class="S10">);</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S12">$dev_mac</span><span class="S0"> </span><span class="S10">=~</span><span class="S0"> </span><span class="S17">/^.*HWaddr.(.[^ ]*) .*$/</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S12">$dev_mac</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S5">lc</span><span class="S10">(</span><span class="S12">$1</span><span class="S10">);</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S12">$dev_mac</span><span class="S0"> </span><span class="S10">=~</span><span class="S0"> </span><span class="S18">s/://g</span><span class="S10">;</span><br />
+<span class="S10">}</span><span class="S0"> </span><span class="S5">else</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"Device $dev does not exist or does not have MAC address.\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">exit</span><span class="S10">(-</span><span class="S4">1</span><span class="S10">)</span><br />
+<span class="S10">}</span><br />
+<br />
+<span class="S2">## Overenie, ci existuje v systeme utilita arping. Prehladavaju sa standardne</span><br />
+<span class="S2">## miesta, kde by sa mohla nachadzat. Tato utilita je potrebna ak program bezi v </span><br />
+<span class="S2">## aktivnom mode. Bez nej moze bezat iba v pasivnom mode.</span><br />
+<br />
+<span class="S2"># Check if arping is installed</span><br />
+<span class="S5">if</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$mode</span><span class="S0"> </span><span class="S5">eq</span><span class="S0"> </span><span class="S7">'active'</span><span class="S10">)</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">my</span><span class="S0"> </span><span class="S13">@dirs</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S10">(</span><span class="S7">'/bin'</span><span class="S10">,</span><span class="S0"> </span><span class="S7">'/sbin'</span><span class="S10">,</span><span class="S0"> </span><span class="S7">'/usr/bin'</span><span class="S10">,</span><span class="S0"> </span><span class="S7">'/usr/sbin'</span><span class="S10">,</span><span class="S0"> </span><span class="S7">'/usr/local/bin'</span><span class="S10">,</span><span class="S0"> </span><span class="S7">'/usr/local/sbin'</span><span class="S10">);</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">my</span><span class="S0"> </span><span class="S12">$i</span><span class="S10">;</span><br />
+<br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">for</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$i</span><span class="S10">=</span><span class="S4">0</span><span class="S10">;</span><span class="S0"> </span><span class="S12">$i</span><span class="S10">&lt;=</span><span class="S4">5</span><span class="S10">;</span><span class="S0"> </span><span class="S12">$i</span><span class="S10">++)</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">if</span><span class="S0"> </span><span class="S10">(</span><span class="S5">-x</span><span class="S0"> </span><span class="S6">"$dirs[$i]/arping"</span><span class="S10">)</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S12">$arping</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S6">"$dirs[$i]/arping"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">last</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S10">}</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S10">}</span><br />
+<br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">if</span><span class="S0"> </span><span class="S10">(</span><span class="S5">not</span><span class="S0"> </span><span class="S5">defined</span><span class="S0"> </span><span class="S12">$arping</span><span class="S10">)</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"Utility arping (part of iputils package) not found. Passive mode forced.\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S12">$mode</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S7">'passive'</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S10">}</span><br />
+<span class="S10">}</span><br />
+<br />
+<span class="S2">## Ziskanie UID a GID neprivilegovaneho usera a skupiny, pod ktorymi</span><br />
+<span class="S2">## ma daemon bezat. Viac informacii o pouzitych funkciach na</span><br />
+<span class="S2">## <a href="http://www.perl.com/doc/manual/html/pod/perlfunc/getpwnam.html">http://www.perl.com/doc/manual/html/pod/perlfunc/getpwnam.html</a></span><br />
+<span class="S2">## <a href="http://perldoc.perl.org/functions/getgrnam.html">http://perldoc.perl.org/functions/getgrnam.html</a></span><br />
+<br />
+<span class="S2"># Check if future effective user and group exists</span><br />
+<span class="S5">if</span><span class="S0"> </span><span class="S10">((</span><span class="S5">defined</span><span class="S0"> </span><span class="S12">$username</span><span class="S10">)</span><span class="S0"> </span><span class="S5">and</span><span class="S0"> </span><span class="S10">(</span><span class="S5">defined</span><span class="S0"> </span><span class="S12">$groupname</span><span class="S10">))</span><span class="S0"> </span><span class="S10">{</span><br />
+<br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">if</span><span class="S0"> </span><span class="S10">(</span><span class="S5">not</span><span class="S0"> </span><span class="S12">$userid</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S5">getpwnam</span><span class="S10">(</span><span class="S12">$username</span><span class="S10">))</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"Unable to find UID for specified user.\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">exit</span><span class="S10">(-</span><span class="S4">1</span><span class="S10">);</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S10">}</span><br />
+<br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">if</span><span class="S0"> </span><span class="S10">(</span><span class="S5">not</span><span class="S0"> </span><span class="S12">$groupid</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S5">getgrnam</span><span class="S10">(</span><span class="S12">$groupname</span><span class="S10">))</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"Unable to find GID for specified group.\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">exit</span><span class="S10">(-</span><span class="S4">1</span><span class="S10">);</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S10">}</span><br />
+<span class="S10">}</span><br />
+<br />
+<span class="S2">## Daemonizacia programu velmi podobna daemonizacii v jazyku C</span><br />
+<span class="S2">## <a href="http://www.linuxprofilm.com/articles/linux-daemon-howto.html">http://www.linuxprofilm.com/articles/linux-daemon-howto.html</a></span><br />
+<span class="S2">## V pripade uspesneho forku detskeho procesu, sa tento povodny</span><br />
+<span class="S2">## ukoncuje. Detstky dedi vsetko po rodicovskom, ci uz sa jedna</span><br />
+<span class="S2">## o premenne, file-descriptory...</span><br />
+<span class="S2">## Daemon nema pristup k terminalu, takze standardny vstup (STDIN),</span><br />
+<span class="S2">## standardny vystup (STDOUT) i standardny chybovy vystup (STDERR)</span><br />
+<span class="S2">## su presmerovane do /dev/null. Jedina moznost ako od tohto momentu</span><br />
+<span class="S2">## vediet co program robi, je logovat bud do vlastnych suborov, alebo</span><br />
+<span class="S2">## pomocou syslogu.</span><br />
+<br />
+<span class="S2"># Daemonize program</span><br />
+<span class="S2"># Since now all error messages must be logged with syslog</span><br />
+<span class="S5">chdir</span><span class="S0"> </span><span class="S7">'/'</span><span class="S0"> </span><span class="S5">or</span><span class="S0"> </span><span class="S5">die</span><span class="S0"> </span><span class="S6">"Can not chdir to /: $!"</span><span class="S10">;</span><br />
+<span class="S5">umask</span><span class="S0"> </span><span class="S4">0</span><span class="S10">;</span><br />
+<span class="S5">if</span><span class="S0"> </span><span class="S10">(</span><span class="S5">not</span><span class="S0"> </span><span class="S5">open</span><span class="S10">(</span><span class="S11">STDIN</span><span class="S10">,</span><span class="S6">"/dev/null"</span><span class="S10">))</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S10">&amp;</span><span class="S11">logger</span><span class="S10">(</span><span class="S12">$syslog_facility</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$syslog_priority</span><span class="S10">,</span><span class="S0"> </span><span class="S6">"Can not read /dev/null: $!"</span><span class="S10">);</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">exit</span><span class="S10">(-</span><span class="S4">1</span><span class="S10">);</span><br />
+<span class="S10">}</span><br />
+<span class="S5">if</span><span class="S0"> </span><span class="S10">(</span><span class="S5">not</span><span class="S0"> </span><span class="S5">open</span><span class="S10">(</span><span class="S11">STDOUT</span><span class="S10">,</span><span class="S6">"&gt;&gt;/dev/null"</span><span class="S10">))</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S10">&amp;</span><span class="S11">logger</span><span class="S10">(</span><span class="S12">$syslog_facility</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$syslog_priority</span><span class="S10">,</span><span class="S0"> </span><span class="S6">"Can not write to /dev/null: $!"</span><span class="S10">);</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">exit</span><span class="S10">(-</span><span class="S4">1</span><span class="S10">);</span><br />
+<span class="S10">}</span><br />
+<span class="S5">if</span><span class="S0"> </span><span class="S10">(</span><span class="S5">not</span><span class="S0"> </span><span class="S5">open</span><span class="S10">(</span><span class="S11">STDERR</span><span class="S10">,</span><span class="S0"> </span><span class="S6">"&gt;&gt;/dev/null"</span><span class="S10">))</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S10">&amp;</span><span class="S11">logger</span><span class="S10">(</span><span class="S12">$syslog_facility</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$syslog_priority</span><span class="S10">,</span><span class="S0"> </span><span class="S6">"Can not write to /dev/null: $!"</span><span class="S10">);</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">exit</span><span class="S10">(-</span><span class="S4">1</span><span class="S10">);</span><br />
+<span class="S10">}</span><br />
+<span class="S12">$pid</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S5">fork</span><span class="S10">;</span><br />
+<span class="S5">if</span><span class="S0"> </span><span class="S10">(</span><span class="S5">not</span><span class="S0"> </span><span class="S5">defined</span><span class="S0"> </span><span class="S12">$pid</span><span class="S10">)</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S10">&amp;</span><span class="S11">logger</span><span class="S10">(</span><span class="S12">$syslog_facility</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$syslog_priority</span><span class="S10">,</span><span class="S0"> </span><span class="S6">"Can not fork: $!"</span><span class="S10">);</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">exit</span><span class="S10">(-</span><span class="S4">1</span><span class="S10">);</span><br />
+<span class="S10">}</span><br />
+<span class="S5">exit</span><span class="S0"> </span><span class="S5">if</span><span class="S0"> </span><span class="S12">$pid</span><span class="S10">;</span><br />
+<span class="S5">if</span><span class="S0"> </span><span class="S10">(</span><span class="S5">not</span><span class="S0"> </span><span class="S11">setsid</span><span class="S10">)</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S10">&amp;</span><span class="S11">logger</span><span class="S10">(</span><span class="S12">$syslog_facility</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$syslog_priority</span><span class="S10">,</span><span class="S0"> </span><span class="S6">"Can not start a new session: $!"</span><span class="S10">);</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">exit</span><span class="S10">(-</span><span class="S4">1</span><span class="S10">);</span><br />
+<span class="S10">}</span><br />
+<br />
+<span class="S2">## Vytvorenie PID suboru. Pre beh daemona nie je potrebny, ale da sa podla</span><br />
+<span class="S2">## jeho existencie kontrolovat ci daemon bezi. Navyse ak obsahuje PID daemona,</span><br />
+<span class="S2">## nemusia ine programy, ktore chcu napriklad zaslat daemonovi signal zistovat</span><br />
+<span class="S2">## jeho PID zo zoznamu procesov, ale staci, ak si ho precitaju z tohto suboru.</span><br />
+<br />
+<span class="S2"># Create PID file</span><br />
+<span class="S5">if</span><span class="S0"> </span><span class="S10">(</span><span class="S5">not</span><span class="S0"> </span><span class="S5">open</span><span class="S10">(</span><span class="S11">PID</span><span class="S10">,</span><span class="S6">"&gt;/var/run/ipwatchd-$dev.pid"</span><span class="S10">))</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S10">&amp;</span><span class="S11">logger</span><span class="S10">(</span><span class="S12">$syslog_facility</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$syslog_priority</span><span class="S10">,</span><span class="S0"> </span><span class="S6">"Can not open PID file: $!"</span><span class="S10">);</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">exit</span><span class="S10">(-</span><span class="S4">1</span><span class="S10">);</span><br />
+<span class="S10">}</span><br />
+<span class="S5">print</span><span class="S0"> </span><span class="S11">PID</span><span class="S0"> </span><span class="S12">$$</span><span class="S10">;</span><br />
+<span class="S5">close</span><span class="S10">(</span><span class="S11">PID</span><span class="S10">);</span><br />
+<br />
+<span class="S2">## Vytvorenie obsluhy signalu SIGTERM, ktory je zaslany napriklad prikazom &quot;kill PID&quot;.</span><br />
+<span class="S2">## Funkcia program_shutdown, ktora je priradena obsluhe tohto signalu zabezpeci</span><br />
+<span class="S2">## napr. zmazanie PID suboru. Popis pouzitych funkcii je na</span><br />
+<span class="S2">## <a href="http://search.cpan.org/~nwclark/perl-5.8.8/ext/POSIX/POSIX.pod">http://search.cpan.org/~nwclark/perl-5.8.8/ext/POSIX/POSIX.pod</a></span><br />
+<br />
+<span class="S2"># SIGTERM handling</span><br />
+<span class="S12">$sigset</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S11">POSIX</span><span class="S10">::</span><span class="S11">SigSet</span><span class="S10">-&gt;</span><span class="S11">new</span><span class="S10">();</span><br />
+<span class="S12">$sigaction</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S11">POSIX</span><span class="S10">::</span><span class="S11">SigAction</span><span class="S10">-&gt;</span><span class="S11">new</span><span class="S10">(</span><span class="S7">'program_shutdown'</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$sigset</span><span class="S10">,</span><span class="S0"> </span><span class="S10">&amp;</span><span class="S11">POSIX</span><span class="S10">::</span><span class="S11">SA_NODEFER</span><span class="S10">);</span><br />
+<span class="S11">POSIX</span><span class="S10">::</span><span class="S11">sigaction</span><span class="S10">(&amp;</span><span class="S11">POSIX</span><span class="S10">::</span><span class="S11">SIGTERM</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$sigaction</span><span class="S10">);</span><br />
+<br />
+<span class="S2">## Ziskanie informacii o sietovom rozhrani pre modul Net::Pcap.</span><br />
+<span class="S2">## <a href="http://www.perlmonks.org/index.pl?node_id=170648">http://www.perlmonks.org/index.pl?node_id=170648</a></span><br />
+<br />
+<span class="S2"># Get network address and mask for selected device</span><br />
+<span class="S5">if</span><span class="S0"> </span><span class="S10">(</span><span class="S11">Net</span><span class="S10">::</span><span class="S11">Pcap</span><span class="S10">::</span><span class="S11">lookupnet</span><span class="S10">(</span><span class="S12">$dev</span><span class="S10">,</span><span class="S0"> </span><span class="S10">\</span><span class="S12">$address</span><span class="S10">,</span><span class="S0"> </span><span class="S10">\</span><span class="S12">$netmask</span><span class="S10">,</span><span class="S0"> </span><span class="S10">\</span><span class="S12">$error</span><span class="S10">))</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S10">&amp;</span><span class="S11">logger</span><span class="S10">(</span><span class="S12">$syslog_facility</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$syslog_priority</span><span class="S10">,</span><span class="S0"> </span><span class="S6">"Unable to look up net information for $dev - $error."</span><span class="S10">);</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">exit</span><span class="S10">(-</span><span class="S4">1</span><span class="S10">);</span><br />
+<span class="S10">}</span><br />
+<br />
+<span class="S2">## Vytvorenie Net::Pcap objektu na vybranom sietovom rozhrani.</span><br />
+<span class="S2">## <a href="http://www.perlmonks.org/index.pl?node_id=170648">http://www.perlmonks.org/index.pl?node_id=170648</a></span><br />
+<br />
+<span class="S2"># Create packet capture object on selected device</span><br />
+<span class="S12">$object</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S11">Net</span><span class="S10">::</span><span class="S11">Pcap</span><span class="S10">::</span><span class="S11">open_live</span><span class="S10">(</span><span class="S12">$dev</span><span class="S10">,</span><span class="S0"> </span><span class="S4">1500</span><span class="S10">,</span><span class="S0"> </span><span class="S4">0</span><span class="S10">,</span><span class="S0"> </span><span class="S4">0</span><span class="S10">,</span><span class="S0"> </span><span class="S10">\</span><span class="S12">$error</span><span class="S10">);</span><br />
+<span class="S5">if</span><span class="S0"> </span><span class="S10">(</span><span class="S5">not</span><span class="S0"> </span><span class="S5">defined</span><span class="S0"> </span><span class="S12">$object</span><span class="S10">)</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S10">&amp;</span><span class="S11">logger</span><span class="S10">(</span><span class="S12">$syslog_facility</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$syslog_priority</span><span class="S10">,</span><span class="S0"> </span><span class="S6">"Unable to create packet capture on device $dev - $error."</span><span class="S10">);</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">exit</span><span class="S10">(-</span><span class="S4">1</span><span class="S10">);</span><br />
+<span class="S10">}</span><br />
+<br />
+<span class="S2">## Privilegia roota uz nie su potrebne. Objekt na zachytavanie paketov</span><br />
+<span class="S2">## je vytvoreny, mozeme sa ich teda zbavit. Neviem ci je to spravny</span><br />
+<span class="S2">## postup, nenasiel som vela informacii o uvolnovani privilegii v Perle,</span><br />
+<span class="S2">## ale v kazdom pripade funguje. Opat su pouzite specialne premenne.</span><br />
+<br />
+<span class="S2"># Drop privileges</span><br />
+<span class="S5">if</span><span class="S0"> </span><span class="S10">((</span><span class="S12">$mode</span><span class="S0"> </span><span class="S5">eq</span><span class="S0"> </span><span class="S6">"passive"</span><span class="S10">)</span><span class="S0"> </span><span class="S5">and</span><span class="S0"> </span><span class="S10">(</span><span class="S5">defined</span><span class="S0"> </span><span class="S12">$userid</span><span class="S10">)</span><span class="S0"> </span><span class="S5">and</span><span class="S0"> </span><span class="S10">(</span><span class="S5">defined</span><span class="S0"> </span><span class="S12">$groupid</span><span class="S10">))</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S12">$orig_gid</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S12">$)</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S12">$orig_uid</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S12">$&gt;</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S12">$)</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S6">"$groupid $groupid"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S12">$&gt;</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S12">$userid</span><span class="S10">;</span><br />
+<span class="S10">}</span><br />
+<br />
+<span class="S2">## Vytvorenie filtra, ktory zabezpeci zachytavanie iba ARP paketov</span><br />
+<span class="S2">## <a href="http://www.perlmonks.org/index.pl?node_id=170648">http://www.perlmonks.org/index.pl?node_id=170648</a></span><br />
+<br />
+<span class="S2"># Create capture filter</span><br />
+<span class="S5">if</span><span class="S0"> </span><span class="S10">(</span><span class="S11">Net</span><span class="S10">::</span><span class="S11">Pcap</span><span class="S10">::</span><span class="S11">compile</span><span class="S10">(</span><span class="S12">$object</span><span class="S10">,</span><span class="S0"> </span><span class="S10">\</span><span class="S12">$filter</span><span class="S10">,</span><span class="S0"> </span><span class="S7">'arp'</span><span class="S10">,</span><span class="S0"> </span><span class="S4">0</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$netmask</span><span class="S10">))</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S10">&amp;</span><span class="S11">logger</span><span class="S10">(</span><span class="S12">$syslog_facility</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$syslog_priority</span><span class="S10">,</span><span class="S0"> </span><span class="S6">"Unable to compile packet capture filter."</span><span class="S10">);</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">exit</span><span class="S10">(-</span><span class="S4">1</span><span class="S10">);</span><br />
+<span class="S10">}</span><br />
+<br />
+<span class="S2">## Spojenie filtra s objektom na zachytavanie paketov</span><br />
+<span class="S2">## <a href="http://www.perlmonks.org/index.pl?node_id=170648">http://www.perlmonks.org/index.pl?node_id=170648</a></span><br />
+<br />
+<span class="S2"># Attach filter to packet capture object</span><br />
+<span class="S5">if</span><span class="S0"> </span><span class="S10">(</span><span class="S11">Net</span><span class="S10">::</span><span class="S11">Pcap</span><span class="S10">::</span><span class="S11">setfilter</span><span class="S10">(</span><span class="S12">$object</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$filter</span><span class="S10">))</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S10">&amp;</span><span class="S11">logger</span><span class="S10">(</span><span class="S12">$syslog_facility</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$syslog_priority</span><span class="S10">,</span><span class="S0"> </span><span class="S6">"Unable to set packet capture filter."</span><span class="S10">);</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">exit</span><span class="S10">(-</span><span class="S4">1</span><span class="S10">);</span><br />
+<span class="S10">}</span><br />
+<br />
+<span class="S2">## Zapisanie informacie o starte programu do systemovych logov.</span><br />
+<span class="S2">## Logger je vlastna funkcia definovana dalej v kode. Pri volani vlastnych</span><br />
+<span class="S2">## funkcii ci procedur (v perle jednotne nazyvane podprogramy) sa zvykne</span><br />
+<span class="S2">## pred meno procedury davat &amp;. Nie je to nutne, no sprehladnuje to kod.</span><br />
+<br />
+<span class="S2"># Log start of the daemon activity</span><br />
+<span class="S11">logger</span><span class="S10">(</span><span class="S12">$syslog_facility</span><span class="S10">,</span><span class="S0"> </span><span class="S6">"info"</span><span class="S10">,</span><span class="S0"> </span><span class="S6">"Listening on $dev in $mode mode.."</span><span class="S10">);</span><br />
+<br />
+<span class="S2">## Urcenie callback funkcie, ktora spracuva kazdy jeden paket,</span><br />
+<span class="S2">## ktory Net::Pcap prijal. V tomto pripade vdaka filtru iba ARP</span><br />
+<span class="S2">## pakety. Toto je hlavny cyklus daemona.</span><br />
+<br />
+<span class="S2"># Set callback function to initiate packet capture loop</span><br />
+<span class="S11">Net</span><span class="S10">::</span><span class="S11">Pcap</span><span class="S10">::</span><span class="S11">loop</span><span class="S10">(</span><span class="S12">$object</span><span class="S10">,</span><span class="S0"> </span><span class="S10">-</span><span class="S4">1</span><span class="S10">,</span><span class="S0"> </span><span class="S10">\&amp;</span><span class="S11">analyse_packet</span><span class="S10">,</span><span class="S0"> </span><span class="S7">''</span><span class="S10">);</span><br />
+<br />
+<span class="S2">## Tu by program nikdy nemal dojst. Pretoze je zacykleny v prijimani a </span><br />
+<span class="S2">## spracovavani paketov. Uzatvorenie objektu na zachytavanie paketov a</span><br />
+<span class="S2">## ukoncenie programu s exitkodom 0 je teda zbytocne.</span><br />
+<br />
+<span class="S2"># Close packet capture object</span><br />
+<span class="S11">Net</span><span class="S10">::</span><span class="S11">Pcap</span><span class="S10">::</span><span class="S11">close</span><span class="S10">(</span><span class="S12">$object</span><span class="S10">);</span><br />
+<br />
+<span class="S5">exit</span><span class="S10">(</span><span class="S4">0</span><span class="S10">);</span><br />
+<br />
+<span class="S2"># Hypotetical end of program. Functions follow.. In order of appearance :)</span><br />
+<br />
+<br />
+<br />
+<span class="S2">## Funkcia na ziskanie parametrov z prikazoveho riadka.</span><br />
+<span class="S2">## Pole @ARGV obsahuje zoznam tychto parametrov. Priradenim pola do</span><br />
+<span class="S2">## skalarnej premennej $params ziskame pocet prvkov pola, teda pocet </span><br />
+<span class="S2">## parametrov. Funkcia validuje prijate parametre a uklada ich do </span><br />
+<span class="S2">## prislusnych globalnych premennych.</span><br />
+<br />
+<span class="S2"># Get parameters from command line</span><br />
+<span class="S5">sub</span><span class="S0"> </span><span class="S11">get_cmd_parameters</span><span class="S0"> </span><span class="S10">{</span><br />
+<br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">my</span><span class="S0"> </span><span class="S12">$params</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S13">@ARGV</span><span class="S10">;</span><br />
+<br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S2"># Example: ipwatchd --help</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">if</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$params</span><span class="S0"> </span><span class="S10">==</span><span class="S0"> </span><span class="S4">1</span><span class="S10">)</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">if</span><span class="S0"> </span><span class="S10">((</span><span class="S12">$ARGV</span><span class="S10">[</span><span class="S4">0</span><span class="S10">]</span><span class="S0"> </span><span class="S5">eq</span><span class="S0"> </span><span class="S7">'-h'</span><span class="S10">)</span><span class="S0"> </span><span class="S5">or</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$ARGV</span><span class="S10">[</span><span class="S4">0</span><span class="S10">]</span><span class="S0"> </span><span class="S5">eq</span><span class="S0"> </span><span class="S7">'--help'</span><span class="S10">))</span><span class="S0"> </span><span class="S10">{</span><span class="S0"> </span><span class="S10">&amp;</span><span class="S11">print_help</span><span class="S10">()</span><span class="S0"> </span><span class="S10">}</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">elsif</span><span class="S0"> </span><span class="S10">((</span><span class="S12">$ARGV</span><span class="S10">[</span><span class="S4">0</span><span class="S10">]</span><span class="S0"> </span><span class="S5">eq</span><span class="S0"> </span><span class="S7">'-v'</span><span class="S10">)</span><span class="S0"> </span><span class="S5">or</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$ARGV</span><span class="S10">[</span><span class="S4">0</span><span class="S10">]</span><span class="S0"> </span><span class="S5">eq</span><span class="S0"> </span><span class="S7">'--version'</span><span class="S10">))</span><span class="S0"> </span><span class="S10">{</span><span class="S0"> </span><span class="S10">&amp;</span><span class="S11">print_version</span><span class="S10">()</span><span class="S0"> </span><span class="S10">}</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">else</span><span class="S0"> </span><span class="S10">{</span><span class="S0"> </span><span class="S10">&amp;</span><span class="S11">print_usage</span><span class="S10">()</span><span class="S0"> </span><span class="S10">}</span><br />
+<br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S2"># Example: ipwatchd -i eth0</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S10">}</span><span class="S0"> </span><span class="S5">elsif</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$params</span><span class="S0"> </span><span class="S10">==</span><span class="S0"> </span><span class="S4">2</span><span class="S10">)</span><span class="S0"> </span><span class="S10">{</span><br />
+<br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">if</span><span class="S0"> </span><span class="S10">((</span><span class="S12">$ARGV</span><span class="S10">[</span><span class="S4">0</span><span class="S10">]</span><span class="S0"> </span><span class="S5">eq</span><span class="S0"> </span><span class="S7">'-i'</span><span class="S10">)</span><span class="S0"> </span><span class="S5">and</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$ARGV</span><span class="S10">[</span><span class="S4">1</span><span class="S10">]</span><span class="S0"> </span><span class="S5">ne</span><span class="S0"> </span><span class="S7">''</span><span class="S10">))</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S12">$dev</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S12">$ARGV</span><span class="S10">[</span><span class="S4">1</span><span class="S10">];</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S12">$mode</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S6">"active"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S10">}</span><span class="S0"> </span><span class="S5">else</span><span class="S0"> </span><span class="S10">{</span><span class="S0"> </span><span class="S10">&amp;</span><span class="S11">print_usage</span><span class="S10">()</span><span class="S0"> </span><span class="S10">}</span><br />
+<br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S2"># Example: ipwatchd -i eth0 -p</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S10">}</span><span class="S0"> </span><span class="S5">elsif</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$params</span><span class="S0"> </span><span class="S10">==</span><span class="S0"> </span><span class="S4">3</span><span class="S10">)</span><span class="S0"> </span><span class="S10">{</span><br />
+<br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">if</span><span class="S0"> </span><span class="S10">((</span><span class="S12">$ARGV</span><span class="S10">[</span><span class="S4">0</span><span class="S10">]</span><span class="S0"> </span><span class="S5">eq</span><span class="S0"> </span><span class="S7">'-i'</span><span class="S10">)</span><span class="S0"> </span><span class="S5">and</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$ARGV</span><span class="S10">[</span><span class="S4">1</span><span class="S10">]</span><span class="S0"> </span><span class="S5">ne</span><span class="S0"> </span><span class="S7">''</span><span class="S10">)</span><span class="S0"> </span><span class="S5">and</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$ARGV</span><span class="S10">[</span><span class="S4">2</span><span class="S10">]</span><span class="S0"> </span><span class="S5">eq</span><span class="S0"> </span><span class="S7">'-p'</span><span class="S10">))</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S12">$dev</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S12">$ARGV</span><span class="S10">[</span><span class="S4">1</span><span class="S10">];</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S12">$mode</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S6">"passive"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S10">}</span><span class="S0"> </span><span class="S5">else</span><span class="S0"> </span><span class="S10">{</span><span class="S0"> </span><span class="S10">&amp;</span><span class="S11">print_usage</span><span class="S10">()</span><span class="S0"> </span><span class="S10">}</span><br />
+<br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S2"># Example: ipwatchd -i eth0 -p -u jariq -g users</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S10">}</span><span class="S0"> </span><span class="S5">elsif</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$params</span><span class="S0"> </span><span class="S10">==</span><span class="S0"> </span><span class="S4">7</span><span class="S10">)</span><span class="S0"> </span><span class="S10">{</span><br />
+<br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">if</span><span class="S0"> </span><span class="S10">((</span><span class="S12">$ARGV</span><span class="S10">[</span><span class="S4">0</span><span class="S10">]</span><span class="S0"> </span><span class="S5">eq</span><span class="S0"> </span><span class="S7">'-i'</span><span class="S10">)</span><span class="S0"> </span><span class="S5">and</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$ARGV</span><span class="S10">[</span><span class="S4">1</span><span class="S10">]</span><span class="S0"> </span><span class="S5">ne</span><span class="S0"> </span><span class="S7">''</span><span class="S10">)</span><span class="S0"> </span><span class="S5">and</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$ARGV</span><span class="S10">[</span><span class="S4">2</span><span class="S10">]</span><span class="S0"> </span><span class="S5">eq</span><span class="S0"> </span><span class="S7">'-p'</span><span class="S10">)</span><span class="S0"> </span><span class="S5">and</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$ARGV</span><span class="S10">[</span><span class="S4">3</span><span class="S10">]</span><span class="S0"> </span><span class="S5">eq</span><span class="S0"> </span><span class="S7">'-u'</span><span class="S10">)</span><span class="S0"> </span><span class="S5">and</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$ARGV</span><span class="S10">[</span><span class="S4">4</span><span class="S10">]</span><span class="S0"> </span><span class="S5">ne</span><span class="S0"> </span><span class="S7">''</span><span class="S10">)</span><span class="S0"> </span><span class="S5">and</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$ARGV</span><span class="S10">[</span><span class="S4">5</span><span class="S10">]</span><span class="S0"> </span><span class="S5">eq</span><span class="S0"> </span><span class="S7">'-g'</span><span class="S10">)</span><span class="S0"> </span><span class="S5">and</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$ARGV</span><span class="S10">[</span><span class="S4">6</span><span class="S10">]</span><span class="S0"> </span><span class="S5">ne</span><span class="S0"> </span><span class="S7">''</span><span class="S10">))</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S12">$dev</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S12">$ARGV</span><span class="S10">[</span><span class="S4">1</span><span class="S10">];</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S12">$mode</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S6">"passive"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S12">$username</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S12">$ARGV</span><span class="S10">[</span><span class="S4">4</span><span class="S10">];</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S12">$groupname</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S12">$ARGV</span><span class="S10">[</span><span class="S4">6</span><span class="S10">];</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S10">}</span><span class="S0"> </span><span class="S5">else</span><span class="S0"> </span><span class="S10">{</span><span class="S0"> </span><span class="S10">&amp;</span><span class="S11">print_usage</span><span class="S10">()</span><span class="S0"> </span><span class="S10">}</span><br />
+<br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S10">}</span><span class="S0"> </span><span class="S5">else</span><span class="S0"> </span><span class="S10">{</span><span class="S0"> </span><span class="S10">&amp;</span><span class="S11">print_usage</span><span class="S10">()</span><span class="S0"> </span><span class="S10">}</span><br />
+<br />
+<span class="S10">}</span><br />
+<br />
+<span class="S2">## Vypise help na STDOUT</span><br />
+<br />
+<span class="S2"># Hmm.. What is this doing?</span><br />
+<span class="S5">sub</span><span class="S0"> </span><span class="S11">print_help</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"IPwatchD - IP conflict detection in Linux systems\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"Usage: ipwatchd -i device [-p [-u username -g groupname]]\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"-i device &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Device that should be monitored/protected\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"-p &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Passive mode (conflicts are only logged)\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"-u username &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run daemon as unprivileged user\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"-g groupname &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and unprivileged group\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"or &nbsp;&nbsp;&nbsp;&nbsp;ipwatchd -v|-h\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"-v, --version &nbsp;&nbsp;&nbsp;&nbsp;Prints program version\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"-h, --help &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Displays this help message\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"If IPwatchD running in active mode (default) detects gratuitous\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"ARP request with IP address of monitored interface (IP conflict)\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"it immediately sends ARP reply to the conflicting host and also\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"gratuitous ARP request to update cache of neighbouring hosts\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"on local network.\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"This version of IPwatchD uses arping from iputils package to send\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"ARP packets in active mode.\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"Please send any bug reports to jariq\@users.sourceforge.net\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"For more information please visit http://ipwatchd.sourceforge.net\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">exit</span><span class="S10">(</span><span class="S4">0</span><span class="S10">);</span><br />
+<span class="S10">}</span><br />
+<br />
+<span class="S2">## Vypise verziu programu na STDOUT</span><br />
+<br />
+<span class="S2"># Print version of program</span><br />
+<span class="S5">sub</span><span class="S0"> </span><span class="S11">print_version</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"IPwatchD v0.1 (beta)\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">exit</span><span class="S10">(</span><span class="S4">0</span><span class="S10">)</span><br />
+<span class="S10">}</span><br />
+<br />
+<span class="S2">## Vypise skrateny help na STDOUT</span><br />
+<br />
+<span class="S2"># Print short message about usage</span><br />
+<span class="S5">sub</span><span class="S0"> </span><span class="S11">print_usage</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"Usage: ipwatchd -i device [-p [-u username -g groupname]]\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">print</span><span class="S0"> </span><span class="S6">"Try 'ipwatchd -h' or 'ipwatchd --help' for more information.\n"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">exit</span><span class="S10">(-</span><span class="S4">1</span><span class="S10">);</span><br />
+<span class="S10">}</span><br />
+<br />
+<span class="S2">## Funkcia na logovanie udalosti cez syslog. Pri syslogu existuje clenenie sprav</span><br />
+<span class="S2">## podla facility a priority (man syslog.conf). Na zaciatku programu su definovane</span><br />
+<span class="S2">## premenne $syslog_facility (daemon) a $syslog_priority (err), ktore su touto funkciou</span><br />
+<span class="S2">## ocakavane ako vstupne parametre. </span><br />
+<span class="S2">## <a href="http://search.cpan.org/~saper/Sys-Syslog-0.18/Syslog.pm">http://search.cpan.org/~saper/Sys-Syslog-0.18/Syslog.pm</a></span><br />
+<br />
+<span class="S2"># Log event with syslog</span><br />
+<span class="S5">sub</span><span class="S0"> </span><span class="S11">logger</span><span class="S0"> </span><span class="S10">{</span><br />
+<br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2">## Vstupne parametre funkcie sa preberaju z pola @_</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2">## Vid specialne premenne</span><br />
+<br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S5">my</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$fac</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$prio</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$msg</span><span class="S10">)</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S13">@_</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S2">#setlogsock('unix');</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S11">openlog</span><span class="S10">(</span><span class="S7">'ipwatchd'</span><span class="S10">,</span><span class="S0"> </span><span class="S7">'pid,cons'</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$fac</span><span class="S10">);</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S11">syslog</span><span class="S10">(</span><span class="S12">$prio</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$msg</span><span class="S10">);</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S11">closelog</span><span class="S10">();</span><br />
+<br />
+<span class="S10">}</span><br />
+<br />
+<span class="S2">## Obsluzna funkcia pre signal SIGTERM</span><br />
+<br />
+<span class="S2"># Safely shutdown daemon if SIGTERM received</span><br />
+<span class="S5">sub</span><span class="S0"> </span><span class="S11">program_shutdown</span><span class="S0"> </span><span class="S10">{</span><br />
+<br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2">## Effective user sa prepne spat na roota aby mal dostatocne opravnenia</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2">## na uzavretie Net::Pcap objektu a vymazanie PID suboru.</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2">## Nie som si isty, ci je takyto postup bezpecny. K tejto problematike som </span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2">## nenasiel vhodnu dokumentaciu - navrhy na zlepsenie su vitane!</span><br />
+<br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2"># Regain privileges</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">if</span><span class="S0"> </span><span class="S10">((</span><span class="S12">$mode</span><span class="S0"> </span><span class="S5">eq</span><span class="S0"> </span><span class="S6">"passive"</span><span class="S10">)</span><span class="S0"> </span><span class="S5">and</span><span class="S0"> </span><span class="S10">(</span><span class="S5">defined</span><span class="S0"> </span><span class="S12">$userid</span><span class="S10">)</span><span class="S0"> </span><span class="S5">and</span><span class="S0"> </span><span class="S10">(</span><span class="S5">defined</span><span class="S0"> </span><span class="S12">$groupid</span><span class="S10">))</span><span class="S0"> </span><span class="S10">{</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S12">$&gt;</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S12">$orig_uid</span><span class="S10">;</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="S12">$)</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S12">$orig_gid</span><span class="S10">;</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S10">}</span><br />
+<br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S11">Net</span><span class="S10">::</span><span class="S11">Pcap</span><span class="S10">::</span><span class="S11">close</span><span class="S10">(</span><span class="S12">$object</span><span class="S10">);</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S11">logger</span><span class="S10">(</span><span class="S12">$syslog_facility</span><span class="S10">,</span><span class="S0"> </span><span class="S6">"info"</span><span class="S10">,</span><span class="S0"> </span><span class="S6">"Shutting down (SIGTERM received)"</span><span class="S10">);</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">unlink</span><span class="S10">(</span><span class="S6">"/var/run/ipwatchd-$dev.pid"</span><span class="S10">);</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">exit</span><span class="S10">(</span><span class="S4">0</span><span class="S10">);</span><br />
+<br />
+<span class="S10">}</span><br />
+<br />
+<span class="S2">## Funkcia spracovavajuca kazdy prijaty ARP paket</span><br />
+<br />
+<span class="S2"># Analyse every captured ARP packet</span><br />
+<span class="S5">sub</span><span class="S0"> </span><span class="S11">analyse_packet</span><span class="S0"> </span><span class="S10">{</span><br />
+<br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">my</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$user_data</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$header</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$packet</span><span class="S10">)</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S13">@_</span><span class="S10">;</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">my</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$rec_smac</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$rec_sip</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$rec_dmac</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$rec_dip</span><span class="S10">);</span><br />
+<br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2">## Dekodovanie informacii z paketov</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2">## <a href="http://www.perlmonks.org/index.pl?node_id=170648">http://www.perlmonks.org/index.pl?node_id=170648</a></span><br />
+<br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">my</span><span class="S0"> </span><span class="S12">$eth_obj</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S11">NetPacket</span><span class="S10">::</span><span class="S11">Ethernet</span><span class="S10">-&gt;</span><span class="S11">decode</span><span class="S10">(</span><span class="S12">$packet</span><span class="S10">);</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">my</span><span class="S0"> </span><span class="S12">$arp_obj</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S11">NetPacket</span><span class="S10">::</span><span class="S11">ARP</span><span class="S10">-&gt;</span><span class="S11">decode</span><span class="S10">(</span><span class="S12">$eth_obj</span><span class="S10">-&gt;{</span><span class="S11">data</span><span class="S10">},</span><span class="S0"> </span><span class="S12">$eth_obj</span><span class="S10">);</span><br />
+<br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2">## Ziskanie zdrojovych a cielovych MAC a IP adries</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S12">$rec_smac</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S5">lc</span><span class="S10">(</span><span class="S12">$arp_obj</span><span class="S10">-&gt;{</span><span class="S11">sha</span><span class="S10">});</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S12">$rec_sip</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S10">&amp;</span><span class="S11">hex2dec</span><span class="S10">(</span><span class="S12">$arp_obj</span><span class="S10">-&gt;{</span><span class="S11">spa</span><span class="S10">});</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S12">$rec_dmac</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S5">lc</span><span class="S10">(</span><span class="S12">$arp_obj</span><span class="S10">-&gt;{</span><span class="S11">tha</span><span class="S10">});</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S12">$rec_dip</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S10">&amp;</span><span class="S11">hex2dec</span><span class="S10">(</span><span class="S12">$arp_obj</span><span class="S10">-&gt;{</span><span class="S11">tpa</span><span class="S10">});</span><br />
+<br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2">## Ak je zdrojova IP adresa z paketu rovnaka ako adresa na sietovom rozhrani</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2">## a zdrojova MAC adresa z paketu ina nez na nasom sietovom rozhrani jedna sa</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2">## o IP konflikt.</span><br />
+<br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">if</span><span class="S0"> </span><span class="S10">((</span><span class="S12">$rec_sip</span><span class="S0"> </span><span class="S5">eq</span><span class="S0"> </span><span class="S12">$dev_ip</span><span class="S10">)</span><span class="S0"> </span><span class="S5">and</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$rec_smac</span><span class="S0"> </span><span class="S5">ne</span><span class="S0"> </span><span class="S12">$dev_mac</span><span class="S10">))</span><span class="S0"> </span><span class="S10">{</span><br />
+<br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2">## V aktivnom mode je udalost zalogovana a je spustena utilita arping,</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2">## ktora vysle gratuitous ARP reply. Aby bol zabezpeceny update</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2">## udajov na okolitych pocitacoch, switchoch a dalsich sietovych zariadeniach,</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2">## vysle aj gratuitous ARP request.</span><br />
+<br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">if</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$mode</span><span class="S0"> </span><span class="S5">eq</span><span class="S0"> </span><span class="S6">"active"</span><span class="S10">)</span><span class="S0"> </span><span class="S10">{</span><br />
+<br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2"># Log event with syslog</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S12">$message</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S6">"MAC address "</span><span class="S10">.&amp;</span><span class="S11">printable_mac</span><span class="S10">(</span><span class="S12">$rec_smac</span><span class="S10">).</span><span class="S6">" is trying to be our address $dev_ip and we are trying to protect"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S10">&amp;</span><span class="S11">logger</span><span class="S10">(</span><span class="S12">$syslog_facility</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$syslog_priority</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$message</span><span class="S10">);</span><br />
+<br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2"># Send gratuitous ARP reply to the network</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S20">`$arping -A -c 1 -I $dev $dev_ip`</span><span class="S10">;</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2"># Defend our IP by sending gratuitous ARP request</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2"># that updates cache of every host on the network</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S20">`$arping -U -c 1 -I $dev $dev_ip`</span><span class="S10">;</span><br />
+<br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2">## V pasivnom mode je udalost iba zalogovana</span><br />
+<br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S10">}</span><span class="S0"> </span><span class="S5">else</span><span class="S0"> </span><span class="S10">{</span><br />
+<br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2"># Log event with syslog and take no action</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S12">$message</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S6">"MAC address "</span><span class="S10">.&amp;</span><span class="S11">printable_mac</span><span class="S10">(</span><span class="S12">$rec_smac</span><span class="S10">).</span><span class="S6">" is trying to be our address $dev_ip"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S10">&amp;</span><span class="S11">logger</span><span class="S10">(</span><span class="S12">$syslog_facility</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$syslog_priority</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$message</span><span class="S10">);</span><br />
+<br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S10">}</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S10">}</span><br />
+<span class="S10">}</span><br />
+<br />
+<span class="S2">## Z dekodovaneho paketu je ziskana IP adresa v hexa tvare.</span><br />
+<span class="S2">## Tato funkcia sluzi na jej prevod na klasicky dekadicky tvar.</span><br />
+<br />
+<span class="S2"># Convert IP address into decimal form</span><br />
+<span class="S5">sub</span><span class="S0"> </span><span class="S11">hex2dec</span><span class="S0"> </span><span class="S10">{</span><br />
+<br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">my</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$hexip</span><span class="S10">)</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S13">@_</span><span class="S10">;</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">my</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$a</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$b</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$c</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$d</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$ip</span><span class="S10">);</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S12">$a</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S5">hex</span><span class="S0"> </span><span class="S5">substr</span><span class="S10">(</span><span class="S12">$hexip</span><span class="S10">,</span><span class="S0"> </span><span class="S4">0</span><span class="S10">,</span><span class="S0"> </span><span class="S4">2</span><span class="S10">);</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S12">$b</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S5">hex</span><span class="S0"> </span><span class="S5">substr</span><span class="S10">(</span><span class="S12">$hexip</span><span class="S10">,</span><span class="S0"> </span><span class="S4">2</span><span class="S10">,</span><span class="S0"> </span><span class="S4">2</span><span class="S10">);</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S12">$c</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S5">hex</span><span class="S0"> </span><span class="S5">substr</span><span class="S10">(</span><span class="S12">$hexip</span><span class="S10">,</span><span class="S0"> </span><span class="S4">4</span><span class="S10">,</span><span class="S0"> </span><span class="S4">2</span><span class="S10">);</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S12">$d</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S5">hex</span><span class="S0"> </span><span class="S5">substr</span><span class="S10">(</span><span class="S12">$hexip</span><span class="S10">,</span><span class="S0"> </span><span class="S4">6</span><span class="S10">,</span><span class="S0"> </span><span class="S4">2</span><span class="S10">);</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S12">$ip</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S6">"$a.$b.$c.$d"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">return</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$ip</span><span class="S10">);</span><br />
+<br />
+<span class="S10">}</span><br />
+<br />
+<span class="S2">## Funkcia na konverziu MAC adresy ziskanej z dekodovaneho paketu</span><br />
+<span class="S2">## na format, ktory je porovnatelny s vystupom z programu ifconfig.</span><br />
+<br />
+<span class="S2"># Convert MAC address into printable form</span><br />
+<span class="S5">sub</span><span class="S0"> </span><span class="S11">printable_mac</span><span class="S0"> </span><span class="S10">{</span><br />
+<br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">my</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$mac</span><span class="S10">)</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S13">@_</span><span class="S10">;</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">my</span><span class="S0"> </span><span class="S10">(</span><span class="S12">$a</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$b</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$c</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$d</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$e</span><span class="S10">,</span><span class="S0"> </span><span class="S12">$f</span><span class="S10">);</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S12">$a</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S5">substr</span><span class="S10">(</span><span class="S12">$mac</span><span class="S10">,</span><span class="S0"> </span><span class="S4">0</span><span class="S10">,</span><span class="S0"> </span><span class="S4">2</span><span class="S10">);</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S12">$b</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S5">substr</span><span class="S10">(</span><span class="S12">$mac</span><span class="S10">,</span><span class="S0"> </span><span class="S4">2</span><span class="S10">,</span><span class="S0"> </span><span class="S4">2</span><span class="S10">);</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S12">$c</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S5">substr</span><span class="S10">(</span><span class="S12">$mac</span><span class="S10">,</span><span class="S0"> </span><span class="S4">4</span><span class="S10">,</span><span class="S0"> </span><span class="S4">2</span><span class="S10">);</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S12">$d</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S5">substr</span><span class="S10">(</span><span class="S12">$mac</span><span class="S10">,</span><span class="S0"> </span><span class="S4">6</span><span class="S10">,</span><span class="S0"> </span><span class="S4">2</span><span class="S10">);</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S12">$e</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S5">substr</span><span class="S10">(</span><span class="S12">$mac</span><span class="S10">,</span><span class="S0"> </span><span class="S4">8</span><span class="S10">,</span><span class="S0"> </span><span class="S4">2</span><span class="S10">);</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S12">$f</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S5">substr</span><span class="S10">(</span><span class="S12">$mac</span><span class="S10">,</span><span class="S0"> </span><span class="S4">10</span><span class="S10">,</span><span class="S0"> </span><span class="S4">2</span><span class="S10">);</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S12">$mac</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S6">"$a:$b:$c:$d:$e:$f"</span><span class="S10">;</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">return</span><span class="S10">(</span><span class="S12">$mac</span><span class="S10">);</span><br />
+<br />
+<span class="S10">}</span><br />
+<span class="S0"></span></span>
+</body>
+</html>

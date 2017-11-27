@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Jaroslav IMRICH - Open Source Developer</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/site.css" type="text/css" media="screen" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  
+</head>
+<body>
+<h1>jQuery - javascript rýchlo a efektívne</h1>
+<p>
+  Language: <img src="/sk.svg" alt="Slovak flag" class="flag" /> Slovak<br/>
+  Published: 28 July 2009<br/>
+  Length: 3 minutes (432 words)
+</p>
+<p>
+Move to <a href="https://jimrich.sk/ssl-autentizacia-s-webovym-serverom-apache/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/softhsm-for-windows/">newer post</a>.
+</p>
+<div lang="sk" class="content">
+<p>Za svoju hráčsku prax som už prešiel nejednu <a href="https://en.wikipedia.org/wiki/Point-and-click_adventure_game">point-n-click adventúru</a> a občas sa mi stalo, že som v hre &ldquo;zakysol&rdquo;.
+Je to veľmi nepríjemný pocit a po pár hodinách trápenia v takej situácii siaham po návode.
+Mnohokrát sa však pri hľadaní riešenia nechtiac dozviem z návodu aj veci, ktoré som sa dozvedieť vôbec nechcel a tým si už dopredu tak trochu pokazím zábavu.
+Keď som pred zhruba desiatimi rokmi písal slovenské návody na sériu adventúr <a href="https://en.wikipedia.org/wiki/Monkey_Island_(series)">Monkey Island</a>, chcel som tento problém eliminovať rozčlenením návodov do sekcií, pričom každá sekcia by bola venovaná iba jedinému problému.
+Základná idea teda bola celkom jednoduchá:</p>
+
+<blockquote>
+<p>Hráč identifikuje správnu sekciu podľa názvu, ktorý obsahuje popis problému a v texte tejto sekcie nájde riešenie len pre svoj aktuálny problém.</p>
+</blockquote>
+
+<p>Nápad sa mi podarilo úspešne realizovať a s výsledkom som bol dlho spokojný.</p>
+
+<p>Tento mesiac však vyšiel nový diel série s názvom <a href="http://store.steampowered.com/app/31170/Tales_of_Monkey_Island_Complete_Pack/">Tales of Monkey Island</a> a pár dní po ňom aj remake prvej časti s názvom <a href="http://store.steampowered.com/app/32360/The_Secret_of_Monkey_Island_Special_Edition/">The Secret of Monkey Island: Special Edition</a>.
+Pri tejto príležitosti som sa rozhodol revidovať spomínané návody a napadlo mi, že sa posuniem ešte o krok ďalej a pomocou javascript-u ukryjem pred očami čitateľa text, ktorý nemá resp. nechce vidieť.
+Základná idea sa teda rozšírila nasledovne:</p>
+
+<blockquote>
+<p>Hráč identifikuje správnu sekciu podľa názvu, ktorý obsahuje popis problému a <strong>po kliknutí na názov sekcie sa mu zobrazí jej text</strong>, kde nájde riešenie len pre svoj aktuálny problém.</p>
+</blockquote>
+
+<p>Nechcelo sa mi však &ldquo;babrať s čistým javascript-om&rdquo;, a tak som si povedal, že skúsim použiť niektorý z open source frameworkov.
+Svoju pozornosť som upriamil na frameworky <a href="https://dojotoolkit.org/">Dojo</a> a <a href="https://jquery.com/">jQuery</a>.
+Ako prvé som vyskúšal Dojo, no keď sa mi nepodarilo dosiahnuť požadovaný efekt ani po dvoch hodinách, povedal som si, že je čas ísť ďalej.
+Na rad prišlo jQuery a na moje veľké prekvapenie bol výsledok na svete v priebehu desiatich minút.</p>
+
+<p>jQuery má veľmi jednoduchú syntax a s jeho pomocou dokážete manipulovať naozaj s ľubovoľným objektom (alebo skupinou objektov) nachádzajúcim sa v HTML dokumente.
+Z tutoriálov som veľmi rýchlo zistil, že pre skrytie všetkých odstavcov (HTML element p) stačí použiť kód:</p>
+
+<pre><code>$(&quot;p&quot;).fadeOut(1000);
+</code></pre>
+
+<p>Tento príklad som pozmenil tak, aby sa skrývali iba odstavce vnorené v elementoch používajúcich CSS triedu s názvom &ldquo;section&rdquo;:</p>
+
+<pre><code>$(&quot;.section&quot;).find(&quot;p&quot;).fadeOut(1000);
+</code></pre>
+
+<p>Potom už stačilo len pridať obsluhu udalosti kliknutia ľavého tlačidla myši a sformátovať text návodu podľa nasledovného príkladu:</p>
+
+<pre><code>&lt;div class=&quot;section&quot;&gt;
+  &lt;h4&gt;Názov kapitoly&lt;/h4&gt;
+  &lt;p&gt;Text kapitoly..&lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>Vďaka jQuery som sa tiež úplne vyhol nepríjemnému ladeniu javascript-u pre rôzne prehliadače.
+Všetky mnou použité funkcie totiž fungovali &ldquo;out-of-the-box&rdquo; vo Firefox-e, Internet Explorer-i, Google Chrome i v Opere.</p>
+
+<p>Výsledok si môžete pozrieť v návodoch na stránke <a href="http://monkey.jariq.sk">Monkey Island Corner</a>.</p>
+
+</div>
+<p>
+Move to <a href="https://jimrich.sk/ssl-autentizacia-s-webovym-serverom-apache/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/softhsm-for-windows/">newer post</a>.
+</p>
+<p>
+  License: Unless stated otherwise, all published content is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
+  Disclaimer: The views expressed on this website are mine alone and not those of my employer.<br/>
+  Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
+  Technology: This website lives in its own <a href="https://github.com/jariq/jimrich.sk">git repository</a> and breaths thanks to <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
+</p>
+</body>
+</html>

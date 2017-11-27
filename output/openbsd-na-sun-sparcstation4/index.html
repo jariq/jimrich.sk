@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Jaroslav IMRICH - Open Source Developer</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/site.css" type="text/css" media="screen" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  
+</head>
+<body>
+<h1>OpenBSD na SUN SparcStation4</h1>
+<p>
+  Language: <img src="/sk.svg" alt="Slovak flag" class="flag" /> Slovak<br/>
+  Published: 21 February 2006<br/>
+  Length: 5 minutes (1015 words)
+</p>
+<p>
+Move to <a href="https://jimrich.sk/sila-gnupg/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/vzdialene-graficky-a-sifrovane/">newer post</a>.
+</p>
+<div lang="sk" class="content">
+
+
+<p>Slovo počítač si mnohí z nás v mysli okamžite asociujú s procesormi architektúry IA-32 a IA-64 od firiem ako intel alebo AMD.
+S kľudným svedomím, si však dovolím tvrdiť, že IA-32 a IA-64 sú len moderné synonymá pre architektúru <a href="https://en.wikipedia.org/wiki/X86">x86</a>.
+Táto architektúra je síce najrozšírenejšia, no zďaleka však nie je jediná a už tobôž nie je najvýkonnejšia.
+Alternatívou k nej je napríklad architektúra <a href="https://en.wikipedia.org/wiki/RISC">RISC</a>, do ktorej spadajú aj procesory <a href="https://en.wikipedia.org/wiki/SPARC">SPARC</a>.
+Procesory SPARC sú dielom firmy <a href="http://www.sun.com">SUN</a>, ktorá ich dodnes používa najmä v serverových systémoch.
+Mal som tú česť a do rúk sa mi dostal starší produkt tejto firmy s označením SparcStation4.</p>
+
+<p><img src="sun1.jpg" alt="Sun SparcStation4" /></p>
+
+<h1 id="1-hardvér">1. Hardvér</h1>
+
+<p>Sun SparcStation4 (ďalej len SS4), s ktorým pracujem slúžil pôvodne ako grafická pracovná stanica.
+Je vybavený procesorom microSPARC II pracujúcim na frekvencii 110 Mhz, má k dispozícii 64 MB RAM a SCSI disk s kapacitou 1GB.
+Dominantnou časťou celého SS4 je 21 palcový farebný monitor, ktorý sa ku grafickej karte pripája pomocou v PC svete atypického <a href="https://en.wikipedia.org/wiki/13W3">13W3 konektora</a>.
+Skriňa je jednou z najmenších častí zostavy a vďaka zvláštnemu spôsobu odnímania krytu si vyslúžila slangový názov &ldquo;pizzabox&rdquo;.</p>
+
+<p><img src="sun2.jpg" alt="Sun SparcStation4" /></p>
+
+<p>Tlačidlo na zapnutie počítača (POWER), by ste na skrini hľadali márne.
+Nachádza sa totiž v pravom hornom rohu na klávesnici, ktorá obsahuje pre používateľa PC množstvo neznámych kláves a je k nej pripojená myš.
+SS4 sa vypína kombináciou kláves <code>CONTROL+META+POWER</code>.
+Či existuje nejaká kombinácia kláves aj na reštart, sa mi bohužiaľ nepodarilo zistiť.</p>
+
+<p><a href="sun4-big.jpg"><img src="sun4.jpg" alt="Sun SparcStation4" /></a></p>
+
+<p>Napriek tomu, že som skriňu SS4 otvoril po rokoch používania a státia v sklade, nebol v nej takmer žiadny prach.
+Procesor je chladený pasívnym chladičom a špeciálny 50W zdroj príliš veľa neporiadku nenarobí.</p>
+
+<p><a href="sun3-big.jpg"><img src="sun3.jpg" alt="Sun SparcStation4" /></a></p>
+
+<p>Rozhranie pre pripojenie disketovej mechaniky je síce navlas rovnaké s rozhraním na PC, no so SS4 funguje iba disketová mechanika vybavená dvojpolohovým jumprom.
+Netuším, akú funkciu tento jumper plní a nevedel mi to povedať ani nikto z mojich známych.
+<a href="sun-ss4-manual.pdf">Servisný manuál</a> síce tento jumper spomína, avšak bližšie jeho význam nepopisuje.
+Navyše pomocou externej SCSI redukcie, veľkej skoro ako samotný pizzabox, je možné pripojiť aj klasickú IDE CD-ROM mechaniku.</p>
+
+<h1 id="2-inštalácia-operačného-systému">2. Inštalácia operačného systému</h1>
+
+<p>Najpoužívanejší operačný systém na počítačoch firmy Sun je samozrejme <a href="https://en.wikipedia.org/wiki/Solaris_(operating_system)">Solaris</a>.
+Ja som sa však rozhodol na SS4 nainštalovať nejakú distribúciu systému GNU/Linux.
+Najskôr som skúšal <a href="http://auroralinux.org/">Aurora Linux</a>, od ktorého ma však odradili staré verzie softvéru v distribučných balíkoch.
+Skúsil som teda <a href="https://www.debian.org/">Debian</a>, no množstvo programov končilo výpisom chybovej hlášky o nepodporovanom systémovom volaní.
+Pomaly som už začínal zvažovať aj Solaris, keď prišla moja spása – <a href="https://www.openbsd.org/">OpenBSD</a>.</p>
+
+<p>OpenBSD je &ldquo;pán systém&rdquo;.
+Nemusíte sťahovať nijaký obraz CD, pretože na inštaláciu vám postačí jedna disketa.
+Vyberiete si mirror a z neho si pre vašu architektúru stiahnete obraz bootovacej diskety, ktorý je v súbore s názvom <code>floppyXX.fs</code> (XX je verzia systému).
+V mojom prípade to bola verzia 3.8.
+Tento image stačí pomocou utility <a href="http://uranus.it.swin.edu.au/~jn/linux/rawwrite.htm"><code>rawwrite</code></a> alebo <code>dd</code> zapísať na disketu a z nej nabootovať.
+Znie to jednoducho, no v praxi to znamená, že musíte pri štarte počítača využiť klávesovú skratku <code>STOP+A</code>, čím zastavíte zavádzanie predchádzajúceho systému.
+Bežného človeka na SS4 prekvapí neprítomnosť utility setup, ktorá sa na architektúre x86 používa na konfiguráciu parametrov biosu.
+Namiesto toho je tento počítač vybavený programom zvaným <a href="https://en.wikipedia.org/wiki/Open_Firmware">OpenBoot</a>, ktorý sa dá prirovnať k jednoduchému unixovému shellu.
+Obsahuje totiž množstvo príkazov, ktoré je možné zobraziť zadaním príkazu <code>help</code>.
+Na spustenie zavádzania systému z diskety slúži príkaz <code>boot floppy</code>.</p>
+
+<p>Inštalácia systému OpenBSD prebieha výlučne v textovom móde a je vyčerpávajúco popísaná v <a href="https://www.openbsd.org/faq/faq4.html">dokumentácii</a>.
+Osobne si myslím, že je veľmi intuitívna.
+Ťažkosti mi prvý krát spôsobilo len rozdelenie disku.
+Robí sa programom <code>disklabel</code> a treba si zapamätať, že &ldquo;oblasť a&rdquo; by mala byť root partíciou, &ldquo;oblasť b&rdquo; swap partíciou, &ldquo;oblasť c&rdquo; reprezentuje celý pevný disk, a zvyšné oblasti si môžete vytvárať a priraďovať im &ldquo;mount point&rdquo;, podľa vlastnej chuti.</p>
+
+<p>Samozrejme z jednej diskety celý systém nenainštalujete, a preto je potrebné nakonfigurovať sieťové rozhranie a pripojenie k internetu.
+OpenBSD podporuje inštaláciu z CD, pevného disku, z páskového zariadenia a ftp, nfs alebo http serverov.
+Tento systém sa od distribúcií Linuxu líši v tom, že pri inštalácii sú na výber len minimalistické inštalačné sety obsahujúce základný softvér.
+Ďalšie programy môžete doinštalovať až v bežiacom systéme, a to buď priamo z pripravených binárnych balíkov alebo kompiláciou, z tzv. portov.
+Pre minimálnu inštaláciu OpenBSD vám postačia sety <code>bsd</code>, <code>baseXX.tgz</code> a <code>etcXX.tgz</code>.
+Ja som však k nim pridal aj nástroje potrebné pre kompiláciu - <code>compXX.tgz</code> - a manuálové stránky - <code>manXX.tgz</code>, ktoré som inštaloval priamo z ftp servera <a href="ftp://ftp.openbsd.cz">ftp.openbsd.cz</a>.
+Po stiahnutí a rozbalení inštalačných setov sa prevedie už iba zbežná konfigurácia systému, ako napríklad štart služby sshd alebo výber časového pásma.
+Po dokončení inštalácie je treba zadať príkaz <code>halt</code> a reštartovať počítač.</p>
+
+<p>Pri prvom štarte systému sa generujú kľúčové páry využívané ssh démonom.
+Keďže vo verzii 3.8 sa veľkosť týchto kľúčov zmenila z 1024 na 2048 bitov, trvalo ich generovanie staručkej SS4 viac než hodinu.</p>
+
+<h1 id="3-openbsd">3. OpenBSD</h1>
+
+<p>Ak máte zvládnuté základy práce v niektorom unixovom operačnom systéme, budete si prácu s OpenBSD užívať.
+Webový server <a href="https://httpd.apache.org/">apache</a> beží hneď po inštalácii v chrootovanom prostredí a jeho rozšírenie o podporu SSL je vďaka <a href="https://www.openbsd.org/faq/index.html">OpenBSD FAQ</a> otázkou pár minút.
+Autori tohto systému dbajú predovšetkým na jeho bezpečnosť, o čom svedčí aj fakt, že za viac než 8 rokov bola v defaultnej inštalácii len jedna vzdialene zneužiteľná chyba.</p>
+
+<p>Keď však hovorím o výhodách tohto systému, musím spomenúť aj sofistikovaný filtrovací systém <a href="https://www.openbsd.org/faq/pf/">PacketFilter</a>, ktorý ponúka také vymoženosti ako synproxy, logovanie v binárnom formáte čitateľnom utilitou tcpdump, autentifikáciu pre gateway s využitím ssh, alebo jednoduchú správu a rozdeľovanie šírky pásma.
+Takmer všetko, čo dokážete s PF, dokáže skúsený používateľ aj s netfiltrom na linuxe.
+Správa pravidiel s PF je však oveľa prehľadnejšia, pretože pravidlá, ktoré sa na linuxe definujú s použitím cyklov, tu zadefinujete jednoducho s využitím zložených zátvoriek.</p>
+
+<p>Čo ma však ohromilo je jednoduchosť, s akou sa dá na OpenBSD vytvoriť redundantný firewall, ktorý je dokonca schopný synchronizovať informácie o stavoch spojení obsluhovaných primárnym firewallom.</p>
+
+<h1 id="4-záver">4. Záver</h1>
+
+<p>Sila open source softvéru je obrovská.
+Mnohí z nás si ju však neuvedomujú a nevenujú jej dostatočnú pozornosť.
+A práve vďaka projektom ako OpenBSD, môže aj taký staručký kus hardvéru, akým je Sun SparcStation4, bez najmenšieho problému fungovať napríklad ako dhcp alebo shell server.</p>
+
+</div>
+<p>
+Move to <a href="https://jimrich.sk/sila-gnupg/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/vzdialene-graficky-a-sifrovane/">newer post</a>.
+</p>
+<p>
+  License: Unless stated otherwise, all published content is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
+  Disclaimer: The views expressed on this website are mine alone and not those of my employer.<br/>
+  Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
+  Technology: This website lives in its own <a href="https://github.com/jariq/jimrich.sk">git repository</a> and breaths thanks to <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
+</p>
+</body>
+</html>

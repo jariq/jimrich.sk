@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Jaroslav IMRICH - Open Source Developer</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/site.css" type="text/css" media="screen" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  
+</head>
+<body>
+<h1>VPN siete s OpenVPN (1)</h1>
+<p>
+  Language: <img src="/sk.svg" alt="Slovak flag" class="flag" /> Slovak<br/>
+  Published: 14 October 2008<br/>
+  Length: 5 minutes (962 words)
+</p>
+<p>
+Move to <a href="https://jimrich.sk/recenzia-eset-server-security-pre-linuxbsd-2/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/vpn-siete-s-openvpn-2/">newer post</a>.
+</p>
+<div lang="sk" class="content">
+
+
+<p>Všetky diely seriálu:
+1
+<a href="/vpn-siete-s-openvpn-2/">2</a>
+<a href="/vpn-siete-s-openvpn-3/">3</a>
+<a href="/vpn-siete-s-openvpn-4/">4</a>
+<a href="/vpn-siete-s-openvpn-5/">5</a></p>
+
+<p>Prvý diel série o OpenVPN je zameraný skôr teoreticky a jeho úlohou je nenáročne objasniť základné princípy virtuálnych privátnych sietí.</p>
+
+<h1 id="1-načo-je-vpn">1. Načo je VPN</h1>
+
+<p>Ak pracujete v IT oblasti, je celkom bežné, že počas práce nevyužívate len váš osobný počítač, ale pristupujete aj na viacero iných systémov vo firemnej sieti.
+Pokiaľ sedíte v kancelárii nie je to najmenší problém.
+Situácia sa však mierne komplikuje ak nestíhate a potrebujete si prácu vziať so sebou domov alebo na služobnú cestu.
+Firemný notebook máte síce so sebou, ale k plnohodnotnej práci vám chýbajú systémy, ktoré sa nachádzajú v lokálnej sieti vašej firmy.</p>
+
+<p>Tento problém sa dá riešiť viacerými spôsobmi v závislosti od toho, aké prostriedky na firemných systémoch využívate.
+Ak sa jedná iba o zdieľané súbory, môžete si ich napríklad prekopírovať na lokálny disk.
+Ak sa jedná o prácu na inom operačnom systéme než je nainštalovaný na vašom počítači, môžete ho virtualizovať pomocou nástrojov ako <a href="https://www.vmware.com/">VMware</a> alebo <a href="https://en.wikipedia.org/wiki/Xen">Xen</a>.
+Po čase používania týchto riešení však pravdepodobne zistíte, že sú v porovnaní s priamym prístupom vo firme časovo oveľa náročnejšie a menej pohodlné.
+Navyše vzniká množstvo rôznych kópií a verzií rovnakých súborov a budete musieť stráviť ďalší čas riešením problémov s ich synchronizáciou.</p>
+
+<p>Ideálne riešenie by v tomto prípade malo zamestnancom umožniť služby poskytované firemnými systémami využívať zo sietí vonkajších.
+Ak by sme ale jednotlivé služby publikovali napr. forwardovaním portov na firewalle, bezpečnosť celého riešenia (a zároveň celej firemnej siete) by klesla na mieru bezpečnosti najmenej bezpečnej publikovanej služby.
+Preto je lepšie sprístupniť všetky služby jednotným spôsobom využívajúcim šifrovanie prenosov prípadne i viac-faktorovú formu autentifikácie používateľov.
+Takýmto riešením môže byť napríklad umožnenie vzdialeného prístupu do firemnej siete pomocou <a href="https://en.wikipedia.org/wiki/Virtual_private_network">VPN</a> - virtuálnej privátnej siete (z angl. virtual private network).</p>
+
+<h1 id="2-ako-vpn-funguje">2. Ako VPN funguje</h1>
+
+<p>VPN siete sú často prevádzkované ako klient-server aplikácie, čoho príkladom môže byť <a href="https://openvpn.net/">OpenVPN</a> alebo implementácia <a href="https://en.wikipedia.org/wiki/Point-to-Point_Tunneling_Protocol">PPTP</a> v MS Windows.
+VPN server (ďalej len server) vtedy beží priamo na firewallovom systéme a pri svojom spustení vytvorí virtuálne sieťové rozhranie (virtuálnu sieťovú kartu) a tým aj ďalší subnet firemnej siete.
+Server očakáva spojenia na vonkajšom rozhraní firewallového systému a vykonáva autentifikáciu VPN klienta (ďalej len klient), ktorý sa pripája z vonkajšej siete pomocou klientskej aplikácie.
+Po úspešnom overení je klientskému systému pridelená IP adresa z virtuálneho subnetu.
+Medzi serverom a klientom je následne vytvorený šifrovaný tunel, ktorým sú bezpečne prenášané všetky pakety smerované do a z lokálnej siete.
+Samozrejme spojenia medzi VPN a lokálnou sieťou je možné obmedzovať pomocou pravidiel firewallu a tým jednoducho určiť, ku ktorým systémom sa klienti môžu dostať.</p>
+
+<p>Ak sa vám predchádzajúci odstavec nezdal zrozumiteľný, nič si z toho nerobte.
+Po vysvetlení princípu šifrovaného tunelu si ukážeme využitie VPN siete na konkrétnom príklade.</p>
+
+<h1 id="3-princíp-šifrovaného-tunelu">3. Princíp šifrovaného tunelu</h1>
+
+<p>Tunely sú vo všeobecnosti považované za niečo záhadné a každý, kto ich spomenie, je &ldquo;cool&rdquo; :).
+Netreba sa ich však zbytočne báť, pretože ich princíp je veľmi jednoduchý.</p>
+
+<p>Informácie sú v <a href="https://en.wikipedia.org/wiki/Internet_Protocol">IP sieťach</a> prenášané vo forme paketov, ktoré okrem prenášaných dát (payload) obsahujú aj viacero rôznych hlavičiek (headers), v ktorých je možné nájsť informácie o zdroji paketu i o cieli, pre ktorý je určený.
+Predstavme si sieťový paket ako kamión, ktorý ma na dverách číslo cieľového portu, na ktorý smeruje (cieľovú IP adresu pre zjednodušenie zanedbajme).
+SSH packet by teda vyzeral nejako takto:</p>
+
+<p><img src="paket.png" alt="Nákladné auto prezentujúce SSH paket" /></p>
+
+<p>Podstata tunelovania vo VPN sieťach spočíva v tom, že pakety pre vzdialenú privátnu sieť sú zašifrované a následne vložené do dátovej časti verejných paketov.
+Vzdialený VPN server prijme verejný paket a dešifrovaním jeho obsahu získa paket pre privátnu sieť.
+Predstaviť si to môžeme tak, že kamión vezie v nákladnej časti druhý kamión a až ten obsahuje reálne dáta.
+V prípade, že VPN server počúva na porte 443 a komunikujeme s SSH serverom vo firemnej sieti, bude paket VPN spojenia vyzerať nejako takto:</p>
+
+<p><img src="vpn_paket.png" alt="Nákladné auto prezentujúce VPN paket" /></p>
+
+<p>Pri pohľade na obrázok vám pravdepodobne napadne, že takýto prenos je &ldquo;mrhanie kapacitou&rdquo;, pretože sivý kamión má menší úložný priestor využiteľný na prepravu tovaru.
+Analogicky to platí aj pri prenose vo VPN sieti, kde sa v jednom pakete nachádzajú viaceré hlavičky dvakrát a to znamená zníženie využiteľnej prenosovej rýchlosti medzi VPN klientom a systémami z firemnej siete.</p>
+
+<h1 id="4-reálny-príklad">4. Reálny príklad</h1>
+
+<p>Predstavme si malú firemnú sieť pozostávajúcu z jediného privátneho subnetu, ktorej klienti využívajú na prístup k internetu jednu bránu plniacu zároveň úlohu firewallového systému.
+Typ pripojenia k internetu nie je v tomto prípade dôležitý, stačí keď povieme, že vonkajšie rozhranie firewallu využíva verejnú IP adresu.
+Zjednodušenú schému siete znázorňuje nasledujúci obrázok:</p>
+
+<p><img src="network1.png" alt="Schéma siete" /></p>
+
+<p>V prípade, že by sa zamestnanec chcel pripojiť k niektorému z firemných systémov z vonkajšej siete, jeho pokus by bol zastavený firewallovým systémom.
+(Skutočnosť, že firemná sieť využíva IP adresy z privátneho rozsahu a teda nie je z verejných sietí smerovateľná pre zjednodušenie zanedbajme.)</p>
+
+<p>Ak na firewallovom systéme tejto siete spustíme VPN server s virtuálnym sieťovým rozhraním v subnete 192.168.2.0/24, budú sa k nemu môcť pripájať zamestnanci z externých sietí.
+Po overení identity bude vzdialenému systému pridelená na virtuálnom rozhraní IP adresa práve zo subnetu 192.168.2.0/24.
+Pre systémy zo subnetu 192.168.1.0/24 sa bude tento systém javiť akoby bol umiestnený v druhom lokálnom subnete, no v skutočnosti bude komunikácia z a do firemnej siete smerovaná cez internet šifrovaným tunelom.</p>
+
+<p>Nasledujúci animovaný obrázok znázorňuje 14 krokov komunikácie VPN klienta so systémom v lokálnej sieti.
+Jednotlivé kroky sú zobrazované automaticky po 10 sekundách.</p>
+
+<p><img src="network2.gif" alt="Princíp VPN komunikácie" /></p>
+
+<h1 id="5-záver">5. Záver</h1>
+
+<p>Dúfam, že tento článok splnil svoj cieľ a nenáročnou formou vám priblížil základné princípy VPN sietí.
+V ďalších dieloch si názorne ukážeme ako vytvoriť VPN sieť s aplikáciou OpenVPN i ako jednoducho vytvoriť vlastnú certifikačnú autoritu, ktorá bude vydávať certifikáty VPN klientom.
+Nevyhneme sa ani pokročilejším témam ako je viac-faktorová autentifikácia a s ňou spojené prihlasovanie do VPN siete pomocou certifikátu uloženého na čipovej karte.</p>
+
+<p><a href="https://linuxos.sk/clanok/vpn-siete-s-openvpn-1/">Článok bol publikovaný aj na portáli linuxos.sk</a></p>
+
+<p>Všetky diely seriálu:
+1
+<a href="/vpn-siete-s-openvpn-2/">2</a>
+<a href="/vpn-siete-s-openvpn-3/">3</a>
+<a href="/vpn-siete-s-openvpn-4/">4</a>
+<a href="/vpn-siete-s-openvpn-5/">5</a></p>
+
+</div>
+<p>
+Move to <a href="https://jimrich.sk/recenzia-eset-server-security-pre-linuxbsd-2/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/vpn-siete-s-openvpn-2/">newer post</a>.
+</p>
+<p>
+  License: Unless stated otherwise, all published content is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
+  Disclaimer: The views expressed on this website are mine alone and not those of my employer.<br/>
+  Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
+  Technology: This website lives in its own <a href="https://github.com/jariq/jimrich.sk">git repository</a> and breaths thanks to <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
+</p>
+</body>
+</html>

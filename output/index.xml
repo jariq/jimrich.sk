@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jaroslav IMRICH - Open Source Developer</title>
+    <link>https://jimrich.sk/</link>
+    <description>Blog posts written by Jaroslav IMRICH</description>
+    <generator>Hugo 0.30.2</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 22 Mar 2017 22:00:00 +0000</lastBuildDate>
+    <atom:link href="https://jimrich.sk/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Vyhotovovanie elektronických podpisov na diaľku</title>
+      <link>https://jimrich.sk/vyhotovovanie-elektronickych-podpisov-na-dialku/</link>
+      <pubDate>Wed, 22 Mar 2017 22:00:00 +0000</pubDate>
+      <guid>https://jimrich.sk/vyhotovovanie-elektronickych-podpisov-na-dialku/</guid>
+      <description><![CDATA[Článok obsahuje prepis príspevku, ktorý som prezentoval 22.03.2017 v sále Kongresového centra Technopol v Bratislave na konferencii "Informačná bezpečnosť 2017" organizovanej združením SASIB.]]></description>
+    </item>
+    <item>
+      <title>Troubleshooting Pkcs11Interop with PKCS11-LOGGER</title>
+      <link>https://jimrich.sk/troubleshooting-pkcs11interop-with-pkcs11-logger/</link>
+      <pubDate>Mon, 14 Dec 2015 23:50:32 +0000</pubDate>
+      <guid>https://jimrich.sk/troubleshooting-pkcs11interop-with-pkcs11-logger/</guid>
+      <description><![CDATA[Due to the complexity of PKCS#11 API it is not rare that user needs to troubleshoot communication problems between application and PKCS#11 library. That is the moment when PKCS11-LOGGER may come handy.]]></description>
+    </item>
+    <item>
+      <title>Basic analysis of segmentation fault on Linux platforms</title>
+      <link>https://jimrich.sk/basic-analysis-of-segmentation-fault-on-linux-platforms/</link>
+      <pubDate>Mon, 23 Nov 2015 22:49:45 +0000</pubDate>
+      <guid>https://jimrich.sk/basic-analysis-of-segmentation-fault-on-linux-platforms/</guid>
+      <description><![CDATA[I was adding a few lines of new code to pkcs11-logger library on Windows last week and when I was happy with the result I wanted to test the code on Linux. It built nicely but when I tried to use the resulting library with pkcs11-tool I got segmentation fault.]]></description>
+    </item>
+    <item>
+      <title>Environment.SpecialFolder on Windows, Linux and OS X</title>
+      <link>https://jimrich.sk/environment-specialfolder-on-windows-linux-and-os-x/</link>
+      <pubDate>Sun, 18 Jan 2015 12:45:58 +0000</pubDate>
+      <guid>https://jimrich.sk/environment-specialfolder-on-windows-linux-and-os-x/</guid>
+      <description><![CDATA[I have created simple test application which dumps values of System.Environment.SpecialFolder enumeration members and executed it on Windows 8.1 with .NET Framework 4.5, on Ubuntu 14.04 LTS with Mono 3.2.8 and on Mac OS X 10.10.1 Yosemite with Mono 3.10.0.]]></description>
+    </item>
+    <item>
+      <title>Pkcs11Interop 1.0.0</title>
+      <link>https://jimrich.sk/pkcs11interop-1-0-0/</link>
+      <pubDate>Sat, 02 Feb 2013 22:40:34 +0000</pubDate>
+      <guid>https://jimrich.sk/pkcs11interop-1-0-0/</guid>
+      <description><![CDATA[Dnes som zverejnil prvú stabilnú verziu knižnice Pkcs11Interop, ktorá umožňuje používať nemanažované PKCS#11 knižnice v .NET aplikáciách.]]></description>
+    </item>
+    <item>
+      <title>Interoperabilita ZEP - Yeti moderného sveta</title>
+      <link>https://jimrich.sk/interoperabilita-zep-yeti-moderneho-sveta/</link>
+      <pubDate>Wed, 15 Feb 2012 23:00:13 +0000</pubDate>
+      <guid>https://jimrich.sk/interoperabilita-zep-yeti-moderneho-sveta/</guid>
+      <description><![CDATA[Článok obsahuje prepis môjho príspevku na konferenciu "Informačná bezpečnosť 2012", ktorú organizovalo združenie SASIB a konala sa 15.02.2012 v sále Kongresového centra Technopol v Bratislave.]]></description>
+    </item>
+    <item>
+      <title>PKCS11-LOGGER 1.0</title>
+      <link>https://jimrich.sk/pkcs11-logger-1-0/</link>
+      <pubDate>Sat, 19 Nov 2011 21:05:10 +0000</pubDate>
+      <guid>https://jimrich.sk/pkcs11-logger-1-0/</guid>
+      <description><![CDATA[Dnes som zverejnil prvú verziu knižnice PKCS11-LOGGER, ktorá umožňuje logovať komunikáciu prebiehajúcu medzi aplikáciou a ľubovoľnou knižnicou implementujúcou rozhranie PKCS#11.]]></description>
+    </item>
+    <item>
+      <title>SoftHSM for Windows</title>
+      <link>https://jimrich.sk/softhsm-for-windows/</link>
+      <pubDate>Wed, 17 Aug 2011 21:05:56 +0000</pubDate>
+      <guid>https://jimrich.sk/softhsm-for-windows/</guid>
+      <description><![CDATA[Minulý týždeň bola vydaná verzia 1.3 softvérového tokenu SoftHSM, do ktorej som prispel viacerými patchmi umožňujúcimi natívny beh v prostredí Microsoft Windows. Zároveň som vytvoril inštalačný balík pre túto platformu.]]></description>
+    </item>
+    <item>
+      <title>jQuery - javascript rýchlo a efektívne</title>
+      <link>https://jimrich.sk/jquery-javascript-rychlo-a-efektivne/</link>
+      <pubDate>Tue, 28 Jul 2009 07:57:08 +0000</pubDate>
+      <guid>https://jimrich.sk/jquery-javascript-rychlo-a-efektivne/</guid>
+      <description><![CDATA[Nechcelo sa mi "babrať s čistým javascript-om", a tak som si povedal, že skúsim použiť niektorý z open source frameworkov.]]></description>
+    </item>
+    <item>
+      <title>SSL autentizácia s webovým serverom Apache</title>
+      <link>https://jimrich.sk/ssl-autentizacia-s-webovym-serverom-apache/</link>
+      <pubDate>Mon, 25 May 2009 09:10:43 +0000</pubDate>
+      <guid>https://jimrich.sk/ssl-autentizacia-s-webovym-serverom-apache/</guid>
+      <description><![CDATA[Článok popisuje vybrané možnosti a konfiguráciu modulu mod_ssl, ktorý  rozširuje webový server Apache HTTPD o podporu protokolu SSL. Zaoberá sa nielen autentizáciou servera ale aj autentizáciou klientov pomocou klientských certifikátov.]]></description>
+    </item>
+    <item>
+      <title>Migrujem z NucleusCMS na WordPress</title>
+      <link>https://jimrich.sk/migrujem-z-nucleuscms-na-wordpress/</link>
+      <pubDate>Sun, 12 Apr 2009 13:30:36 +0000</pubDate>
+      <guid>https://jimrich.sk/migrujem-z-nucleuscms-na-wordpress/</guid>
+      <description><![CDATA[Uvedomil som si, že Nucleus CMS zaspal dobu a mne neostáva nič iné než sa poobzerať po alternatívach. Vybral som si WordPress, ktorý sa od roku 2005 výrazne zlepšil a prekvapil ma najmä jednoduchým používateľským rozhraním.]]></description>
+    </item>
+    <item>
+      <title>VPN siete s OpenVPN (5)</title>
+      <link>https://jimrich.sk/vpn-siete-s-openvpn-5/</link>
+      <pubDate>Wed, 21 Jan 2009 21:39:15 +0000</pubDate>
+      <guid>https://jimrich.sk/vpn-siete-s-openvpn-5/</guid>
+      <description><![CDATA[Posledný diel seriálu je venovaný viacfaktorovej autentizácii s čipovou kartou.]]></description>
+    </item>
+    <item>
+      <title>VPN siete s OpenVPN (4)</title>
+      <link>https://jimrich.sk/vpn-siete-s-openvpn-4/</link>
+      <pubDate>Mon, 01 Dec 2008 22:30:50 +0000</pubDate>
+      <guid>https://jimrich.sk/vpn-siete-s-openvpn-4/</guid>
+      <description><![CDATA[Vo štvrtej časti seriálu sa zoznámime s významom pojmu PKI a pozrieme sa bližšie na konfiguráciu OpenVPN s certifikátmi.]]></description>
+    </item>
+    <item>
+      <title>VPN siete s OpenVPN (3)</title>
+      <link>https://jimrich.sk/vpn-siete-s-openvpn-3/</link>
+      <pubDate>Tue, 11 Nov 2008 22:54:11 +0000</pubDate>
+      <guid>https://jimrich.sk/vpn-siete-s-openvpn-3/</guid>
+      <description><![CDATA[V tretej časti seriálu sa zameriame na vylepšenie konfigurácie VPN siete vytvorenej v predchádzajúcej časti a podrobnejšie sa pozrieme aj na využitie OpenVPN pri tunelovaní proxy serverov.]]></description>
+    </item>
+    <item>
+      <title>VPN siete s OpenVPN (2)</title>
+      <link>https://jimrich.sk/vpn-siete-s-openvpn-2/</link>
+      <pubDate>Mon, 20 Oct 2008 07:15:20 +0000</pubDate>
+      <guid>https://jimrich.sk/vpn-siete-s-openvpn-2/</guid>
+      <description><![CDATA[Teoretické poznatky o VPN sieťach z prvého dielu dnes rozšírime o prvú praktickú skúsenosť. Názorne si predvedieme nasadenie OpenVPN v najjednoduchšej forme t.j. vo forme VPN serveru pre jediného klienta s využitím statického šifrovacieho kľúča.]]></description>
+    </item>
+    <item>
+      <title>VPN siete s OpenVPN (1)</title>
+      <link>https://jimrich.sk/vpn-siete-s-openvpn-1/</link>
+      <pubDate>Tue, 14 Oct 2008 07:15:07 +0000</pubDate>
+      <guid>https://jimrich.sk/vpn-siete-s-openvpn-1/</guid>
+      <description><![CDATA[Prvý diel série o OpenVPN je zameraný skôr teoreticky a jeho úlohou je nenáročne objasniť základné princípy virtuálnych privátnych sietí.]]></description>
+    </item>
+    <item>
+      <title>Recenzia ESET Server Security pre Linux/BSD (2)</title>
+      <link>https://jimrich.sk/recenzia-eset-server-security-pre-linuxbsd-2/</link>
+      <pubDate>Fri, 25 Apr 2008 20:52:10 +0000</pubDate>
+      <guid>https://jimrich.sk/recenzia-eset-server-security-pre-linuxbsd-2/</guid>
+      <description><![CDATA[V druhej časti tejto dvojdielnej recenzie sa bližšie pozrieme na možnosti, ktoré ponúkajú ESET Mail Security a ESET File Security.]]></description>
+    </item>
+    <item>
+      <title>Recenzia ESET Server Security pre Linux/BSD (1)</title>
+      <link>https://jimrich.sk/recenzia-eset-server-security-pre-linuxbsd-1/</link>
+      <pubDate>Tue, 11 Mar 2008 21:00:44 +0000</pubDate>
+      <guid>https://jimrich.sk/recenzia-eset-server-security-pre-linuxbsd-1/</guid>
+      <description><![CDATA[V prvej časti tejto dvojdielnej recenzie si predstavíme spoločnú architektúru produktov ESET Server Security a podrobnejšie sa pozrieme na produkt Gateway Security.]]></description>
+    </item>
+    <item>
+      <title>Viazanie kravaty</title>
+      <link>https://jimrich.sk/viazanie-kravaty/</link>
+      <pubDate>Sun, 17 Feb 2008 20:02:01 +0000</pubDate>
+      <guid>https://jimrich.sk/viazanie-kravaty/</guid>
+      <description><![CDATA[Kravatu nosím naozaj iba občas a ako naschvál vždy zabudnem ako sa viaže. Dnes som sa to zase raz naučil (už aspoň desiaty krát) a tak si to radšej zapíšem :)]]></description>
+    </item>
+    <item>
+      <title>Rest in peace ICQ</title>
+      <link>https://jimrich.sk/rest-in-peace-icq/</link>
+      <pubDate>Mon, 26 Nov 2007 22:19:53 +0000</pubDate>
+      <guid>https://jimrich.sk/rest-in-peace-icq/</guid>
+      <description><![CDATA[Proprietárny protokol, obmedzujúca licencia a časté výpadky služby ICQ ma doviedli k rozhodnutiu zveriť moju IM komunikáciu riešeniu využívajúcemu protokol XMPP/Jabber.]]></description>
+    </item>
+    <item>
+      <title>Failover cluster s protokolom CARP</title>
+      <link>https://jimrich.sk/failover-cluster-s-protokolom-carp/</link>
+      <pubDate>Sat, 12 May 2007 21:21:20 +0000</pubDate>
+      <guid>https://jimrich.sk/failover-cluster-s-protokolom-carp/</guid>
+      <description><![CDATA[Článok približuje implementáciu jednoduchého failover cluster-a s využitím protokolu CARP.]]></description>
+    </item>
+    <item>
+      <title>Windows ako router</title>
+      <link>https://jimrich.sk/windows-ako-router/</link>
+      <pubDate>Thu, 12 Apr 2007 19:56:56 +0000</pubDate>
+      <guid>https://jimrich.sk/windows-ako-router/</guid>
+      <description><![CDATA[Včera som v registroch objavil voľbu IPEnableRouter.]]></description>
+    </item>
+    <item>
+      <title>Turbo Delphi a jazyk C</title>
+      <link>https://jimrich.sk/turbo-delphi-a-jazyk-c/</link>
+      <pubDate>Fri, 06 Apr 2007 20:31:48 +0000</pubDate>
+      <guid>https://jimrich.sk/turbo-delphi-a-jazyk-c/</guid>
+      <description><![CDATA[Článok predstavuje spôsob, ako napísať časť programu v jazyku C a použiť ju v Delphi.]]></description>
+    </item>
+    <item>
+      <title>Programovanie LPT v Linuxe</title>
+      <link>https://jimrich.sk/programovanie-lpt-v-linuxe/</link>
+      <pubDate>Wed, 21 Mar 2007 09:58:50 +0000</pubDate>
+      <guid>https://jimrich.sk/programovanie-lpt-v-linuxe/</guid>
+      <description><![CDATA[Článok ukazuje, že vyrobiť hardvér pripojiteľný k paralelnému portu a napísať k nemu obslužného daemona v jazyku C nie je vôbec náročné.]]></description>
+    </item>
+    <item>
+      <title>Ktorý modul je ten správny?</title>
+      <link>https://jimrich.sk/ktory-modul-je-ten-spravny/</link>
+      <pubDate>Sat, 30 Dec 2006 00:25:52 +0000</pubDate>
+      <guid>https://jimrich.sk/ktory-modul-je-ten-spravny/</guid>
+      <description><![CDATA[Ak neviete, ktoré moduly (ovládače) by ste mali mať zavedené v jadre, mohol by vám pomôcť web predstavený v tomto článku.]]></description>
+    </item>
+    <item>
+      <title>Inštalácia OpenBSD</title>
+      <link>https://jimrich.sk/instalacia-openbsd/</link>
+      <pubDate>Tue, 26 Dec 2006 09:27:01 +0000</pubDate>
+      <guid>https://jimrich.sk/instalacia-openbsd/</guid>
+      <description><![CDATA[Pripavil som video so záznamom inštalácie operačného systému OpenBSD 4.0.]]></description>
+    </item>
+    <item>
+      <title>Detekcia IP konfliktu v Linuxe - IPwatchD</title>
+      <link>https://jimrich.sk/detekcia-ip-konfliktu-v-linuxe-ipwatchd/</link>
+      <pubDate>Fri, 01 Dec 2006 07:00:31 +0000</pubDate>
+      <guid>https://jimrich.sk/detekcia-ip-konfliktu-v-linuxe-ipwatchd/</guid>
+      <description><![CDATA[Článok popisuje príčiny vzniku IP konfliktov a predstavuje možnosti ich detekcie na operačných systémoch s jadrom Linux.]]></description>
+    </item>
+    <item>
+      <title>Soekris embedded firewall a m0n0wall</title>
+      <link>https://jimrich.sk/soekris-embedded-firewall-a-m0n0wall/</link>
+      <pubDate>Fri, 03 Nov 2006 13:09:32 +0000</pubDate>
+      <guid>https://jimrich.sk/soekris-embedded-firewall-a-m0n0wall/</guid>
+      <description><![CDATA[Sieťový firewall do domácnosti musí byť tichý, musí byť nenáročný na priestor a musí mať čo najmenšiu spotrebu energie. Preto som sa rozhodol skúsiť hardvér z produkcie firmy Soekris Engineering.]]></description>
+    </item>
+    <item>
+      <title>Ja Ubuntu, ty Ubuntu</title>
+      <link>https://jimrich.sk/ja-ubuntu-ty-ubuntu/</link>
+      <pubDate>Sun, 06 Aug 2006 07:41:50 +0000</pubDate>
+      <guid>https://jimrich.sk/ja-ubuntu-ty-ubuntu/</guid>
+      <description><![CDATA[Cieľom článku je previesť mojím "postinštalačným rituálom" pre Ubuntu 6.06 (Dapper Drake) používateľa ľubovoľnej inej distribúcie.]]></description>
+    </item>
+    <item>
+      <title>Apache, PHP, MySQL a Windows</title>
+      <link>https://jimrich.sk/apache-php-mysql-a-windows/</link>
+      <pubDate>Thu, 03 Aug 2006 17:29:48 +0000</pubDate>
+      <guid>https://jimrich.sk/apache-php-mysql-a-windows/</guid>
+      <description><![CDATA[Pred pár dňami som na svoj pracovný počítač potreboval nainštalovať webový server, na ktorom by som mohol ladiť PHP skripty, a tak som sa rozhodol, že inštalačný proces zaznamenám.]]></description>
+    </item>
+    <item>
+      <title>Zmena štýlu</title>
+      <link>https://jimrich.sk/zmena-stylu/</link>
+      <pubDate>Tue, 01 Aug 2006 23:26:51 +0000</pubDate>
+      <guid>https://jimrich.sk/zmena-stylu/</guid>
+      <description><![CDATA[Rozhodol som sa teda, že vynechám akékoľvek omáčky a budem sa snažiť písať čo najkratšie články s čo najväčšou výpovednou hodnotou.]]></description>
+    </item>
+    <item>
+      <title>Diplomová práca - web release</title>
+      <link>https://jimrich.sk/diplomova-praca-web-release/</link>
+      <pubDate>Tue, 23 May 2006 20:43:19 +0000</pubDate>
+      <guid>https://jimrich.sk/diplomova-praca-web-release/</guid>
+      <description><![CDATA[Oklieštená verzia mojej diplomovej práce, ktorá nesie názov "Návrh, realizácia a zabezpečenie firewallového systému".]]></description>
+    </item>
+    <item>
+      <title>Vzdialene, graficky a šifrovane</title>
+      <link>https://jimrich.sk/vzdialene-graficky-a-sifrovane/</link>
+      <pubDate>Thu, 23 Feb 2006 17:04:38 +0000</pubDate>
+      <guid>https://jimrich.sk/vzdialene-graficky-a-sifrovane/</guid>
+      <description><![CDATA[Ovládať vzdialene grafické prostredie nie je v linuxe žiadny problém.]]></description>
+    </item>
+    <item>
+      <title>OpenBSD na SUN SparcStation4</title>
+      <link>https://jimrich.sk/openbsd-na-sun-sparcstation4/</link>
+      <pubDate>Tue, 21 Feb 2006 23:56:10 +0000</pubDate>
+      <guid>https://jimrich.sk/openbsd-na-sun-sparcstation4/</guid>
+      <description><![CDATA[Mal som tú česť a do rúk sa mi dostal starší produkt firmy SUN s označením SparcStation4.]]></description>
+    </item>
+    <item>
+      <title>Sila GnuPG</title>
+      <link>https://jimrich.sk/sila-gnupg/</link>
+      <pubDate>Wed, 28 Dec 2005 19:17:41 +0000</pubDate>
+      <guid>https://jimrich.sk/sila-gnupg/</guid>
+      <description><![CDATA[GnuPG je veľmi silný nástroj na šifrovanie dát a vytváranie digitálnych podpisov. Dlhšiu dobu sa mi úspešne darilo práci s ním vyhýbať, no odkedy som pochopil princíp jeho činnosti, stal sa neoddeliteľnou súčasťou môjho života.]]></description>
+    </item>
+    <item>
+      <title>Moje dojmy z Genius MousePen 8x6</title>
+      <link>https://jimrich.sk/moje-dojmy-z-genius-mousepen-8x6/</link>
+      <pubDate>Sun, 27 Nov 2005 03:00:39 +0000</pubDate>
+      <guid>https://jimrich.sk/moje-dojmy-z-genius-mousepen-8x6/</guid>
+      <description><![CDATA[Pred pár dňami som si splnil ďalší z mojich detských snov a kúpil som si digitálny tablet.]]></description>
+    </item>
+    <item>
+      <title>Bakalárska práca - web release</title>
+      <link>https://jimrich.sk/bakalarska-praca-web-release/</link>
+      <pubDate>Fri, 25 Nov 2005 11:40:33 +0000</pubDate>
+      <guid>https://jimrich.sk/bakalarska-praca-web-release/</guid>
+      <description><![CDATA[Oklieštená verzia mojej bakalárskej práce s názvom "Elektronický obchod".]]></description>
+    </item>
+    <item>
+      <title>Ako na vsftpd</title>
+      <link>https://jimrich.sk/ako-na-vsftpd/</link>
+      <pubDate>Tue, 08 Nov 2005 11:16:46 +0000</pubDate>
+      <guid>https://jimrich.sk/ako-na-vsftpd/</guid>
+      <description><![CDATA[Tento návod vám pomôže nainštalovať a nakonfigurovať známy vsftpd server.]]></description>
+    </item>
+    <item>
+      <title>Kurz Linuxu</title>
+      <link>https://jimrich.sk/kurz-linuxu/</link>
+      <pubDate>Thu, 27 Oct 2005 22:10:58 +0000</pubDate>
+      <guid>https://jimrich.sk/kurz-linuxu/</guid>
+      <description><![CDATA[Informácie a materiály pre účastníkov mnou vedených kurzov o systéme GNU/Linux a sieťových technológiách.]]></description>
+    </item>
+    <item>
+      <title>Intel PRO/Wireless 2100 a Linux</title>
+      <link>https://jimrich.sk/intel-prowireless-2100-a-linux/</link>
+      <pubDate>Wed, 19 Oct 2005 12:14:21 +0000</pubDate>
+      <guid>https://jimrich.sk/intel-prowireless-2100-a-linux/</guid>
+      <description><![CDATA[Tiež patríte medzi ľudí, ktorí si kúpili notebook pýšiaci sa technológiou intel centrino a po inštalácii obľúbenej linuxovej distribúcie ste zistili, že "nefunguje" wifi karta? Tento problém sa samozrejme dá riešiť a s týmto návodom by to mal zvládnuť takmer každý.]]></description>
+    </item>
+    <item>
+      <title>Monitoring serveru s mobilom Siemens</title>
+      <link>https://jimrich.sk/monitoring-serveru-s-mobilom-siemens/</link>
+      <pubDate>Fri, 02 Sep 2005 12:20:55 +0000</pubDate>
+      <guid>https://jimrich.sk/monitoring-serveru-s-mobilom-siemens/</guid>
+      <description><![CDATA[Po prečítaní článku o mobilných telefónoch Siemens v linuxe na českom serveri linuxsoft.cz som sa rozhodol, že pripojím mobil k jednému mnou spravovanému firewallovému systému a ten mi bude sms správami ohlasovať napríklad nedovolené prístupy k vybraným službám.]]></description>
+    </item>
+    <item>
+      <title>Firewall linuxu s iptables</title>
+      <link>https://jimrich.sk/firewall-linuxu-s-iptables/</link>
+      <pubDate>Tue, 19 Jul 2005 15:06:21 +0000</pubDate>
+      <guid>https://jimrich.sk/firewall-linuxu-s-iptables/</guid>
+      <description><![CDATA[Článok predstavuje základy práce s obslužným programom iptables, ktorý slúži na konfiguráciu firewallu v systémoch s jadrom Linux.]]></description>
+    </item>
+    <item>
+      <title>Let the show begin..</title>
+      <link>https://jimrich.sk/let-the-show-begin/</link>
+      <pubDate>Tue, 19 Jul 2005 11:09:17 +0000</pubDate>
+      <guid>https://jimrich.sk/let-the-show-begin/</guid>
+      <description><![CDATA[Po niekoľkoročnej existencii tejto domény a mnohých (ale vážne mnohých) pokusoch o vytvorenie vlastnej stránky som sa konečne donútil a vznikol tento blog.]]></description>
+    </item>
+  </channel>
+</rss>
