@@ -20,7 +20,7 @@ I occasionally write blog posts. They are available via [RSS feed][12] and also 
 [5]: https://github.com/jariq/
 [6]: https://twitter.com/jimrichsk
 [7]: https://stackoverflow.com/users/3325704/jariq
-[8]: https://www.instagram.com/jimrichsk/
+[8]: https://www.instagram.com/jaroslav.imrich/
 [9]: https://www.youtube.com/channel/UCdGfPZVLOwM-_dJsBdaVcDg
 [10]: mailto:jimrich@jimrich.sk
 [11]: https://www.jimrich.sk/crypto/2010-gnupg-jimrich.asc
