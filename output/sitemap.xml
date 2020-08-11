@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://jimrich.sk/moving-from-wordpress-to-hugo/</loc>
+    <lastmod>2020-08-10T22:47:03+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://jimrich.sk/vyhotovovanie-elektronickych-podpisov-na-dialku/</loc>
     <lastmod>2017-03-22T22:00:00+00:00</lastmod>
   </url>
@@ -219,7 +224,7 @@
   
   <url>
     <loc>https://jimrich.sk/</loc>
-    <lastmod>2017-03-22T22:00:00+00:00</lastmod>
+    <lastmod>2020-08-10T22:47:03+02:00</lastmod>
   </url>
   
 </urlset>
