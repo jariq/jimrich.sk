@@ -104,6 +104,9 @@ RewriteRule ^item-2.html$ https://jimrich.sk/let-the-show-begin/ [R=301,L]
 RewriteRule ^item-4.html$ https://jimrich.sk/ [R=301,L]
 RewriteRule ^xml-rss2.php$ https://jimrich.sk/index.xml [R=301,L]
 
+# Other changes
+RewriteRule ^my-360-photo-gallery/$ https://jimrich.sk/my-360-photo-journey-part-1/ [R=301,L]
+
 # Redirect all HTTP requests to HTTPS
 RewriteCond %{HTTPS} !=on
 RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R=301,L]
