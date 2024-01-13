@@ -64,7 +64,7 @@ Do skreslenia :)
 [1]: http://www.geniusnet.com.tw/product/product-1.asp?pdtno=483
 [2]: http://www.stud.fit.vutbr.cz/~xhorak28/index.php?page=WizardPen_Driver
 [3]: https://www.gimp.org
-[4]: http://www.linuxsoft.cz/article.php?id_article=195
+[4]: http://archiv.linuxsoft.cz/article.php?id_article=195
 [5]: http://www.linuxsoft.cz
 [6]: firefox.jpg
-[7]: https://www.kde-look.org/content/show.php?content=31763
+[7]: https://www.pling.com/s/Wallpapers/p/1077843

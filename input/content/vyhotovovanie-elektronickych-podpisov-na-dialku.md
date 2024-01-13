@@ -7,7 +7,7 @@ ji_lang_code: sk
 ji_rss_desc: Článok obsahuje prepis príspevku, ktorý som prezentoval 22.03.2017 v sále Kongresového centra Technopol v Bratislave na konferencii "Informačná bezpečnosť 2017" organizovanej združením SASIB.
 ---
 
-Článok obsahuje prepis príspevku, ktorý som prezentoval 22.03.2017 v sále Kongresového centra Technopol v Bratislave na konferencii "Informačná bezpečnosť 2017" organizovanej združením [SASIB][2].
+Článok obsahuje prepis príspevku, ktorý som prezentoval 22.03.2017 v sále Kongresového centra Technopol v Bratislave na konferencii "Informačná bezpečnosť 2017" organizovanej združením SASIB (Slovenská asociácia pre informačnú bezpečnosť).
 
 # Abstrakt
 
@@ -195,4 +195,3 @@ Ak systém pre vyhotovovanie elektronických podpisov na diaľku dokáže splni�
 2. CEN/TS 419241:2014 - Security Requirements for Trustworthy Systems Supporting Server Signing
 
 [1]: http://eurlex.europa.eu/legal-content/SK/ALL/?uri=CELEX:32014R0910
-[2]: http://www.sasib.sk/

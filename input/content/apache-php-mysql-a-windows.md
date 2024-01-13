@@ -153,7 +153,7 @@ Pre istotu ešte raz pripomeniem, že **Apache je webový server**, ktorý môž
 [8]: https://www.php.net
 [9]: https://secure.php.net/docs.php
 [10]: http://www.linuxsoft.cz
-[11]: http://www.linuxsoft.cz/php/Serial-PHP.pdf
+[11]: http://archiv.linuxsoft.cz/php/Serial-PHP.pdf
 [12]: https://www.mysql.com
-[13]: http://www.linuxsoft.cz/article_list.php?id_kategory=232
+[13]: http://archiv.linuxsoft.cz/article_list.php?id_kategory=232
 [14]: https://dev.mysql.com/doc/

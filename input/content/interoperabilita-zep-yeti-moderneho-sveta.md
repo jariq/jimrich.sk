@@ -7,7 +7,7 @@ ji_lang_code: sk
 ji_rss_desc: Článok obsahuje prepis môjho príspevku na konferenciu "Informačná bezpečnosť 2012", ktorú organizovalo združenie SASIB a konala sa 15.02.2012 v sále Kongresového centra Technopol v Bratislave.
 ---
 
-Článok obsahuje prepis môjho príspevku na konferenciu "Informačná bezpečnosť 2012", ktorú organizovalo združenie [SASIB][16] a konala sa 15.02.2012 v sále Kongresového centra Technopol v Bratislave.
+Článok obsahuje prepis môjho príspevku na konferenciu "Informačná bezpečnosť 2012", ktorú organizovalo združenie SASIB (Slovenská asociácia pre informačnú bezpečnosť) a konala sa 15.02.2012 v sále Kongresového centra Technopol v Bratislave.
 
 # 1. Úvod
 
@@ -305,4 +305,3 @@ Zvýšenie schopnosti interoperability na úrovni EÚ by zas mohlo priniesť pos
 [13]: http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2006:376:0036:0068:sk:PDF
 [14]: http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2009:299:0018:0054:SK:PDF
 [15]: http://www.nbusr.sk/ipublisher/files/nbusr.sk/elektronicky-podpis/schvalene-formaty/formaty_crl_ocsp.pdf
-[16]: http://www.sasib.sk/

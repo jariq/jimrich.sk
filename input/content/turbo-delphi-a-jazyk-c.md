@@ -108,8 +108,8 @@ Za nevýhodu tohto riešenia sa dá označiť fakt, že spolu s finálnou verzio
 Ak teda máte dostatok času a skúseností, môže byť vhodnejším riešením prepísať hlavičkové súbory spomínanej knižnice z jazyka C do jazyka Object Pascal, alebo celú aplikáciu vyvíjať v [Turbo C++][5].
 
 
-[1]: http://www.turboexplorer.com/delphi
+[1]: https://en.wikipedia.org/wiki/Turbo_Delphi
 [2]: https://www.visualstudio.com/
 [3]: https://en.wikipedia.org/wiki/Calling_convention
-[4]: https://www.microsoft.com/en-us/download/details.aspx?id=3387
-[5]: http://www.turboexplorer.com/cpp
+[4]: https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist
+[5]: https://en.wikipedia.org/wiki/Turbo_C%2B%2B

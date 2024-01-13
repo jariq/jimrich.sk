@@ -63,7 +63,7 @@ Toto je len malá ukážka možností, ktoré poskytuje mobilný telefón pripoj
 
 Špeciálne poďakovanie si zaslúži môj brat Stano a Andrej Eliáš, bez ktorých by tento článok nevznikol.
 
-[1]: http://www.linuxsoft.cz/article.php?id_article=857
+[1]: http://archiv.linuxsoft.cz/article.php?id_article=857
 [2]: http://www.linuxsoft.cz
 [3]: http://www.hendrik-sattler.de/scmxx/
 [4]: https://en.wikipedia.org/wiki/TCP_Wrapper

@@ -225,4 +225,4 @@ Všetky diely seriálu:
 [9]: https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange
 [10]: http://jodies.de/ipcalc?host=10.1.1.0&amp;mask1=24&amp;mask2=
 [11]: https://en.wikipedia.org/wiki/Man-in-the-middle_attack
-[12]: https://linuxos.sk/clanok/vpn-siete-s-openvpn-3/
+[12]: https://linuxos.sk/clanok/vpn-siete-s-openvpn-4/
