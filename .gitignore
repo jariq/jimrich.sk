@@ -1,2 +1,2 @@
-/input/static/my-360-photo-journey-part-1/*.jpg
-/output/my-360-photo-journey-part-1/*.jpg
+/input/static/my-360-photo-journey-part-*/*.jpg
+/output/my-360-photo-journey-part-*/*.jpg
