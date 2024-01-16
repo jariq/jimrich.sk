@@ -6,8 +6,22 @@
     <description>Blog posts written by Jaroslav IMRICH</description>
     <generator>Hugo 0.51</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 16 Aug 2020 16:59:59 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 16 Jan 2024 20:10:10 +0100</lastBuildDate>
     <atom:link href="https://jimrich.sk/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My 360° photo journey - Part 2</title>
+      <link>https://jimrich.sk/my-360-photo-journey-part-2/</link>
+      <pubDate>Tue, 16 Jan 2024 20:10:10 +0100</pubDate>
+      <guid>https://jimrich.sk/my-360-photo-journey-part-2/</guid>
+      <description><![CDATA[This post describes my 360° photography journey and presents some of my 360° photos.]]></description>
+    </item>
+    <item>
+      <title>Predal som môj prvý dron a ďalší si už nekúpim</title>
+      <link>https://jimrich.sk/predal-som-moj-prvy-dron-a-dalsi-si-uz-nekupim/</link>
+      <pubDate>Tue, 27 Sep 2022 07:00:00 +0100</pubDate>
+      <guid>https://jimrich.sk/predal-som-moj-prvy-dron-a-dalsi-si-uz-nekupim/</guid>
+      <description><![CDATA[RSS description.]]></description>
+    </item>
     <item>
       <title>My 360° photo journey - Part 1</title>
       <link>https://jimrich.sk/my-360-photo-journey-part-1/</link>
