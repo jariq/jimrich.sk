@@ -4,7 +4,7 @@ date: 2022-09-27T07:00:00+01:00
 draft: false
 ji_lang_name: Slovak
 ji_lang_code: sk
-ji_rss_desc: RSS description.
+ji_rss_desc: Je to tak. Predal som môj prvý dron a ďalší si už nekúpim. Prečo?
 ---
 
 Je to tak. Predal som môj prvý dron a ďalší si už nekúpim. Prečo?
