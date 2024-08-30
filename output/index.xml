@@ -6,8 +6,15 @@
     <description>Blog posts written by Jaroslav IMRICH</description>
     <generator>Hugo 0.51</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 16 Jan 2024 20:10:10 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 30 Aug 2024 07:26:16 +0200</lastBuildDate>
     <atom:link href="https://jimrich.sk/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Stopárov sprievodca ferratami</title>
+      <link>https://jimrich.sk/stoparov-sprievodca-ferratami/</link>
+      <pubDate>Fri, 30 Aug 2024 07:26:16 +0200</pubDate>
+      <guid>https://jimrich.sk/stoparov-sprievodca-ferratami/</guid>
+      <description><![CDATA[Chceš skúsiť ferraty, no nevieš kde začať? Tak potom je tento článok presne pre teba.]]></description>
+    </item>
     <item>
       <title>My 360° photo journey - Part 2</title>
       <link>https://jimrich.sk/my-360-photo-journey-part-2/</link>
