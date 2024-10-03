@@ -72,6 +72,8 @@ Zbytočne by som o tom písal, keď ťa môžem rovno odkázať na skvelé video
 
 Ak by som z tohto videa musel vybrať iba jedinú vec, ktorú treba opakovane zdôrazňovať, tak by to boli jednoznačne dostatočné odstupy medzi jednotlivými lezcami. Mysli na to, že dva kotviace body (alebo skôr dva voľné úseky) medzi tebou a lezcom pred tebou chránia predovšetkým teba. Ak bude medzi vami menší odstup, tak sa môže stať, že ti doslova padne na hlavu. A to pre teba môže mať fatálne následky.
 
+Ďalším skvelým zdrojom informácií o bezpečnosti na ferratách je aj [HIKING.sk podcast s Andrejom Kolárikom](https://open.spotify.com/episode/6YHEe96mFGaeSZUeGD7CzB?si=g1YwEX7hRzKhLtHafD7DqQ), predsedom metodickej komisie Slovenského horolezeckého spolku [JAMES](https://www.shsjames.org/). Čisto zvukový formát síce vyžaduje oveľa väčšiu dávku predstavivosti než video, no určite sa tým nedaj odradiť. Tento podcast je doslova nabitý množstvom zaujímavých a hodnotných informácií.
+
 # Prvá ferrata
 
 Ak sa náhodou necítiš na samostatný výjazd, tak sa môžeš pridať k väčšej skupine s inštruktorom. V oblasti Bratislavy skupinové výjazdy organizuje napríklad Lukáš z [podsnami.sk](https://podsnami.sk/) alebo Igi z [coloursofclimbing.sk](https://coloursofclimbing.sk/). Na sociálnych sieťach pravidelne zverejňujú nové termíny výjazdov a keď sa k nim pridáš, tak za teba vyriešia dopravu, požičajú ti chýbajúcu výstroj, pred ferratou ti vysvetlia všetko, čo potrebuješ vedieť a na ferrate dohliadnu na to, že všetko robíš správne.
