@@ -11,45 +11,35 @@
 <body>
 <h1>Programovanie LPT v Linuxe</h1>
 <p>
+  <small>
   Language: <img src="/sk.svg" alt="Slovak flag" class="flag" /> Slovak<br/>
   Published: 21 March 2007<br/>
   Length: 8 minutes (1649 words)
+  </small>
 </p>
 <p>
 Move to <a href="https://jimrich.sk/ktory-modul-je-ten-spravny/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/turbo-delphi-a-jazyk-c/">newer post</a>.
 </p>
 <div lang="sk" class="content">
-
-
 <p>Ak ste niekedy rozmýšľali nad tým, že by ste pomocou počítača ovládali osvetlenie miestnosti alebo by ste si chceli postaviť vlastného robota ovládaného počítačom, môže vás práve tento článok nasmerovať správnym smerom.
 Ukazuje totiž, že vyrobiť hardvér pripojiteľný k paralelnému portu a napísať k nemu obslužného daemona v jazyku C nie je vôbec náročné.</p>
-
 <h1 id="1-schéma-a-popis-zostavenia-hardvéru">1. Schéma a popis zostavenia hardvéru</h1>
-
 <p>Paralelný port označovaný často len skratkou LPT (z angl. Line Printer Terminal) je špecifický 25 pinovým konektorom.
 Osem pinov (2-9) sa dá použiť na priamy zápis, päť na čítanie (10-13 a 15), štyri na obe operácie (1,14,16 a 17) a zvyšných osem pinov (18-25) je uzemnenie.
 Ak by vám tento stručný popis nestačil, určite navštívte web <a href="https://www.hw.cz/">hw.cz</a>, kde o tomto, ale aj iných portoch nájdete oveľa viac informácií.</p>
-
 <p>Ešte počas štúdia na vysokej škole som s pomocou spolubývajúceho vyrobil veľmi jednoduché zariadenie pozostávajúce z 10 LED diód pripojených k LPT konektoru.
-Potrebovali sme na to 10 LED diód, 10 rezistorov s odporom 100 &#8486;, jeden &ldquo;male&rdquo; (tzv. samec) LPT konektor s krytom a vhodný kábel.
+Potrebovali sme na to 10 LED diód, 10 rezistorov s odporom 100 Ω, jeden &ldquo;male&rdquo; (tzv. samec) LPT konektor s krytom a vhodný kábel.
 Schéma tohto zariadenia je uvedená pod textom.
 Mojím cieľom bolo vytvoriť program, ktorý by zabezpečil rozsvecovanie diód podľa aktuálneho využitia procesora.
 Vyťaženie do 10% by znamenalo jednu rozsvietenú LED diódu a vyťaženie od 90 do 100% rozsvietených všetkých desať LED diód.</p>
-
-<p><img src="schema-clm.gif" alt="CLM schema" /></p>
-
+<p><img src="schema-clm.gif" alt="CLM schema"></p>
 <p>Výsledok asi po hodine práce s mikrospájkou vyzerá takto:</p>
-
-<p><img src="foto-clm.jpg" alt="CLM foto" /></p>
-
+<p><img src="foto-clm.jpg" alt="CLM foto"></p>
 <p>Pre zjednodušenie celého zariadenia je možné zvoliť aj alternatívu, keď sú všetky diódy pripojené na jediný rezistor.
 V takom prípade však postupné rozsvecovanie diód znamená znižovanie svietivosti tých, ktoré už svietia.</p>
-
 <p>V ďalšom texte sa pokúsim vysvetliť základy práce s LPT v jazyku C pod operačným systémom GNU/Linux.
 Príklad budem postupne rozširovať o nové funkcie, až nakoniec vznikne program CLM (CPU Led Meter) - daemon zabezpečujúci rozsvecovanie diód na vyššie popísanom hardvéri podľa aktuálneho využitia procesora, ktorý bude schopný spracovávať signály a tiež komunikovať so syslog daemonom.</p>
-
-<h1 id="2-zápis-na-piny-2-9-data-register">2. Zápis na piny 2-9 – Data register</h1>
-
+<h1 id="2-zápis-na-piny-2-9--data-register">2. Zápis na piny 2-9 – Data register</h1>
 <p>Jednotlivé piny LPT portu sú ovládateľné cez tri osembitové registre.
 Register na adrese <code>378h</code> sa nazýva &ldquo;data register&rdquo; a prislúchajú mu piny 2 – 9.
 Adresa tohto registra sa často označuje ako &ldquo;báza&rdquo; alebo tiež &ldquo;baseport&rdquo;.
@@ -58,81 +48,67 @@ Z pinov status registra je možné iba čítať.
 Posledný register nesie názov &ldquo;control register&rdquo;, je dostupný na adrese báza + 2 (<code>37Ah</code>) a prislúchajú mu piny 1, 14, 16 a 17.
 Na tieto piny je možné signál vysielať, no tiež ho z nich aj prijímať.
 Priradenie pinov k jednotlivým bitom spomínaných registrov je znázornené na nasledujúcom obrázku, ktorý je prebratý zo serveru <a href="https://www.hw.cz/">hw.cz</a>.</p>
-
-<p><img src="lpt-hw.cz.gif" alt="LPT schema" /></p>
-
+<p><img src="lpt-hw.cz.gif" alt="LPT schema"></p>
 <p>Z obrázku je jasne vidieť, že piny 2-9 sú priradené k registru s adresou <code>378h</code> (malé h za číslom znamená, že číslo je v 16tkovej sústave).
 Do tohto registra sa zapisuje číselná hodnota celého byte-u (bajtu) určujúca, na ktoré piny je vysielaný signál.
 Ak chceme, aby svietila iba dióda pripojená k pinu č. 2, musíme na port s adresou <code>378h</code> odoslať binárne číslo <code>00000001</code>, čo je v desiatkovej sústave číslo <code>1</code>.
 Jednoduché príklady hodnôt tohto registra sú uvedené v nasledujúcej tabuľke.</p>
-
 <table>
-<thead>
-<tr>
-<th align="center">Svietiace LED diódy pripojené k pinom</th>
-<th align="center">Hodnota registra v dvojkovej sústave</th>
-<th align="center">Hodnota registra v desiatkovej sústave</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td align="center">2</td>
-<td align="center">00000001</td>
-<td align="center">1</td>
-</tr>
-
-<tr>
-<td align="center">3,2</td>
-<td align="center">00000011</td>
-<td align="center">3</td>
-</tr>
-
-<tr>
-<td align="center">4,3,2</td>
-<td align="center">00000111</td>
-<td align="center">7</td>
-</tr>
-
-<tr>
-<td align="center">5,4,3,2</td>
-<td align="center">00001111</td>
-<td align="center">15</td>
-</tr>
-
-<tr>
-<td align="center">6,5,4,3,2</td>
-<td align="center">00011111</td>
-<td align="center">31</td>
-</tr>
-
-<tr>
-<td align="center">7,6,5,4,3,2</td>
-<td align="center">00111111</td>
-<td align="center">63</td>
-</tr>
-
-<tr>
-<td align="center">8,7,6,5,4,3,2</td>
-<td align="center">01111111</td>
-<td align="center">127</td>
-</tr>
-
-<tr>
-<td align="center">9,8,7,6,5,4,3,2</td>
-<td align="center">11111111</td>
-<td align="center">255</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: center">Svietiace LED diódy pripojené k pinom</th>
+          <th style="text-align: center">Hodnota registra v dvojkovej sústave</th>
+          <th style="text-align: center">Hodnota registra v desiatkovej sústave</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">2</td>
+          <td style="text-align: center">00000001</td>
+          <td style="text-align: center">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">3,2</td>
+          <td style="text-align: center">00000011</td>
+          <td style="text-align: center">3</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">4,3,2</td>
+          <td style="text-align: center">00000111</td>
+          <td style="text-align: center">7</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">5,4,3,2</td>
+          <td style="text-align: center">00001111</td>
+          <td style="text-align: center">15</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">6,5,4,3,2</td>
+          <td style="text-align: center">00011111</td>
+          <td style="text-align: center">31</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">7,6,5,4,3,2</td>
+          <td style="text-align: center">00111111</td>
+          <td style="text-align: center">63</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">8,7,6,5,4,3,2</td>
+          <td style="text-align: center">01111111</td>
+          <td style="text-align: center">127</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">9,8,7,6,5,4,3,2</td>
+          <td style="text-align: center">11111111</td>
+          <td style="text-align: center">255</td>
+      </tr>
+  </tbody>
 </table>
-
 <p>Samozrejme na tento port môžete odoslať akékoľvek binárne číslo do maximálnej veľkosti 8 bitov.
 Ak vyšlete číslo <code>00100101</code> budú svietiť diódy pripojené k pinom 2, 4 a 7.
 Ďalšie kombinácie sa tvoria analogicky.</p>
-
 <p>V tejto chvíli by ste už mali vedieť, akú hodnotu treba zaslať na bázový port, ak chcete rozsvietiť niektorú z LED diód pripojených k data registru.
 Nasledujúci príklad vám ukáže ako to spraviť pomocou jednoduchého programu napísaného v jazyku C.</p>
-
 <p>V prvom programe si vystačíme s funkciami <code>ioperm</code> a <code>outb</code>, ktoré sú definované v <code>sys/io.h</code>.
 Funkcia <code>ioperm</code> definovaná ako <code>int ioperm(from, num, turn_on)</code> slúži na získanie alebo uvoľnenie prístupových práv k vybraným portom.
 Parameter <code>from</code> určuje bázový port, ku ktorému má byť získaný prístup a parameter <code>num</code> definuje počet za ním nasledujúcich portov.
@@ -141,156 +117,110 @@ Parameter <code>turn_on</code> je prepínač.
 Je potrebné nastaviť ho na hodnotu <code>1</code>, ak chceme prístupové práva získať a na hodnotu <code>0</code> v prípade, že ich chceme uvoľniť.
 Funkcia <code>outb</code> definovaná ako <code>outb(value, port)</code> nastavuje hodnotu byte-u na definovaný port.
 K portu samozrejme musí byť získané právo prístupu funkciou <code>ioperm</code>.</p>
-
 <p>Použitie funkcií je v <a href="clm1.c">ukážkovom programe č. 1</a>, ktorý postupne rozsvieti osem LED diód pripojených k data registru.
 Pre stiahnutie, skompilovanie a spustenie príkladu stačí ako root spustiť:</p>
-
-<pre><code># wget https://www.jimrich.sk/programovanie-lpt-v-linuxe/clm1.c
+<pre tabindex="0"><code># wget https://www.jimrich.sk/programovanie-lpt-v-linuxe/clm1.c
 # gcc -Wall -O2 clm1.c -o clm1
 # ./clm1
-</code></pre>
-
-<h1 id="3-zápis-na-piny-1-a-14-control-register">3. Zápis na piny 1 a 14 – Control register</h1>
-
+</code></pre><h1 id="3-zápis-na-piny-1-a-14--control-register">3. Zápis na piny 1 a 14 – Control register</h1>
 <p>Ovládanie diód pripojených k pinom prislúchajúcich control registru je trochu komplikovanejšie, pretože piny 1, 14 a 17 sú hardvérovo negované.
 Ak teda do bitu prislúchajúceho pinu 1 uložíte jednotku, nebude LED dióda k nemu pripojená svietiť.
 Ak do neho uložíte nulu, rozsvieti sa.</p>
-
 <table>
-<thead>
-<tr>
-<th align="center">Svietiace LED diódy pripojené k pinom</th>
-<th align="center">Hodnota registra v dvojkovej sústave</th>
-<th align="center">Hodnota registra v desiatkovej sústave</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td align="center">žiadna</td>
-<td align="center">00001011</td>
-<td align="center">11</td>
-</tr>
-
-<tr>
-<td align="center">1</td>
-<td align="center">00001010</td>
-<td align="center">10</td>
-</tr>
-
-<tr>
-<td align="center">1,14</td>
-<td align="center">00001000</td>
-<td align="center">8</td>
-</tr>
-
-<tr>
-<td align="center">1,14,16</td>
-<td align="center">00001100</td>
-<td align="center">12</td>
-</tr>
-
-<tr>
-<td align="center">1,14,16,17</td>
-<td align="center">00000100</td>
-<td align="center">4</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: center">Svietiace LED diódy pripojené k pinom</th>
+          <th style="text-align: center">Hodnota registra v dvojkovej sústave</th>
+          <th style="text-align: center">Hodnota registra v desiatkovej sústave</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">žiadna</td>
+          <td style="text-align: center">00001011</td>
+          <td style="text-align: center">11</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">1</td>
+          <td style="text-align: center">00001010</td>
+          <td style="text-align: center">10</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">1,14</td>
+          <td style="text-align: center">00001000</td>
+          <td style="text-align: center">8</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">1,14,16</td>
+          <td style="text-align: center">00001100</td>
+          <td style="text-align: center">12</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">1,14,16,17</td>
+          <td style="text-align: center">00000100</td>
+          <td style="text-align: center">4</td>
+      </tr>
+  </tbody>
 </table>
-
 <p>V <a href="clm2.c">ukážkovom programe č. 2</a> je kód, ktorý zabezpečí na vytvorenom zariadení postupné rozsvietenie všetkých 10 diód.
 Pripomínam, že posledné dve diódy sú pripojené k pinom control registra.</p>
-
 <p>Pre stiahnutie, skompilovanie a spustenie príkladu stačí pod používateľom root spustiť:</p>
-
-<pre><code># wget https://www.jimrich.sk/programovanie-lpt-v-linuxe/clm2.c
+<pre tabindex="0"><code># wget https://www.jimrich.sk/programovanie-lpt-v-linuxe/clm2.c
 # gcc -Wall -O2 clm2.c -o clm2
 # ./clm2
-</code></pre>
-
-<h1 id="4-rozsvietenie-diód-podľa-vyťaženia-cpu">4. Rozsvietenie diód podľa vyťaženia CPU</h1>
-
+</code></pre><h1 id="4-rozsvietenie-diód-podľa-vyťaženia-cpu">4. Rozsvietenie diód podľa vyťaženia CPU</h1>
 <p>V treťom ukážkovom programe som presunul prácu s LPT do funkcie <code>rozsviet_led</code>, ktorá zabezpečuje rozsvietenie príslušného počtu LED diód v závislosti od vstupného parametra <code>usage</code>.
 Hodnotu tohto parametra určuje výstup funkcie <code>vytazenie_cpu</code>, ktorá vracia percentuálnu hodnotu aktuálneho vyťaženia CPU.
 Pri písaní tejto funkcie som sa inšpiroval kódom aplikácie <a href="http://seiichisato.jp/dockapps/">wmcpuload</a>, ktorej autorom je Seiichi SATO.</p>
-
 <p><a href="clm3.c">Ukážkový program č. 3</a> teda už dokáže rozsvecovať diódy v závislosti na hodnote aktuálneho vyťaženia CPU.
 Pre stiahnutie, skompilovanie a spustenie príkladu stačí pod používateľom root spustiť:</p>
-
-<pre><code># wget https://www.jimrich.sk/programovanie-lpt-v-linuxe/clm3.c
+<pre tabindex="0"><code># wget https://www.jimrich.sk/programovanie-lpt-v-linuxe/clm3.c
 # gcc -Wall -O2 clm3.c -o clm3
 # ./clm3
-</code></pre>
-
-<p>Hlavnou nevýhodou tohto programu však je, že po spustení blokuje terminál.
+</code></pre><p>Hlavnou nevýhodou tohto programu však je, že po spustení blokuje terminál.
 Tento nedostatok je možné odstrániť spustením na pozadí pomocou príkazu:</p>
-
-<pre><code># ./clm3 &amp;
-</code></pre>
-
-<p>Oveľa elegantnejším riešením je však upraviť program tak, aby bežal ako <a href="https://en.wikipedia.org/wiki/Daemon_(computing)">daemon</a>.</p>
-
+<pre tabindex="0"><code># ./clm3 &amp;
+</code></pre><p>Oveľa elegantnejším riešením je však upraviť program tak, aby bežal ako <a href="https://en.wikipedia.org/wiki/Daemon_(computing)">daemon</a>.</p>
 <h1 id="5-daemonizácia-procesu">5. Daemonizácia procesu</h1>
-
 <p>Daemonizáciu procesu sprevádzajú činnosti ako napríklad oddelenie detského procesu pomocou funkcie <code>fork</code> a <code>setsid</code> a následné ukončenie rodičovského procesu volaním funkcie <code>exit</code>.
 Je tiež dobré zmeniť aktuálny adresár na <code>/</code> volaním funkcie <code>chdir</code>, aby daemon neblokoval žiadny špecifický adresár a tiež zmeniť predvolené nastavenie prístupových práv k vytváraným súborom pomocou funkcie <code>umask</code>.
 Netreba však ani zabudnúť uzatvoriť alebo presmerovať štandardný vstup (STDIN), výstup (STDOUT) a chybový výstup (STDERR), pretože deamon nemá prístup na terminál a teda nemôže využívať ich pôvodnú funkcionalitu.
 Podrobnejší popis problematiky daemonizácie v Linuxe je možné nájsť v článku <a href="http://www.itp.uzh.ch/%7Edpotter/howto/daemonize">How to Daemonize in Linux</a>.</p>
-
 <p><a href="clm4.c">Ukážkový program č. 4</a> rozširuje predchádzajúci príklad len o funkciu <code>daemonizacia</code>, ktorá zabezpečuje daemonizáciu procesu.
 Pre stiahnutie, skompilovanie a spustenie príkladu stačí pod používateľom root spustiť:</p>
-
-<pre><code># wget https://www.jimrich.sk/programovanie-lpt-v-linuxe/clm4.c
+<pre tabindex="0"><code># wget https://www.jimrich.sk/programovanie-lpt-v-linuxe/clm4.c
 # gcc -Wall -O2 clm4.c -o clm4
 # ./clm4
-</code></pre>
-
-<p>Program sa po spustení odpojí od terminálu a bude ďalej bežať na pozadí ako daemon.
+</code></pre><p>Program sa po spustení odpojí od terminálu a bude ďalej bežať na pozadí ako daemon.
 Ukončiť sa dá jedine zaslaním signálu <code>SIGTERM</code> alebo <code>SIGKILL</code>.
 Ak neviete ako na to, mohla by vám pomôcť <em>&ldquo;Lekcia4 - Získavanie informácií o systéme&rdquo;</em> z <a href="/kurz-linuxu/">kurzu o systéme GNU/Linux</a>.</p>
-
 <p>Za nedostatok však možno považovať fakt, že pri ukončení daemona ostanú niektoré diódy svietiť, a preto v nasledujúcom ukážkovom programe pridáme kód zabezpečujúci obsluhu signálu <code>SIGTERM</code>.</p>
-
 <h1 id="6-spracovanie-signálu-sigterm">6. Spracovanie signálu SIGTERM</h1>
-
 <p>V programoch pre unixové operačné systémy je možné pomocou funkcie <code>signal</code> určiť funkciu, ktorá má byť vykonaná pri prijatí definovaného signálu.
 Možno vám práve napadlo vytvoriť funkciu, ktorá zabezpečí zhasnutie všetkých diód a s pomocou funkcie <code>signal</code> ju vykonať pri prijatí signálu <code>SIGTERM</code>.
 Tento postup by samozrejme fungoval, no po prečítaní manuálu (<code>man 2 signal</code>) som nadobudol pocit, že bude lepšie, ak bude v obslužnej funkcii čo najmenej kódu.
 Preto som upravil podmienku v hlavnom cykle programu tak, aby vykonanie obslužnej funkcie <code>spracovanie_signalu</code> spôsobilo ukončenie tohto cyklu a vykonanie kódu nasledujúceho za ním.
 Tento kód samozrejme zabezpečí zhasnutie všetkých diód a ukončenie programu.</p>
-
 <p><a href="clm5.c">Ukážkový program č .5</a> rozširuje predchádzajúci príklad o spracovanie signálu <code>SIGTERM</code>.
 Pre stiahnutie, skompilovanie a spustenie príkladu stačí pod používateľom root spustiť:</p>
-
-<pre><code># wget https://www.jimrich.sk/programovanie-lpt-v-linuxe/clm5.c
+<pre tabindex="0"><code># wget https://www.jimrich.sk/programovanie-lpt-v-linuxe/clm5.c
 # gcc -Wall -O2 clm5.c -o clm5
 # ./clm5
-</code></pre>
-
-<h1 id="7-zaznamenávanie-udalostí-pomocou-syslog-daemona">7. Zaznamenávanie udalostí pomocou syslog daemona</h1>
-
+</code></pre><h1 id="7-zaznamenávanie-udalostí-pomocou-syslog-daemona">7. Zaznamenávanie udalostí pomocou syslog daemona</h1>
 <p>Keďže proces pri daemonizácii stráca možnosť využívať štandardný výstup na terminál, nemôže priamo zobrazovať používateľovi správy o svojom behu.
 Samozrejme je možné presmerovať štandardný výstup do súboru, z ktorého môže používateľ čítať údaje napríklad v textovom editore.
 Väčšinou sa však používa logovanie udalostí pomocou syslog daemona, ktorý je štandardnou súčasťou snáď každého unixového systému.</p>
-
 <p>Komunikácia s týmto daemonom sa inicializuje volaním funkcie <code>openlog</code>, ktorej tretí parameter určuje &ldquo;syslog facility&rdquo; a správa určená na zaznamenanie do systémových logov sa syslog-u odosiela pomocou rovnomennej funkcie <code>syslog</code>, ktorej prvý parameter zase určuje &ldquo;syslog priority&rdquo;.
 Po skončení práce so syslog daemonom by sa mala komunikácia ukončiť volaním funkcie <code>closelog</code>.
 Ak vám termíny ako &ldquo;facility&rdquo; alebo &ldquo;priority&rdquo; nič nehovoria, odporúčam vám preštudovať časť <a href="http://deja-vix.sk/sysadmin/">príručky systémového administrátora</a> popisujúcu <a href="http://deja-vix.sk/sysadmin/log.html#syslogd">syslog daemona</a> a následne aj manuál (<code>man 3 syslog</code>) k spomínaným funkciám.</p>
-
 <p><a href="clm6.c">Ukážkový program č. 6</a> rozširuje predchádzajúci príklad o logovanie udalostí prostredníctvom syslog daemona.
 Pre stiahnutie, skompilovanie a spustenie príkladu stačí pod používateľom root spustiť:</p>
-
-<pre><code># wget https://www.jimrich.sk/programovanie-lpt-v-linuxe/clm6.c
+<pre tabindex="0"><code># wget https://www.jimrich.sk/programovanie-lpt-v-linuxe/clm6.c
 # gcc -Wall -O2 clm6.c -o clm6
 # ./clm6
-</code></pre>
-
-<h1 id="8-záver">8. Záver</h1>
-
+</code></pre><h1 id="8-záver">8. Záver</h1>
 <p>Ukážkový program č. 6 obsahuje na začiatku článku požadovanú funkcionalitu - je to daemon, zabezpečuje rozsvecovanie diód na vyššie popísanom hardvéri podľa aktuálneho využitia procesora, je schopný spracovávať signály a komunikuje so syslog daemonom.</p>
-
 <p>Špeciálne poďakovanie si zaslúži <a href="http://kopcek.eu/">Michal Kopček</a>, bez pomoci ktorého by tento článok nevznikol.</p>
-
 <p><a href="https://linuxos.sk/clanok/programovanie-lpt-v-linuxe/">Článok bol publikovaný aj na portáli linuxos.sk</a></p>
 
 </div>
@@ -298,11 +228,13 @@ Pre stiahnutie, skompilovanie a spustenie príkladu stačí pod používateľom 
 Move to <a href="https://jimrich.sk/ktory-modul-je-ten-spravny/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/turbo-delphi-a-jazyk-c/">newer post</a>.
 </p>
 <p>
+  <small>
   License: Unless stated otherwise, all published content is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
-  Disclaimer: The views expressed on this website are mine alone and not those of my employer.<br/>
+  Disclaimer: The views expressed on this website are my own and do not reflect the views of my employer or any organization I am or have been associated with.<br/>
   Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
   Technology: This website lives in its own <a href="https://github.com/jariq/jimrich.sk">git repository</a> and breaths thanks to <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
-  Legalities: This website does not use any cookies ¯\_(ツ)_/¯<br/>
+  Legalities: This website does not use any cookies.<br/>
+  </small>
 </p>
 </body>
 </html>

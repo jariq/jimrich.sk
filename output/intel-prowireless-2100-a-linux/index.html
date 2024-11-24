@@ -11,9 +11,11 @@
 <body>
 <h1>Intel PRO/Wireless 2100 a Linux</h1>
 <p>
+  <small>
   Language: <img src="/sk.svg" alt="Slovak flag" class="flag" /> Slovak<br/>
   Published: 19 October 2005<br/>
   Length: 3 minutes (469 words)
+  </small>
 </p>
 <p>
 Move to <a href="https://jimrich.sk/monitoring-serveru-s-mobilom-siemens/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/kurz-linuxu/">newer post</a>.
@@ -22,105 +24,70 @@ Move to <a href="https://jimrich.sk/monitoring-serveru-s-mobilom-siemens/">older
 <p>Tiež patríte medzi ľudí, ktorí si kúpili notebook pýšiaci sa technológiou intel centrino a po inštalácii obľúbenej linuxovej distribúcie ste zistili, že &ldquo;nefunguje&rdquo; wifi karta?
 Nie je to tým, že by bola vaša distribúcia zlá, ale tým, že ovládače pre karty Intel PRO/Wireless 2100 zatiaľ neboli oficiálne začlenené do linuxového jadra a kvôli reštriktívnej licencii na firmvér asi ani nebudú.
 Tento problém sa samozrejme dá riešiť a s týmto návodom by to mal zvládnuť takmer každý.</p>
-
-<p><a href="ipw2100big.jpg"><img src="ipw2100.jpg" alt="ipw2100 MiniPCI" /></a></p>
-
+<p><a href="ipw2100big.jpg"><img src="ipw2100.jpg" alt="ipw2100 MiniPCI"></a></p>
 <p>Zo stránky <a href="http://ipw2100.sourceforge.net/">ipw2100.sourceforge.net</a> si stiahnite <a href="http://prdownloads.sourceforge.net/ipw2100/ipw2100-1.1.0.tgz?download">ovládače</a> a <a href="http://ipw2100.sourceforge.net/firmware.php?fid=4">firmvér</a>.
 Ak máte kernel radu 2.4, budete potrebovať aj <a href="http://dellaric.home.cern.ch/dellaric/ipw2100/ipw2100-1.1.0-1.patch">backpatch</a>.
 Inštaláciu vykonávajte ako superužívateľ root.
 Priamo v koreňovom adresári si vytvorte osobitný adresár určený len pre ňu a nakopírujte tam stiahnuté súbory.</p>
-
-<pre><code># mkdir /build
+<pre tabindex="0"><code># mkdir /build
 # cp ipw* /build
-</code></pre>
-
-<p>Rozbaľte zdrojové kódy ovládačov.</p>
-
-<pre><code># cd /build
+</code></pre><p>Rozbaľte zdrojové kódy ovládačov.</p>
+<pre tabindex="0"><code># cd /build
 # gunzip ipw2100-1.1.0.tgz
 # tar xvf ipw2100-1.1.0.tar
 # cd /build/ipw2100-1.1.0
-</code></pre>
-
-<p>Ak máte kernel radu 2.4, je teraz tá správna chvíľa pre aplikovanie backpatchu.
+</code></pre><p>Ak máte kernel radu 2.4, je teraz tá správna chvíľa pre aplikovanie backpatchu.
 Ak máte jadro radu 2.6 túto časť samozrejme vynecháte.</p>
-
-<pre><code># patch -p1 &lt; ../ipw2100-1.1.0-1.patch
-</code></pre>
-
-<p>Preveďte kompiláciu a inštaláciu ovládačov notoricky známym</p>
-
-<pre><code># make
+<pre tabindex="0"><code># patch -p1 &lt; ../ipw2100-1.1.0-1.patch
+</code></pre><p>Preveďte kompiláciu a inštaláciu ovládačov notoricky známym</p>
+<pre tabindex="0"><code># make
 # make install
-</code></pre>
-
-<p>Ak vás neprekvapil žiadny error, tak to znamená, že ovládače sú uspešne nainštalované a treba už len na správne miesto prekopírovať firmvér.
+</code></pre><p>Ak vás neprekvapil žiadny error, tak to znamená, že ovládače sú uspešne nainštalované a treba už len na správne miesto prekopírovať firmvér.
 Ak ste boli menej šťastní a nejaká tá chybička sa priplietla, radím vám celé chybové hlásenie skopírovať a dať ho vyhľadávať do googla.
 Je to väčšinou najrýchlejšia cesta k riešeniu problému.</p>
-
 <p>Rozbaľte balík s firmvérom karty:</p>
-
-<pre><code># cd /build
+<pre tabindex="0"><code># cd /build
 # gunzip ipw2100-fw-1.3.tgz
 # tar xvf ipw2100-fw-1.3.tar
-</code></pre>
-
-<p>Slovo firmvér môže znieť strašidelne, no nemusíte sa ho báť.
+</code></pre><p>Slovo firmvér môže znieť strašidelne, no nemusíte sa ho báť.
 Firmvér je do tejto karty nahrávaný vždy, keď je inicializovaná a to v akomkoľvek systéme, nielen v linuxe.
 Nehrozí teda, že by ju to nejako poškodilo.
 Podľa dokumentácie by mali byť súbory s ním nakopírované do adresára <code>/usr/lib/hotplug/firmware/</code>, no je lepšie, ak si to overíte v súbore <code>/etc/hotplug/firmware.agent</code> napríklad príkazom:</p>
-
-<pre><code># cat /etc/hotplug/firmware.agent | grep FIRMWARE_DIR=
+<pre tabindex="0"><code># cat /etc/hotplug/firmware.agent | grep FIRMWARE_DIR=
 FIRMWARE_DIR=/lib/firmware
-</code></pre>
-
-<p>Ak u vás tento súbor neexistuje, musíte si nainštalovať <a href="https://sourceforge.net/projects/linux-hotplug/">hotplug skripty</a>.
+</code></pre><p>Ak u vás tento súbor neexistuje, musíte si nainštalovať <a href="https://sourceforge.net/projects/linux-hotplug/">hotplug skripty</a>.
 Z výpisu je vidieť, že na Slackware 10.2 je potrebné súbory s firmvérom umiestniť inde, než popisuje dokumentácia ovládačov.
 Prekopírujte teda spomínané súbory do zobrazeného adresára.</p>
-
-<pre><code># cd /build/ipw2100-fw-1.3
+<pre tabindex="0"><code># cd /build/ipw2100-fw-1.3
 # cp ipw2100-1.3* /lib/firmware
-</code></pre>
-
-<p>Nakoniec môžete celý adresár <code>/build</code> odstrániť a reštartovať systém.</p>
-
-<pre><code># rm -Rf /build
+</code></pre><p>Nakoniec môžete celý adresár <code>/build</code> odstrániť a reštartovať systém.</p>
+<pre tabindex="0"><code># rm -Rf /build
 # reboot
-</code></pre>
-
-<p>Po reštarte si príkazom <code>lsmod</code> overte, či kernel používa modul <code>ipw2100</code>. Ak nie, nahrajte ho (samozrejme ako root) ručne</p>
-
-<pre><code># modprobe ipw2100
-</code></pre>
-
-<p>Na záver stačí už len nastaviť parametre bezdrôtovej siete.
+</code></pre><p>Po reštarte si príkazom <code>lsmod</code> overte, či kernel používa modul <code>ipw2100</code>. Ak nie, nahrajte ho (samozrejme ako root) ručne</p>
+<pre tabindex="0"><code># modprobe ipw2100
+</code></pre><p>Na záver stačí už len nastaviť parametre bezdrôtovej siete.
 Nasledovné príklady by vám v tom mohli pomôcť.</p>
-
 <p><strong>Sieť typu &ldquo;ad-hoc&rdquo; so statickou IP adresou:</strong></p>
-
-<pre><code># iwconfig eth1 mode ad-hoc channel 5 essid linux
+<pre tabindex="0"><code># iwconfig eth1 mode ad-hoc channel 5 essid linux
 # ifconfig eth1 10.1.1.123 netmask 255.255.255.0 up
 # route add default gw 10.1.1.1
-</code></pre>
-
-<p><strong>Sieť typu &ldquo;infrastructure&rdquo; s dynamickou IP adresou:</strong></p>
-
-<pre><code># iwconfig eth1 mode managed essid provider
+</code></pre><p><strong>Sieť typu &ldquo;infrastructure&rdquo; s dynamickou IP adresou:</strong></p>
+<pre tabindex="0"><code># iwconfig eth1 mode managed essid provider
 # dhcpcd eth1
-</code></pre>
-
-<p>Ďalšie parametre príkazu <code>iwconfig</code> z balíka <a href="http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/Tools.html">wireless-tools</a> nájdete v manuáli (<code>man iwconfig</code>).</p>
+</code></pre><p>Ďalšie parametre príkazu <code>iwconfig</code> z balíka <a href="http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/Tools.html">wireless-tools</a> nájdete v manuáli (<code>man iwconfig</code>).</p>
 
 </div>
 <p>
 Move to <a href="https://jimrich.sk/monitoring-serveru-s-mobilom-siemens/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/kurz-linuxu/">newer post</a>.
 </p>
 <p>
+  <small>
   License: Unless stated otherwise, all published content is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
-  Disclaimer: The views expressed on this website are mine alone and not those of my employer.<br/>
+  Disclaimer: The views expressed on this website are my own and do not reflect the views of my employer or any organization I am or have been associated with.<br/>
   Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
   Technology: This website lives in its own <a href="https://github.com/jariq/jimrich.sk">git repository</a> and breaths thanks to <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
-  Legalities: This website does not use any cookies ¯\_(ツ)_/¯<br/>
+  Legalities: This website does not use any cookies.<br/>
+  </small>
 </p>
 </body>
 </html>

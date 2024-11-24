@@ -11,27 +11,24 @@
 <body>
 <h1>Soekris embedded firewall a m0n0wall</h1>
 <p>
+  <small>
   Language: <img src="/sk.svg" alt="Slovak flag" class="flag" /> Slovak<br/>
   Published: 03 November 2006<br/>
   Length: 7 minutes (1477 words)
+  </small>
 </p>
 <p>
 Move to <a href="https://jimrich.sk/ja-ubuntu-ty-ubuntu/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/detekcia-ip-konfliktu-v-linuxe-ipwatchd/">newer post</a>.
 </p>
 <div lang="sk" class="content">
-
-
 <p>Nie je to tak dávno, čo som si u svojho ISP vybavil verejnú IP adresu, ktorá mi však okrem nových možností priniesla aj nové obavy.
 Priamo adresovateľný počítač je vystavený príliš veľkému riziku a minimálne treba na ňom neustále kontrolovať nastavenia firewallu.
 O moje linuxové stroje som až taký strach nemal, ale nedala mi spať predstava, že v prípade núdze pripojím firemný &ldquo;oknoidný&rdquo; notebook na sieť s verejnou IP adresou.
 Riešenie bolo jasné – potreboval som sieťový firewall.</p>
-
 <h1 id="úvod">Úvod</h1>
-
 <p>Hneď v úvode musím upresniť, že pod pojmom sieťový firewall rozumiem osobitný počítač, ktorého hlavnou a často jedinou úlohou je oddeliť vnútornú relatívne bezpečnejšiu sieť od vonkajšej nebezpečnej siete.
 Nemýľte si teda sieťový firewall s firewallom hostovým, ktorý mnohí nazývajú tiež firewallom personálnym.
 Viac o firewallových systémoch a ich úlohách pri ochrane sietí sa môžete dočítať v <a href="/diplomova-praca-web-release/">mojej diplomovej práci</a>.</p>
-
 <p>Vo firemnom prostredí by riešenie bolo jednoduché.
 Niekde do kúta alebo do racku by sa v serverovni umiestnil nový počítač a ním produkovaný hluk by sa strácal v hluku ostatných zariadení.
 Kto by však chcel, aby ho doma rušil hukot ventilátorov?
@@ -39,9 +36,7 @@ Riešenie do domácnosti musí byť tiché, musí byť nenáročné na priestor 
 Už dávnejšie som experimentoval s mini-ATX systémami, ktoré síce boli o dosť menšie než bežné PC, no stále na môj vkus zaberali priveľa miesta.
 Potrebovali tiež klasický počítačový zdroj, ktorý je vždy vybavený ventilátorom.
 Preto som sa vybral iným smerom a rozhodol som sa skúsiť hardvér z produkcie firmy <a href="http://www.soekris.com">Soekris Engineering</a>.</p>
-
 <h1 id="objednávka">Objednávka</h1>
-
 <p>Soekris Engineering je menšia firma sídliaca v Kalifornii, ktorá sa špecializuje na návrh a výrobu tzv. &ldquo;embedded&rdquo; zariadení.
 V ponuke tejto firmy nájdeme najmä základné dosky s integrovanými procesormi typu 486 a 586, sieťové karty, ale aj šifrovacie akcelerátory, ktoré pri nasadení vo <a href="https://en.wikipedia.org/wiki/Virtual_private_network">VPN sieťach</a> odbremeňujú hlavný procesor.
 Na stránkach belgickej firmy <a href="http://www.kd85.com">KD85.com</a>, ktorá okrem distribúcie systému <a href="https://www.openbsd.org/">OpenBSD</a> do európskych krajín ponúka aj hardvér od Soekris-u, som si objednal všetko potrebné na stavbu firewallu.
@@ -49,13 +44,11 @@ E-mailom som sa dohodol s majiteľom na platbe bankovým prevodom, ktorú som mu
 Ihneď po prijatí peňazí druhou stranou mi bol doručený identifikátor zásielky u <a href="https://www.ups.com/">UPS</a>, s ktorým som mohol na webe sledovať ako môj balík postupuje z Belgicka na Slovensko.
 Doručenie trvalo tri pracovné dni a keď som od kuriéra v Bratislave preberal balík, podľa webu UPS sa stále nachádzal len v Nemecku.
 Poučil som sa a druhý krát už tomuto systému sledovania zásielok nebudem venovať pozornosť.</p>
-
 <h1 id="hardvér">Hardvér</h1>
-
 <p>Dorazila ku mne objednaná základná dosku <strong>Soekris net4801-60</strong>, ktorá je osadená procesorom AMD GEODE pracujúcim na frekvencii 266MHz a má k dispozícii 256 MB SDRAM.
 Priamo na doske sú tri 10/100 Mbit ethernet rozhrania a čítačka CF kariet.
 Doska obsahuje jeden štandardný 3.3V PCI port a jeden miniPCI port, ku ktorému je možné pripojiť napríklad <a href="/intel-prowireless-2100-a-linux/">wi-fi kartu</a>.
-Tiež má jeden USB 1.1 port, jedno 44-pinové rozhranie UltraDMA-33 pre pripojenie 2,5&rdquo; disku a dva sériové porty.
+Tiež má jeden USB 1.1 port, jedno 44-pinové rozhranie UltraDMA-33 pre pripojenie 2,5&quot; disku a dva sériové porty.
 Jeden z nich je vyvedený na prednej časti dosky spolu so sieťovými rozhraniami a slúži na pripojenie sériovej konzoly.
 Preto táto doska nepotrebuje a ani <strong>nemá grafickú kartu</strong>.
 K dispozícii je navyše aj hardvérový <a href="https://en.wikipedia.org/wiki/Watchdog_timer">watchdog</a>, ktorý v prípade zmrznutia systému zabezpečí automatický reštart.
@@ -63,43 +56,31 @@ Tri sieťové rozhrania na sieťovom firewalle sú vo väčšine prípadov posta
 Preto som si objednal aj PCI sieťovú kartu <strong>Soekris lan1641</strong>, ktorá poskytuje štyri nezávislé 10/100 Mbit/s ethernet rozhrania.
 K doske som si tiež objednal 12V adaptér a plechovú krabicu, ktorú pravdepodobne na mieru vyrába belgický dodávateľ.
 Ten mi navyše zdarma pribalil aj nálepku s motívom OpenBSD, takže som s jeho službami nadmieru spokojný :)</p>
-
-<p><img src="soekris01.jpg" alt="Základná doska Soekris net4801-60" /><br />
+<p><img src="soekris01.jpg" alt="Základná doska Soekris net4801-60"><br>
 <em>Obr.1: Základná doska Soekris net4801-60</em></p>
-
-<p><img src="soekris02.jpg" alt="Sieťová karta Soekris lan1641" /><br />
+<p><img src="soekris02.jpg" alt="Sieťová karta Soekris lan1641"><br>
 <em>Obr.2: Sieťová karta Soekris lan1641</em></p>
-
-<p><img src="soekris03.jpg" alt="Compact Flash karta, Soekris net4801-60 a Soekris lan1641" /><br />
+<p><img src="soekris03.jpg" alt="Compact Flash karta, Soekris net4801-60 a Soekris lan1641"><br>
 <em>Obr.3: Compact Flash karta, Soekris net4801-60 a Soekris lan1641</em></p>
-
-<p><img src="soekris04.jpg" alt="Napájací zdroj 12V, 1.5A" /><br />
+<p><img src="soekris04.jpg" alt="Napájací zdroj 12V, 1.5A"><br>
 <em>Obr.4: Napájací zdroj 12V, 1.5A</em></p>
-
-<p><img src="soekris05.jpg" alt="Kompletná elektronika firewallu" /><br />
+<p><img src="soekris05.jpg" alt="Kompletná elektronika firewallu"><br>
 <em>Obr.5: Kompletná elektronika firewallu</em></p>
-
-<p><img src="soekris06.jpg" alt="Elektronika osadená v spodnej časti krabice" /><br />
+<p><img src="soekris06.jpg" alt="Elektronika osadená v spodnej časti krabice"><br>
 <em>Obr.6: Elektronika osadená v spodnej časti krabice</em></p>
-
-<p><img src="soekris07.jpg" alt="KD85.com extended case 7 ports s vlastnou povrchovou úpravou" /><br />
+<p><img src="soekris07.jpg" alt="KD85.com extended case 7 ports s vlastnou povrchovou úpravou"><br>
 <em>Obr.7: KD85.com extended case 7 ports s vlastnou povrchovou úpravou</em></p>
-
-<p><img src="soekris08.jpg" alt="KD85.com extended case 7 ports s vlastnou povrchovou úpravou" /><br />
+<p><img src="soekris08.jpg" alt="KD85.com extended case 7 ports s vlastnou povrchovou úpravou"><br>
 <em>Obr.8: KD85.com extended case 7 ports s vlastnou povrchovou úpravou</em></p>
-
 <p>Musím ešte dodať, že celý firewall prišiel kompletne zmontovaný a trochu mi vadilo, že na krabici už boli nalepené gumové nožičky.
 Krabica je dodávaná v surovom stave bez povrchovej úpravy a pri jej striekaní na čierno som musel nožičky násilne odstrániť.
 Naspäť ich pravdepodobne budem lepiť sekundovým lepidlom.</p>
-
 <h1 id="softvér">Softvér</h1>
-
 <p>Tento počítač sa ovláda podobne ako napríklad inteligentné switch-e prostredníctvom sériovej konzoly.
 Ak vám to nič nehovorí, vedzte, že stačí len správnym káblom prepojiť sériový port počítača so sériovým portom vyvedeným na prednej strane firewallu a použiť príslušný komunikačný program.
 Osobne som počas inštalácie používal program <a href="https://alioth.debian.org/projects/minicom/">minicom</a> a na systémoch z rodiny Windows je pravdepodobne možné použiť hyperterminal.</p>
-
 <p>Až do samotnej inštalácie som si nebol istý ako sa inštaluje systém na počítač, ktorý nemá pevný disk ale iba CF kartu.
-Väčšina návodov, ktoré som našiel na webe počítala s tým, že bude pripojený 2,5&rdquo; disk.
+Väčšina návodov, ktoré som našiel na webe počítala s tým, že bude pripojený 2,5&quot; disk.
 V takom prípade je inštalácia veľmi jednoduchá.
 Disk pripojíte k desktopu a nainštalujete alebo prekopírujete (skúste to spraviť s Windowsom) naň operačný systém, ktorý nakonfigurujete tak, aby používal sériovú konzolu.
 V prípade, že sa však ako hlavný disk rozhodnete používať CF kartu, pravdepodobne narazíte na problémy s jej životnosťou.
@@ -108,13 +89,11 @@ Priznám sa, že som neskúšal za ako dlho je tento limit dosiahnutý, pretože
 Riešenie vidím v modifikácii operačného systému, ktorý by mal súborový systém pripojený len na čítanie a pre prípojné body <code>/var</code> a <code>/tmp</code> by používal ramdisk, no na takúto rozsiahlu modifikáciu bohužiaľ nemám v súčasnosti dostatok voľného času.
 Compact Flash karta pripojená len na čítanie má však oproti pevnému disku aj podstatnú výhodu – systém nemusíte bezpečne vypínať.
 Zariadeniu stačí odpojiť prívod energie a karta sa nepoškodí.</p>
-
 <p>Napriek už spomínanému nedostatku času som však vyskúšal na CF kartu, ktorú počítač detekuje ako pevný disk, nainštalovať OpenBSD.
 V biose som nastavil <a href="https://en.wikipedia.org/wiki/Preboot_Execution_Environment">PXE</a> boot zo sieťového rozhrania, ktorému <a href="https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol">DHCP</a> daemon bežiaci na mojom desktope okrem IP adresy zaslal aj cestu k bootovateľnému obrazu dostupnému na lokálnom <a href="https://en.wikipedia.org/wiki/Trivial_File_Transfer_Protocol">TFTP</a> serveri.
 Po zavedení tohto obrazu sa spustila inštalácia systému, ktorá pokračovala podobne ako pri <a href="/openbsd-na-sun-sparcstation4/">SparcStation4</a> štandardným spôsobom z lokálneho <a href="https://en.wikipedia.org/wiki/File_Transfer_Protocol">FTP</a> servera.
 Systém bežal bez najmenších problémov a predpokladám, že rovnaká situácia by bola so systémom GNU/Linux.
 Po niekoľkých neúspešných pokusoch transformácie systému na používanie ramdiskov som sa rozhodol, že skúsim cestu menšieho odporu a vyskúšam firewallový systém <a href="https://m0n0.ch/wall/">m0n0wall</a>.</p>
-
 <p>M0n0wall je operačný systém určený pre &ldquo;embedded&rdquo; firewallové systémy.
 Základ má vo <a href="https://www.freebsd.org/">FreeBSD</a> a ponúka takmer všetko, čo človek od takéhoto systému očakáva.
 Poskytuje služby ako <a href="https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol">DHCP</a>, <a href="https://en.wikipedia.org/wiki/Domain_Name_System">DNS</a>, <a href="https://en.wikipedia.org/wiki/Virtual_private_network">VPN</a> s <a href="https://en.wikipedia.org/wiki/IPsec">IPsec</a>, <a href="https://en.wikipedia.org/wiki/Simple_Network_Management_Protocol">SNMP</a> agenta, ale umožňuje tiež používať službu <a href="https://www.dyndns.org">DynDNS</a>, ktorá príde vhod snáď každému, komu ISP prideľuje dynamickú verejnú IP adresu.
@@ -126,12 +105,9 @@ M0n0wall používam na domácom firewalle asi 4 mesiace a nemôžem robiť iné,
 Nastavenie celého systému sa dá exportovať do jediného <a href="https://en.wikipedia.org/wiki/XML">XML</a> súboru a obnova konfigurácie je tiež otázkou &ldquo;pár klikov&rdquo;.
 Jediné, čo v ňom trochu postrádam je <a href="https://openvpn.net/">OpenVPN</a>, ktoré bolo dostupné v starších verziách.
 Po dôvodoch, ktoré viedli autora systému k vypusteniu tohto balíka z poslednej verzie som však zatiaľ bližšie nepátral.</p>
-
-<p><img src="soekris09.jpg" alt="Soekris embedded firewall s OS m0n0wall a Flash-OFDM wireless broadband" /><br />
+<p><img src="soekris09.jpg" alt="Soekris embedded firewall s OS m0n0wall a Flash-OFDM wireless broadband"><br>
 <em>Obr.9: Soekris embedded firewall s OS m0n0wall a Flash-OFDM wireless broadband</em></p>
-
 <h1 id="záver">Záver</h1>
-
 <p>S mojím domácim sieťovým firewallom som nadmieru spokojný.
 Je malý, má nízku spotrebu a vďaka absencii ventilátorov je aj <strong>absolútne tichý</strong>.
 Využil som ho už dokonca aj ako &ldquo;mobilný&rdquo; náhradný firewall, keď som potreboval preinštalovať operačný systém na firewalle, ktorý spravujem známemu.
@@ -142,7 +118,6 @@ Pri slabších modeloch je však treba rátať s nižším výkonom.
 Autor m0n0wallu <a href="https://m0n0.ch/wall/facts.php">na stránkach projektu totiž uvádza</a>, že základné dosky z radu net4501 sú schopné dosiahnuť priepustnosť medzi WAN a LAN rozhraním okolo 17Mbit/s.
 Môj model dosahuje približne 50-60 Mbit/s, čo mi však s pripojením na internet s rýchlosťou 2Mbit/s viac než postačuje.
 Ostáva mi len dúfať, že produkty firmy Soekris Engineering si raz nájdu distribútora na Slovensku alebo v Čechách a koncoví používatelia tak ušetria na bankových prevodoch a doprave z Belgicka.</p>
-
 <p><a href="https://linuxos.sk/clanok/soekris-embedded-firewall-a-m0n0wall/">Článok bol publikovaný aj na portáli linuxos.sk</a></p>
 
 </div>
@@ -150,11 +125,13 @@ Ostáva mi len dúfať, že produkty firmy Soekris Engineering si raz nájdu dis
 Move to <a href="https://jimrich.sk/ja-ubuntu-ty-ubuntu/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/detekcia-ip-konfliktu-v-linuxe-ipwatchd/">newer post</a>.
 </p>
 <p>
+  <small>
   License: Unless stated otherwise, all published content is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
-  Disclaimer: The views expressed on this website are mine alone and not those of my employer.<br/>
+  Disclaimer: The views expressed on this website are my own and do not reflect the views of my employer or any organization I am or have been associated with.<br/>
   Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
   Technology: This website lives in its own <a href="https://github.com/jariq/jimrich.sk">git repository</a> and breaths thanks to <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
-  Legalities: This website does not use any cookies ¯\_(ツ)_/¯<br/>
+  Legalities: This website does not use any cookies.<br/>
+  </small>
 </p>
 </body>
 </html>

@@ -11,21 +11,19 @@
 <body>
 <h1>Sila GnuPG</h1>
 <p>
+  <small>
   Language: <img src="/sk.svg" alt="Slovak flag" class="flag" /> Slovak<br/>
   Published: 28 December 2005<br/>
   Length: 5 minutes (919 words)
+  </small>
 </p>
 <p>
 Move to <a href="https://jimrich.sk/moje-dojmy-z-genius-mousepen-8x6/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/openbsd-na-sun-sparcstation4/">newer post</a>.
 </p>
 <div lang="sk" class="content">
-
-
 <p><a href="https://www.gnupg.org/">GnuPG</a> (GNU Privacy Guard) je veľmi silný nástroj na šifrovanie dát a vytváranie digitálnych podpisov.
 Dlhšiu dobu sa mi úspešne darilo práci s ním vyhýbať, no odkedy som pochopil princíp jeho činnosti, stal sa neoddeliteľnou súčasťou môjho života.</p>
-
 <h1 id="1-využitie-gnupg">1. Využitie GnuPG</h1>
-
 <p>Je všeobecne známe, že akékoľvek dáta, ktoré posielame po sieti, či už lokálnej alebo po internete, sa môžu dostať do rúk nepovolanej osoby.
 Ako jednoduchý príklad nám poslúži e-mailová správa.
 Predstavte si, že posielate kolegovi dôležité materiály o novom produkte, ktorý má vašej firme zabezpečiť dominantnú pozíciu na trhu.
@@ -35,115 +33,67 @@ Na poštovom serveri je však správa po prijatí uložená ako čistý text.
 Ak chcete takejto situácii zabrániť, máte dve možnosti.
 Buď materiály kolegovi odovzdáte osobne, alebo ušetríte čas a odošlete mu ich zašifrované.
 A práve to vám umožní GnuPG.</p>
-
 <h1 id="2-ako-to-funguje">2. Ako to funguje</h1>
-
 <p>GnuPG šifruje dáta pomocou kľúčových párov.
 Dáta zašifrované verejným kľúčom môžu byť dešifrované len prislúchajúcim privátnym (tajným) kľúčom.
 Privátny kľúč je navyše chránený heslom, na rozdiel od verejného.
 Ak chcete poslať kolegovi šifrovanú správu, zašifrujete ju jeho verejným kľúčom a len on bude schopný ju dešifrovať, pretože vlastní správny privátny kľúč a heslo k nemu.
 Každý používateľ GnuPG si teda musí vygenerovať kľúčový pár.
 Verejný kľúč môže zverejniť napríklad na svojej webovej stránke, no privátny kľúč si musí chrániť ako &ldquo;oko v hlave&rdquo;.</p>
-
 <h1 id="3-práca-s-gnupg">3. Práca s GnuPG</h1>
-
 <p>Ukážme si, ako môže Alice zašifrovať pomocou GnuPG súbor pre Boba.
 Po inštalácii balíka GnuPG si Bob musí vygenerovať svoj vlastný kľúčový pár.</p>
-
-<pre><code>bob@host1$ gpg --gen-key
-</code></pre>
-
-<p>Následne exportuje svoj verejný kľúč do ASCII súboru a ten odovzdá Alice:</p>
-
-<pre><code>bob@host1$ gpg -a -o ~/bob.asc --export bob@host1.sk
-</code></pre>
-
-<p>Alice si ho pridá do svojej databázy kľúčov (angl. keyring):</p>
-
-<pre><code>alice@host2$ gpg --import bob.asc
-</code></pre>
-
-<p>Súbor pre Boba s názvom <code>udaje.tar</code> zašifruje Alice pomocou príkazu:</p>
-
-<pre><code>alice@host2$ gpg -e -o udaje.tar.gpg -r bob@host1.sk udaje.tar
-</code></pre>
-
-<p>Takto zašifrovaný súbor môže Alice bez obáv odoslať e-mailom.
+<pre tabindex="0"><code>bob@host1$ gpg --gen-key
+</code></pre><p>Následne exportuje svoj verejný kľúč do ASCII súboru a ten odovzdá Alice:</p>
+<pre tabindex="0"><code>bob@host1$ gpg -a -o ~/bob.asc --export bob@host1.sk
+</code></pre><p>Alice si ho pridá do svojej databázy kľúčov (angl. keyring):</p>
+<pre tabindex="0"><code>alice@host2$ gpg --import bob.asc
+</code></pre><p>Súbor pre Boba s názvom <code>udaje.tar</code> zašifruje Alice pomocou príkazu:</p>
+<pre tabindex="0"><code>alice@host2$ gpg -e -o udaje.tar.gpg -r bob@host1.sk udaje.tar
+</code></pre><p>Takto zašifrovaný súbor môže Alice bez obáv odoslať e-mailom.
 Bob ho dešifruje príkazom:</p>
-
-<pre><code>bob@host1$ gpg -d -o udaje.tar udaje.tar.gpg
-</code></pre>
-
-<h1 id="4-šifrovať-sa-dá-aj-bez-kľúčov">4. Šifrovať sa dá aj bez kľúčov</h1>
-
+<pre tabindex="0"><code>bob@host1$ gpg -d -o udaje.tar udaje.tar.gpg
+</code></pre><h1 id="4-šifrovať-sa-dá-aj-bez-kľúčov">4. Šifrovať sa dá aj bez kľúčov</h1>
 <p>GnuPG poskytuje možnosť šifrovať dáta aj bez kľúčov, len s použitím hesla.
 Dešifrovať ich samozrejme dokáže iba osoba, ktorá pozná heslo.
 Táto jednoduchšia možnosť je vhodná najmä na komunikáciu s niekým, koho poznáte a môžete sa s ním jednoducho a bezpečne dohodnúť na používanom hesle (napríklad s priateľkou).
 Okrem jednoduchosti je výhodou aj to, že môžete často meniť heslo a znížiť tak riziko, že niekto, kto náhodou získal vaše heslo, dešifruje všetky vaše staršie správy.
 Osobne si myslím, že tento spôsob šifrovania správ je náchylný na útok hrubou silou, a preto odporúčam jeho použitie dobre zvážiť.</p>
-
 <p>Ak by ste chceli v predchádzajúcom príklade použiť šifrovanie pomocou hesla, zmenil by sa príkaz, ktorým Alice zašifruje dáta pre Boba na takýto:</p>
-
-<pre><code>alice@host2$ gpg -c -o udaje.tar.gpg udaje.tar
-</code></pre>
-
-<h1 id="5-digitálne-podpisovanie-súborov">5. Digitálne podpisovanie súborov</h1>
-
+<pre tabindex="0"><code>alice@host2$ gpg -c -o udaje.tar.gpg udaje.tar
+</code></pre><h1 id="5-digitálne-podpisovanie-súborov">5. Digitálne podpisovanie súborov</h1>
 <p>Predstavte si situáciu, že Alice posiela Bobovi e-mailom daňové priznanie, ktoré je zašifrované jeho verejným kľúčom.
 Ak by mu chcel niekto narobiť problémy, zabráni doručeniu e-mailu od Alice a podstrčí namiesto neho sfalšovanú verziu.
 Samozrejme útočník falošnú verziu tiež zašifruje Bobovým verejným kľúčom, pretože ten je k dispozícii na jeho firemnom webe.
 Bob sa tak bude mylne domnievať, že súbor bol prenášaný sieťou bezpečne, pretože ho bez problémov dešifroval.
 Aby sa zabránilo takejto forme útoku, existuje možnosť digitálneho podpisovania súborov.</p>
-
 <p>Vynikajúca vlastnosť šifrovacích algoritmov použitých v GnuPG je, že súbory zašifrované privátnym kľúčom, môžu byť dešifrované aj verejným kľúčom.
 Pri podpisovaní súboru sa spraví jeho hash, a ten je potom špeciálnym spôsobom zašifrovaný pomocou privátneho kľúča odosielateľa.
 Každý, kto má verejný kľúč odosielateľa, si môže overiť, že súbor pochádza naozaj od neho, a že nebol zmenený.</p>
-
 <p>V našom prípade by to teda znamenalo, že pred odoslaním daňového priznania ho Alice nielen zašifruje Bobovým verejným kľúčom, ale aj digitálne podpíše svojím privátnym.
 Ak by chcel útočník vykonať zámenu z prvého prípadu, nebol by schopný sfalšovať digitálny podpis súboru, pretože nevlastní privátny kľúč Alice.</p>
-
 <p>Alice zašifruje súbor už známym postupom:</p>
-
-<pre><code>alice@host2$ gpg -e -o udaje.tar.gpg -r bob@host1.sk udaje.tar
-</code></pre>
-
-<p>Vytvorí osobitný súbor s digitálnym podpisom šifrovaného súboru:</p>
-
-<pre><code>alice@host2$ gpg -sba udaje.tar.gpg
-</code></pre>
-
-<p>Bob po obdržaní oboch súborov môže overiť pravosť šifrovaného súboru príkazom:</p>
-
-<pre><code>bob@host1$ gpg --verify udaje.tar.gpg.asc udaje.tar.gpg
-</code></pre>
-
-<h1 id="6-dôveryhodnosť-kľúčov">6. Dôveryhodnosť kľúčov</h1>
-
+<pre tabindex="0"><code>alice@host2$ gpg -e -o udaje.tar.gpg -r bob@host1.sk udaje.tar
+</code></pre><p>Vytvorí osobitný súbor s digitálnym podpisom šifrovaného súboru:</p>
+<pre tabindex="0"><code>alice@host2$ gpg -sba udaje.tar.gpg
+</code></pre><p>Bob po obdržaní oboch súborov môže overiť pravosť šifrovaného súboru príkazom:</p>
+<pre tabindex="0"><code>bob@host1$ gpg --verify udaje.tar.gpg.asc udaje.tar.gpg
+</code></pre><h1 id="6-dôveryhodnosť-kľúčov">6. Dôveryhodnosť kľúčov</h1>
 <p>Šifrovanie s GnuPG je bezpečné len v prípade, ak sme si 100% istí, že verejný kľúč, ktorým šifrujeme, naozaj pochádza od danej osoby.
 Preto sa dá nastavovať miera dôveryhodnosti kľúča a kľúče je možné podpisovať, čím sa ich dôveryhodnosť zvyšuje.
 Pre bežné použitie však stačí, ak nám verejný kľúč dodá jeho vlastník osobne, alebo napríklad telefonátom s ním overíme odtlačok (angl. fingerprint) kľúča, ktorý je možné zobraziť príkazom:</p>
-
-<pre><code>$ gpg --fingerprint bob@host1.sk
-</code></pre>
-
-<p>Pokiaľ ste si teda istí, že kľúč vo vašej databáze naozaj patrí danej osobe, môžete mu nastaviť mieru dôveryhodnosti na maximum.
+<pre tabindex="0"><code>$ gpg --fingerprint bob@host1.sk
+</code></pre><p>Pokiaľ ste si teda istí, že kľúč vo vašej databáze naozaj patrí danej osobe, môžete mu nastaviť mieru dôveryhodnosti na maximum.
 Spravíte to príkazom:</p>
-
-<pre><code>$ gpg --edit-key bob@host1.sk
-</code></pre>
-
-<p>Následne zadáte v podmenu príkaz &ldquo;trust&rdquo; a vyberiete zodpovedajúce parametre.
+<pre tabindex="0"><code>$ gpg --edit-key bob@host1.sk
+</code></pre><p>Následne zadáte v podmenu príkaz &ldquo;trust&rdquo; a vyberiete zodpovedajúce parametre.
 Ak nemáte zadefinovanú mieru dôveryhodnosti kľúča, bude GnuPG pri jeho používaní zobrazovať upozornenie.</p>
-
 <h1 id="7-záver">7. Záver</h1>
-
 <p>GnuPG je veľmi populárne a teší sa širokej podpore v iných softvérových produktoch.
 Vo forme pluginov je integrovateľné do e-mailových a IM klientov.
 Ako príklad veľmi dobre poslúži <a href="https://www.mozilla.com/thunderbird/">Mozilla Thunderbird</a> a jej plugin <a href="https://www.enigmail.net">enigmail</a>.</p>
-
 <p>Ak by vás nebavilo spravovať kľúče z prostredia shellu, tak môžete použiť napríklad program KGpg, ktorý je súčasťou window manažéra a správcu plochy <a href="https://www.kde.org">KDE</a>.
 Na <a href="https://www.gnupg.org/">domovskej stránke projektu GnuPG</a> môžete samozrejme nájsť aj grafických správcov kľúčov pre MS Windows a ďalšie systémy.</p>
-
 <p><a href="https://linuxos.sk/clanok/sila-gnupg/">Článok bol publikovaný aj na portáli linuxos.sk</a></p>
 
 </div>
@@ -151,11 +101,13 @@ Na <a href="https://www.gnupg.org/">domovskej stránke projektu GnuPG</a> môže
 Move to <a href="https://jimrich.sk/moje-dojmy-z-genius-mousepen-8x6/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/openbsd-na-sun-sparcstation4/">newer post</a>.
 </p>
 <p>
+  <small>
   License: Unless stated otherwise, all published content is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
-  Disclaimer: The views expressed on this website are mine alone and not those of my employer.<br/>
+  Disclaimer: The views expressed on this website are my own and do not reflect the views of my employer or any organization I am or have been associated with.<br/>
   Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
   Technology: This website lives in its own <a href="https://github.com/jariq/jimrich.sk">git repository</a> and breaths thanks to <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
-  Legalities: This website does not use any cookies ¯\_(ツ)_/¯<br/>
+  Legalities: This website does not use any cookies.<br/>
+  </small>
 </p>
 </body>
 </html>

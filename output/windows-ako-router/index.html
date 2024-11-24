@@ -11,36 +11,34 @@
 <body>
 <h1>Windows ako router</h1>
 <p>
+  <small>
   Language: <img src="/sk.svg" alt="Slovak flag" class="flag" /> Slovak<br/>
   Published: 12 April 2007<br/>
   Length: 1 minute (65 words)
+  </small>
 </p>
 <p>
 Move to <a href="https://jimrich.sk/turbo-delphi-a-jazyk-c/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/failover-cluster-s-protokolom-carp/">newer post</a>.
 </p>
 <div lang="sk" class="content">
 <p>Môj názor, že Windows je v sieti takmer nepoužiteľný som dlho obhajoval tvrdením, že neexistuje alternatíva k linuxovému príkazu:</p>
-
-<pre><code># echo &quot;1&quot; &gt; /proc/sys/net/ipv4/ip_forward
-</code></pre>
-
-<p>Včera som však v registroch objavil voľbu <code>IPEnableRouter</code> a zostrojil som aj trošku krkolomný príkaz:</p>
-
-<pre><code>C:\&gt; reg add HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters /v IPEnableRouter /t REG_DWORD /d 1 /f
-</code></pre>
-
-<p>Značnou nevýhodou oproti linuxu však naďalej ostáva nutnosť reštartovať systém a absencia použiteľného IP filtra.</p>
+<pre tabindex="0"><code># echo &#34;1&#34; &gt; /proc/sys/net/ipv4/ip_forward
+</code></pre><p>Včera som však v registroch objavil voľbu <code>IPEnableRouter</code> a zostrojil som aj trošku krkolomný príkaz:</p>
+<pre tabindex="0"><code>C:\&gt; reg add HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters /v IPEnableRouter /t REG_DWORD /d 1 /f
+</code></pre><p>Značnou nevýhodou oproti linuxu však naďalej ostáva nutnosť reštartovať systém a absencia použiteľného IP filtra.</p>
 
 </div>
 <p>
 Move to <a href="https://jimrich.sk/turbo-delphi-a-jazyk-c/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/failover-cluster-s-protokolom-carp/">newer post</a>.
 </p>
 <p>
+  <small>
   License: Unless stated otherwise, all published content is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
-  Disclaimer: The views expressed on this website are mine alone and not those of my employer.<br/>
+  Disclaimer: The views expressed on this website are my own and do not reflect the views of my employer or any organization I am or have been associated with.<br/>
   Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
   Technology: This website lives in its own <a href="https://github.com/jariq/jimrich.sk">git repository</a> and breaths thanks to <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
-  Legalities: This website does not use any cookies ¯\_(ツ)_/¯<br/>
+  Legalities: This website does not use any cookies.<br/>
+  </small>
 </p>
 </body>
 </html>

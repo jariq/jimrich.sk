@@ -11,53 +11,40 @@
 <body>
 <h1>Ja Ubuntu, ty Ubuntu</h1>
 <p>
+  <small>
   Language: <img src="/sk.svg" alt="Slovak flag" class="flag" /> Slovak<br/>
   Published: 06 August 2006<br/>
   Length: 8 minutes (1656 words)
+  </small>
 </p>
 <p>
 Move to <a href="https://jimrich.sk/apache-php-mysql-a-windows/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/soekris-embedded-firewall-a-m0n0wall/">newer post</a>.
 </p>
 <div lang="sk" class="content">
-
-
 <p>Bola doba, keď som mal z inštalácie softvéru zo zdrojových kódov strach, pretože môj <a href="http://www.mandriva.com/">Mandrake</a> pri nej stále vyhadzoval nejaké chyby.
 Niekde som sa dočítal, že existuje distribúcia <a href="https://www.debian.org">Debian</a> a že sú pre ňu dostupné tisíce binárnych balíkov.
 S vidinou lepšej budúcnosti som sa teda pretrápil inštaláciou stable vetvy a zistil som, že balíkov síce sú tisíce, no nie práve najnovších verzií.
 Tak som Debian nechal Debianom a predstavoval si, aký by to bol systém, keby sa dal ľahšie nainštalovať a mal novšie verzie balíkov.
 Dnes už si taký systém predstavovať nemusím.
 Je tu a volá sa <a href="https://www.ubuntu.com">Ubuntu</a>.</p>
-
 <p>Hneď v úvode musím upozorniť, že článok nie je určený pre začínajúcich používateľov.
 Jeho cieľom je stručne previesť mojím &ldquo;postinštalačným rituálom&rdquo; používateľa ľubovoľnej inej distribúcie a upozorniť ho na niektoré vlastnosti, ktorými sa tento systém vo verzii 6.06 (Dapper Drake) líši od ostatných distribúcií.</p>
-
 <h1 id="1-kde-je-root">1. Kde je root?</h1>
-
 <p>Pri inštalácii operačného systému GNU/Linux sa zvyčajne zadáva heslo pre používateľa root a vytvára sa aspoň jedno neprivilegované používateľské konto, ktoré je určené pre správcu systému na vykonávanie bežných činností.
 Distribúcia Ubuntu však volí iný prístup.
 Do systému sa nemôžete prihlásiť ako používateľ root, ale používatelia, ktorým je to dovolené (viď <code>/etc/sudoers</code>), môžu spúšťať príkazy s privilégiami roota pomocou programu <a href="https://en.wikipedia.org/wiki/Sudo"><code>sudo</code></a>.
 O tom, ktorý z týchto dvoch prístupov je lepší sa vedú nekonečné diskusie.
 Prívrženci klasického spôsobu tvrdia, že k získaniu konta roota stačí pri &ldquo;sudo prístupe&rdquo; uhádnuť len jedno heslo, a preto by nemal byť používaný.
 Druhá strana ale oponuje s faktom, že pri bežnom používaní konta roota útočník pozná login a musí uhádnuť už len heslo.</p>
-
 <p>Ak sa rozhodnete používať sudo a budete spúšťať za sebou viacero príkazov, na ktoré sú potrebné práva roota, zvážte použitie príkazu:</p>
-
-<pre><code>$ sudo su
-</code></pre>
-
-<p>Po zadaní vášho používateľského hesla budete mať prístupný plnohodnotný rootovský shell.
+<pre tabindex="0"><code>$ sudo su
+</code></pre><p>Po zadaní vášho používateľského hesla budete mať prístupný plnohodnotný rootovský shell.
 Ak však preferujete klasický prístup, stačí ak pre používateľa root vytvoríte heslo</p>
-
-<pre><code>$ sudo passwd root
-</code></pre>
-
-<p>a upravíte súbor <code>/etc/sudoers</code>, kde odoberiete právo bežným používateľom využívať delegovanie privilégií programom sudo (<code>man sudoers</code>).</p>
-
+<pre tabindex="0"><code>$ sudo passwd root
+</code></pre><p>a upravíte súbor <code>/etc/sudoers</code>, kde odoberiete právo bežným používateľom využívať delegovanie privilégií programom sudo (<code>man sudoers</code>).</p>
 <h1 id="2-verzie-zdroje-balíkov-a-nástroje-apt">2. Verzie, zdroje balíkov a nástroje APT</h1>
-
 <p>Jednotlivé verzie Ubuntu majú samozrejme číselné značenie, no zároveň má každá verzia svoj vlastný názov, ako napríklad &ldquo;Hoary Hedgehog&rdquo;, &ldquo;Breezy Badger&rdquo;, či &ldquo;Dapper Drake&rdquo;.
 Používatelia vo fórach často používajú radšej tieto mená než numerické verzie, preto by ste si mali čím skôr na ne zvyknúť a overiť si, ako sa volá verzia, ktorú používate.</p>
-
 <p>To, že Ubuntu vychádza z Debianu potvrdzuje aj skutočnosť, že používa deb balíky a nástroje na ich správu súhrne známe pod názvom APT.
 V úvode spomínané tisíce balíkov sú rozdelené do <a href="https://www.ubuntu.com/ubuntu/components">viacerých skupín</a>.
 Prvou z nich je skupina <strong>main</strong> obsahujúca základné komponenty systému, ktoré sú bez výhrad voľne distribuovateľné.
@@ -67,169 +54,93 @@ Skupina balíkov s názvom <strong>universe</strong> obsahuje obrovské množstv
 Skupina <strong>multiverse</strong> obsahuje na rozdiel od predchádzajúcich troch skupín len softvér, ktorý nie je voľne šíriteľný a je na používateľovi, aby si overil v licenčných podmienkach, či ho používať môže.
 Patrí tu napríklad flash-player od firmy Macromedia.
 Pre staršie verzie systému je k dispozícii ešte skupina balíkov s názvom <strong>backports</strong>, v ktorej sú dostupné nové verzie niektorých často používaných programov prebrané z aktuálnej verzie systému.</p>
-
 <p>To, ktoré skupiny balíkov chcete používať a z akého mirroru ich sťahovať sa nastavuje v konfiguračnom súbore <code>/etc/apt/sources.list</code>.
 Na mojom systéme vyzerá nasledovne:</p>
-
-<pre><code>deb http://sk.archive.ubuntu.com/ubuntu/ dapper main restricted universe multiverse
+<pre tabindex="0"><code>deb http://sk.archive.ubuntu.com/ubuntu/ dapper main restricted universe multiverse
 deb http://sk.archive.ubuntu.com/ubuntu/ dapper-updates main restricted universe multiverse
 deb http://security.ubuntu.com/ubuntu dapper-security main restricted universe multiverse
 deb http://sk.archive.ubuntu.com/ubuntu/ dapper-backports main restricted universe multiverse
-</code></pre>
-
-<p>Z predchádzajúcich stĺpcov by ste už mali vedieť, čo znamenajú jednotlivé názvy v týchto riadkoch.
+</code></pre><p>Z predchádzajúcich stĺpcov by ste už mali vedieť, čo znamenajú jednotlivé názvy v týchto riadkoch.
 Snáď len pripomeniem, že po inštalácii sú povolené iba skupiny main a restricted.
 Ak chcete používať softvér z universe a multiverse, musíte tento súbor editovať.</p>
-
 <p>V úvode som spomínal, že na správu balíkov používa Ubuntu nástroje APT.
 Uvediem tu pár príkladov ich použitia, ktoré sú podľa mňa pre správu desktopového systému postačujúce.
 Aktualizovať lokálnu databázu informácií o dostupných balíkoch môžete príkazom:</p>
-
-<pre><code># apt-get update
-</code></pre>
-
-<p>Tento príkaz by ste mali spustiť vždy, keď sa chystáte inštalovať nejaký nový softvér, aby ste inštalovali len najnovšie verzie.
+<pre tabindex="0"><code># apt-get update
+</code></pre><p>Tento príkaz by ste mali spustiť vždy, keď sa chystáte inštalovať nejaký nový softvér, aby ste inštalovali len najnovšie verzie.
 Aplikovať dostupné updaty na všetky nainštalované balíky môžete následne pomocou príkazu:</p>
-
-<pre><code># apt-get upgrade
-</code></pre>
-
-<p>Ak chcete inštalovať nejaký program a nepoznáte presný názov balíka, môžete sa ho pokúsiť vyhľadať príkazom:</p>
-
-<pre><code># apt-cache search hladanafraza
-</code></pre>
-
-<p>Výstupom z tohto príkazu však niekedy býva nesmierne množstvo balíkov, a preto ho často používam spolu s príkazom <code>grep</code>, ktorý zabezpečí, že sa vypíšu iba riadky obsahujúce definované slovo:</p>
-
-<pre><code># apt-cache search hladanafraza | grep slovo
-</code></pre>
-
-<p>Pre zobrazenie podrobnejších informácií o balíku spustite:</p>
-
-<pre><code># apt-cache show nazovbalika
-</code></pre>
-
-<p>Ak už poznáte presný názov balíka, môžete ho nainštalovať pomocou príkazu:</p>
-
-<pre><code># apt-get install nazovbalika
-</code></pre>
-
-<p>Balíky, ktoré už nepotrebujete odoberiete príkazom:</p>
-
-<pre><code># apt-get remove nazovbalika
-</code></pre>
-
-<p>Ďalšie možnosti použitia nástrojov apt môžete nájsť v manuálových stránkach (<code>man apt</code>).</p>
-
+<pre tabindex="0"><code># apt-get upgrade
+</code></pre><p>Ak chcete inštalovať nejaký program a nepoznáte presný názov balíka, môžete sa ho pokúsiť vyhľadať príkazom:</p>
+<pre tabindex="0"><code># apt-cache search hladanafraza
+</code></pre><p>Výstupom z tohto príkazu však niekedy býva nesmierne množstvo balíkov, a preto ho často používam spolu s príkazom <code>grep</code>, ktorý zabezpečí, že sa vypíšu iba riadky obsahujúce definované slovo:</p>
+<pre tabindex="0"><code># apt-cache search hladanafraza | grep slovo
+</code></pre><p>Pre zobrazenie podrobnejších informácií o balíku spustite:</p>
+<pre tabindex="0"><code># apt-cache show nazovbalika
+</code></pre><p>Ak už poznáte presný názov balíka, môžete ho nainštalovať pomocou príkazu:</p>
+<pre tabindex="0"><code># apt-get install nazovbalika
+</code></pre><p>Balíky, ktoré už nepotrebujete odoberiete príkazom:</p>
+<pre tabindex="0"><code># apt-get remove nazovbalika
+</code></pre><p>Ďalšie možnosti použitia nástrojov apt môžete nájsť v manuálových stránkach (<code>man apt</code>).</p>
 <h1 id="3-softvér-ktorý-mi-po-inštalácii-chýba">3. Softvér, ktorý mi po inštalácii chýba</h1>
-
 <p>Ideálna distribúcia bohužiaľ neexistuje a v každej mi po inštalácii chýbajú niketoré programy, na ktoré som zvyknutý.
 V Ubuntu pridávam nasledovné balíky:</p>
-
 <p>Midnight Commander:</p>
-
-<pre><code># apt-get install mc
-</code></pre>
-
-<p>Adobe Acrobat Reader:</p>
-
-<pre><code># apt-get install acroread
-</code></pre>
-
-<p>Macromedia flash plugin pre Firefox:</p>
-
-<pre><code># apt-get install flashplugin-nonfree
-</code></pre>
-
-<p>Dodatkové true type fonty od Microsoftu (Arial, Courier, Times New Roman a ďalšie):</p>
-
-<pre><code># apt-get install msttcorefonts
-</code></pre>
-
-<p>Nástroje na kompiláciu zdrojových kódov:</p>
-
-<pre><code># apt-get install build-essential
-</code></pre>
-
-<p>Gnomebaker (aplikácia na napaľovanie CD):</p>
-
-<pre><code># apt-get install gnomebaker
-</code></pre>
-
-<p>Poštový klient Mozilla Thunderbird s podporou pre <a href="/sila-gnupg/">GnuPG</a>:</p>
-
-<pre><code># apt-get install mozilla-thunderbird
+<pre tabindex="0"><code># apt-get install mc
+</code></pre><p>Adobe Acrobat Reader:</p>
+<pre tabindex="0"><code># apt-get install acroread
+</code></pre><p>Macromedia flash plugin pre Firefox:</p>
+<pre tabindex="0"><code># apt-get install flashplugin-nonfree
+</code></pre><p>Dodatkové true type fonty od Microsoftu (Arial, Courier, Times New Roman a ďalšie):</p>
+<pre tabindex="0"><code># apt-get install msttcorefonts
+</code></pre><p>Nástroje na kompiláciu zdrojových kódov:</p>
+<pre tabindex="0"><code># apt-get install build-essential
+</code></pre><p>Gnomebaker (aplikácia na napaľovanie CD):</p>
+<pre tabindex="0"><code># apt-get install gnomebaker
+</code></pre><p>Poštový klient Mozilla Thunderbird s podporou pre <a href="/sila-gnupg/">GnuPG</a>:</p>
+<pre tabindex="0"><code># apt-get install mozilla-thunderbird
 # apt-get install mozilla-thunderbird-enigmail
-</code></pre>
-
-<p>V prostredí Gnome je predvolený emailový klient Evolution, no ja preferujem Thunderbird.
+</code></pre><p>V prostredí Gnome je predvolený emailový klient Evolution, no ja preferujem Thunderbird.
 Preto ho po inštalácii ešte nastavujem ako predvolený pomocou grafickej aplikácie dostupnej prostredníctvom menu <em>&ldquo;System - Preferences - Preferred Applications&rdquo;</em>.</p>
-
 <p>Ak vám vadí, že zástupcovia pre Firefox a Thunderbird v menu Applications nepoužívajú oficiálne ikony, môžete si ich stiahnuť z <a href="http://www.kde-look.org/content/show.php?content=31544">kde-look.org</a> a pomocou <em>&ldquo;Alacarte Menu Editor&rdquo;</em> (<em>&ldquo;Applications - Accessories - Alacarte Menu Editor&rdquo;</em>) to napraviť.</p>
-
 <h1 id="4-podpora-slovenčiny">4. Podpora slovenčiny</h1>
-
 <p>Základným prvkom podpory slovenčiny je možnosť používať slovenskú klávesnicu.
 V prostredí Gnome mi však prvý krát spôsobovalo jej nastavenie menšie problémy, preto popíšem postup detailnejšie.
 Spustite grafický nástroj pre konfiguráciu klávesnice pomocou menu <em>&ldquo;System - Preferences – Keyboard&rdquo;</em>.
 V záložke <em>&ldquo;Layouts&rdquo;</em> si pridajte slovenské rozloženie a v záložke <em>&ldquo;Layout Options&rdquo;</em>, v sekcii <em>&ldquo;Group Shift/Lock behavior&rdquo;</em> si zvoľte <em>&ldquo;Alt+Shift changes group&rdquo;</em>, čo zabezpečí, že medzi používanými rozloženiami klávesnice budete prepínať kombináciou kláves <code>Alt+Shift</code> rovnako ako v prostredí MS Windows.
 Ak ste si zvykli na zobrazovanie aktuálneho rozloženia na paneli, tak si naň cez menu, ktoré zobrazíte pravým tlačítkom myši pridajte <em>&ldquo;Keyboard indicator&rdquo;</em>.</p>
-
 <p>Potrebné balíky pre podporu slovenčiny môžete pridať voľbou slovenského jazyka v menu <em>&ldquo;System - Administration - Language Support&rdquo;</em> alebo priamou inštaláciou balíkov:</p>
-
-<pre><code># apt-get install language-pack-gnome-sk-base language-pack-gnome-sk language-pack-sk-base language-pack-sk aspell-sk mozilla-firefox-locale-sk openoffice.org-l10n-sk thunderbird-locale-sk myspell-sk openoffice.org-help-sk
-</code></pre>
-
-<p>Osobne preferujem anglickú verziu systému a ako predvolený jazyk si nechávam <em>&ldquo;English (United States of America)&rdquo;</em>.
+<pre tabindex="0"><code># apt-get install language-pack-gnome-sk-base language-pack-gnome-sk language-pack-sk-base language-pack-sk aspell-sk mozilla-firefox-locale-sk openoffice.org-l10n-sk thunderbird-locale-sk myspell-sk openoffice.org-help-sk
+</code></pre><p>Osobne preferujem anglickú verziu systému a ako predvolený jazyk si nechávam <em>&ldquo;English (United States of America)&rdquo;</em>.
 Preto ale musím manuálne vykonať úpravy v OpenOffice.
 Ak ste sa rozhodli rovnako ako ja, spustite napríklad Writer (<em>&ldquo;Application - Office - OpenOffice.org Word Processor&rdquo;</em>) a v jeho menu <em>&ldquo;Tools - Options - Language Settings - Languages&rdquo;</em> nastavte slovenský jazyk.</p>
-
 <h1 id="5-multimédiá">5. Multimédiá</h1>
-
 <p>Mnohé distribúcie dnes používajú na spracovávanie multimediálneho obsahu engine zvaný gstreamer.
 Tento engine pravdepodobne viac vyhovuje ich licenčným podmienkam, pretože neobsahuje kód, ktorý by bol licenčne sporný, no mne sa do neho nikdy nepodarilo pridať podporu pre prehrávanie mp3, DivX či Xvid.
 Vlastne som to ani poriadne neskúšal, pretože gstreamer nahradzujem za engine sprostredkovaný knižnicou xinelib.
 V praxi to znamená len toľko, že nahradím prehrávač totem skompilovaný s podporou gstreamer-u za verziu kompilovanú s podporou xinelib:</p>
-
-<pre><code># apt-get install totem-xine
-</code></pre>
-
-<p>Pri inštalácii tohto balíka sa odoberie pôvodný <code>totem-gstreamer</code>.
+<pre tabindex="0"><code># apt-get install totem-xine
+</code></pre><p>Pri inštalácii tohto balíka sa odoberie pôvodný <code>totem-gstreamer</code>.
 Keď som testoval Dapper-a, tak som si všimol, že ak po tomto kroku spustím totem cez menu <em>&ldquo;Applications&rdquo;</em>, tak okamžite spadne.
 Ak je však spustený cez Nautilus dvojklikom na nejaký video súbor, tak ho bez problému prehrá.
 Aj to je jedna z príčin, prečo ešte stále používam Breezy-ho.
 No o tom až v závere.</p>
-
 <p>Podporu prehrávania videa vo formáte mpeg4 pridáte inštaláciou balíka <code>libxine-extracodecs</code>, s ktorým sa nainštaluje aj knižnica <code>libmad0</code>, ktorá umožňuje prehrávanie zvukových súborov vo formáte mp3.</p>
-
-<pre><code># apt-get install libxine-extracodecs
-</code></pre>
-
-<p>Tiež je dobré nainštalovať plugin pre Firefox, ktorý umožní prehrávanie videa na webových stránkach.</p>
-
-<pre><code># apt-get install totem-xine-firefox-plugin
-</code></pre>
-
-<p>No a nakoniec už len inštalujem prehrávač zvukových súborov s názvom XMMS:</p>
-
-<pre><code># apt-get install xmms
-</code></pre>
-
-<p>Tento prehrávač používa staré GTK1, preto ak by sa vám jeho vzhľad nepozdával, skúste jeho nasledovníka s názvom Beep Media Player.</p>
-
+<pre tabindex="0"><code># apt-get install libxine-extracodecs
+</code></pre><p>Tiež je dobré nainštalovať plugin pre Firefox, ktorý umožní prehrávanie videa na webových stránkach.</p>
+<pre tabindex="0"><code># apt-get install totem-xine-firefox-plugin
+</code></pre><p>No a nakoniec už len inštalujem prehrávač zvukových súborov s názvom XMMS:</p>
+<pre tabindex="0"><code># apt-get install xmms
+</code></pre><p>Tento prehrávač používa staré GTK1, preto ak by sa vám jeho vzhľad nepozdával, skúste jeho nasledovníka s názvom Beep Media Player.</p>
 <h1 id="záver">Záver</h1>
-
 <p>Ubuntu hodnotím ako skvelý systém na desktop, pretože v oficiálnych repozitároch je dostupné obrovské množstvo balíkov v novších verziách než sú v stable vetve Debianu.
 Už si ani nespomínam, kedy som naposledy musel kompilovať nejaký program zo zdrojových kódov, lebo na <code>apt-get install takmerkazdybalik</code> sa zvyká veľmi ľahko :)
 Ubuntu dokonca poopravilo aj môj nie práve najlepší názor na prostredie Gnome.
 Táto distribúcia je určite ústretovým krokom voči začiatočníkom, no ešte stále ich môže odradiť, keď budú musieť upravovať záznamy v <code>/etc/fstab</code> kvôli nepripojeným diskovým oddielom so súborovým systémom NTFS, alebo editovať <code>xorg.conf</code>, kvôli úprave frekvencie monitora.
 Pomôcť s týmito banálnymi úlohami im však môže viacero dokumentačných projektov, z ktorých musím spomenúť aspoň <a href="http://ubuntuguide.org/">Unofficial Ubuntu Starter Guide</a>.</p>
-
 <p>Možno ste v texte postrehli, že aj keď Dapper bol vypustený už dávnejšie, ešte stále používam Breezy-ho.
 Je to kvôli viacerým chybám podobným tej s totemom, ktoré som objavil pri testovacej inštalácii a kvôli tomu, že sa viacero mojich známych sťažovalo na stabilitu niektorých aplikácií.
 Neberte však moje frflanie tak, že Dapper je zlý a Breeze je lepší.
 Keby som teraz preinštalovával na mojom desktope systém, určite by som použil Dapper-a, pretože Ubuntu je distribúcia pružne reagujúca na zmeny a je možné, že nedostatky, ktoré ma odradili od upgradu pred dvoma mesiacmi sú už dávno odstránené.</p>
-
 <p><a href="https://linuxos.sk/clanok/ja-ubuntu-ty-ubuntu/">Článok bol publikovaný aj na portáli linuxos.sk</a></p>
 
 </div>
@@ -237,11 +148,13 @@ Keby som teraz preinštalovával na mojom desktope systém, určite by som použ
 Move to <a href="https://jimrich.sk/apache-php-mysql-a-windows/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/soekris-embedded-firewall-a-m0n0wall/">newer post</a>.
 </p>
 <p>
+  <small>
   License: Unless stated otherwise, all published content is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
-  Disclaimer: The views expressed on this website are mine alone and not those of my employer.<br/>
+  Disclaimer: The views expressed on this website are my own and do not reflect the views of my employer or any organization I am or have been associated with.<br/>
   Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
   Technology: This website lives in its own <a href="https://github.com/jariq/jimrich.sk">git repository</a> and breaths thanks to <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
-  Legalities: This website does not use any cookies ¯\_(ツ)_/¯<br/>
+  Legalities: This website does not use any cookies.<br/>
+  </small>
 </p>
 </body>
 </html>

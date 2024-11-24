@@ -11,134 +11,103 @@
 <body>
 <h1>Recenzia ESET Server Security pre Linux/BSD (2)</h1>
 <p>
+  <small>
   Language: <img src="/sk.svg" alt="Slovak flag" class="flag" /> Slovak<br/>
   Published: 25 April 2008<br/>
   Length: 8 minutes (1601 words)
+  </small>
 </p>
 <p>
 Move to <a href="https://jimrich.sk/recenzia-eset-server-security-pre-linuxbsd-1/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/vpn-siete-s-openvpn-1/">newer post</a>.
 </p>
 <div lang="sk" class="content">
-
-
 <p>Prvá časť recenzie predstavila architektúru produktov ESET Server Security a obsahovala tiež podrobnejší popis jedného z nich - ESET Gateway Security.
 Dnes sa bližšie pozrieme na možnosti, ktoré ponúkajú ESET Mail Security a ESET File Security vo verzii 2.71.12.</p>
-
 <h1 id="1-eset-mail-security">1. ESET Mail Security</h1>
-
 <p>Skôr než sa pustím do popisu produktu ESET Mail Security, ktorého úlohou je vykonávať antivírusovú a antispamovú kontrolu na poštovom serveri, pripomeňme si architektúru bežného unixového poštového subsystému.</p>
-
-<p><img src="email.png" alt="Komponenty poštového systému" /><br />
+<p><img src="email.png" alt="Komponenty poštového systému"><br>
 <em>Obr.1: Komponenty poštového systému</em></p>
-
 <p>Základným prvkom je MTA (Mail Transfer Agent) komunikujúci s okolitým svetom prostredníctvom protokolu SMTP (Simple Mail Transfer Protocol).
 Hlavnou úlohou MTA je odosielanie (angl. mail relay) a prijímanie pošty.
 Ak MTA od iného serveru príjme správu pre používateľa v obsluhovanej doméne, odovzdá ju na spracovanie MDA (Mail Delivery Agent), ktorého úlohou je správy doručiť do schránky (angl. mailbox) používateľa.
 Používateľ si poštu môže vyzdvihnúť prostredníctvom MUA (Mail User Agent), ktorý kontaktuje IMAP (Internet Message Access Protocol) alebo POP (Post Office Protocol) server, ktoré majú priamy prístup k schránkam.
 MUA odosiela správy pomocou protokolu SMTP priamo cez MTA.
 Výmena správ medzi dvoma rôznymi servermi je len výmenou správ medzi ich MTA a prebieha s využitím protokolu SMTP.</p>
-
 <p>Aby sme nezostali len pri nezáživnom popise obrázku, pridajme pár príkladov programov implementujúcich jednotlivé komponenty.
 Medzi najznámejších MTA patria určite aplikácie <a href="http://www.postfix.org/">Postfix</a> a <a href="http://www.sendmail.org/">Sendmail</a>, ktoré sa často využívajú v spojení s programom <a href="https://www.courier-mta.org/maildrop/">maildrop</a> alebo <a href="http://www.procmail.org/">procmail</a> v úlohe MDA.
 Ak by ste na webe hľadali voľne dostupný IMAP server, takmer určite by ste objavili <a href="https://www.dovecot.org/">Dovecot</a> alebo <a href="https://www.courier-mta.org/imap/">Courier-IMAP</a>.
 Pre koncového používateľa je bez pochýb najznámejšou súčasťou popisovaného systému MUA a do tejto skupiny programov patrí napríklad <a href="https://www.mozilla.com/thunderbird/">Mozilla Thunderbird</a> alebo <a href="http://www.gnome.org/projects/evolution/">Evolution</a>.</p>
-
 <p>Modulárna architektúra unixového poštového subsystému poskytuje pre zavedenie antivírusovej a antispamovej kontroly viacero príležitostí.
 To je tiež jeden z dôvodov, prečo ESET Mail Security obsahuje podstatne viac agentov než Gateway alebo File Security.</p>
-
 <p>Osobne považujem za najvýhodnejšie integrovať kontrolu pošty priamo do MTA, pretože týmto komponentom prechádza každá prijatá či odosielaná správa.
 ESET Mail Security je možné jednoducho integrovať so štyrmi najpoužívanejšími MTA a sú to <a href="http://www.sendmail.org/">Sendmail</a>, <a href="http://www.postfix.org/">Postfix</a>, <a href="https://www.exim.org/">Exim</a> a <a href="https://cr.yp.to/qmail.html">QMail</a>.
 Integráciu zabezpečujú agenti <code>ESETS_MDA</code>, <code>ESETS_SMTP</code> alebo v prípade Sendmail-u aj agent <code>ESETS_SMFI</code>, ktorý s ním spolupracuje ako content-filter.</p>
-
 <p>Agent <code>ESETS_MDA</code> je v podstate transparentný MDA, ktorý sa pri inštalácii umiestňuje medzi MTA a reálneho MDA.
 Vykonáva teda antivírusovú a antispamovú kontrolu správ tesne pred ich doručením do schránky používateľa a v takomto scenári použitia kontroluje iba prichádzajúcu poštu.
 Pre MTA Exim a QMail sa však tento agent používa aj na kontrolu odosielanej pošty, čo sa dá dosiahnuť špeciálnou konfiguráciou a jeho umiestnením pred príslušnú frontu správ.</p>
-
 <p>Agenta <code>ESETS_SMTP</code> je možné použiť ako transparentné proxy pre protokol SMTP a tiež ako content-filter pre MTA Postfix.
 Jeho najväčšou výhodou je, že môže vykonávať kontrolu všetkých SMTP spojení a teda kontrolovať nielen poštu prichádzajúcu z externých systémov, ale aj poštu odosielanú používateľmi poštového systému.</p>
-
 <p>Podobne ako <code>ESETS_SMTP</code> aj agenti <code>ESETS_IMAP</code> a <code>ESETS_POP3</code> slúžia ako proxy servery pre rovnomenné protokoly IMAP a POP3.
 Môžete ich umiestniť pred reálny POP3/IMAP server a zabezpečiť tak kontrolu správ tesne pred ich sprístupnením koncovému používateľovi.</p>
-
 <p>Agent <code>ESETS_CLI</code> je určený pre použitie s open-source nástrojom <a href="https://www.amavis.org/">AMaViS</a>, ktorého cieľom je vytvoriť rozhranie umožňujúce prepojenie MTA s ľubovoľným antivírusovým softvérom.
 Po preštudovaní dostupných materiálov som však získal pocit, že AMaViS má viac nevýhod než výhod.
 Ak ho použijete s ESET Mail Security, nemôžete využívať antispamovú kontrolu, nemôžete zo správ odstrániť infikované prílohy, nemôžete modifikovať telo správy a pridať do neho informáciu o nájdenom víruse atď.
 Preto som sa ani neunúval overiť či je môj pocit správny. Ak má niekto s AMaViS-om dobré skúsenosti, napíšte o nich prosím do diskusie.</p>
-
 <p>Ak sa v problematike poštových serverov príliš neorientujete a čelili by ste niekedy úlohe implementovať na poštový server antivírusovú a antispamovú kontrolu, nemusíte sa báť.
 Súčasťou ESET Mail Security je program <code>esets_setup</code>, ktorý váš systém automaticky nakonfiguruje pre použitie vami zvoleného agenta.
 Samozrejme zálohuje všetky modifikované súbory, takže môžete jeho činnosť skontrolovať alebo jednoducho vrátiť systém do pôvodného stavu.</p>
-
 <p>Osobne som vykonával testy na poštovom serveri používajúcom Postfix ako MTA a Dovecot ako IMAP server.
 Konfigurácia pomocou inštalačného programu <code>esets_setup</code> prebehla bez najmenších problémov.
 Prekvapila ma najmä vysoká úspešnosť antispamovej kontroly využívajúcej technológiu spoločnosti <a href="https://www.mailshell.com">MailShell</a>.
 Konfigurácia antispamového modulu je umiestnená v súbore <code>spamcatcher.conf</code>, ktorý už pri prvom pohľade celkom nezapadá medzi ostatné konfiguračné súbory a k jeho odlišnosti prispieva aj fakt, že v ňom obsiahnuté nastavenia nie je možné meniť prostredníctvom webového konfiguračného rozhrania.
 V dokumentácii k Mail Security je téme antispamovej kontroly bohužiaľ venovaná len jedna krátka kapitola, a tak si náročnejší používateľ bude musieť vystačiť s komentármi v konfiguračnom súbore.</p>
-
 <p>Antispamový modul pridáva do kontrolovaných správ hlavičku, ktorá obsahuje dosiahnuté spamové skóre v rozsahu 0 – 100.
 Správcovi teda nič nebráni nakonfigurovať MDA tak, aby na základe tejto hlavičky ukladal správy s vyšším skóre v schránke používateľa do samostatného adresára.
 Filtrovanie správ podľa tejto hlavičky sa však dá ponechať aj na MUA koncového používateľa.
 V prípade, že správa obsahuje vírusom infikovanú prílohu, môže byť v závislosti od nastavenia systému odstránená a do tela správy je následne pridaná podrobná informácia o objavených infiltráciách.</p>
-
 <p>Myslím si, že vďaka veľkému počtu agentov a s nimi spojenými mnohými možnosťami nasadenia si ESET Mail Security nájde svoje miesto na nejednom linuxovom poštovom systému.
 Jeho masovému rozšíreniu medzi menšími poskytovateľmi však pravdepodobne zabráni cena licencií, ktorá sa odvíja od počtu používateľov poštového systému.
 Aktuálnu cenu môžete podobne ako pri Gateway Security zistiť v <a href="http://www.eset.sk/predaj/objednavkovy-system">on-line objednávkovom systéme</a>.</p>
-
 <h1 id="2-eset-file-security">2. ESET File Security</h1>
-
 <p>Ako už názov napovedá, hlavnou úlohou ESET File Security je vykonávať antivírusovú kontrolu súborov na pripojených diskových oddieloch.
 Na kontrolu súborov sú vo všeobecnosti aplikovateľné dva prístupy: <strong>kontrola na vyžiadanie</strong> (z angl. on-demand scanning) a <strong>kontrola pri prístupe</strong> (z angl. on-access scanning).</p>
-
 <p>Kontrola na vyžiadanie je v prípade File Security zabezpečovaná programom <code>esets_scan</code>.
 Tento program ako jediný z celej produktovej rady môže pracovať samostatne bez služby <code>esets_daemon</code>.
 Spúšťa sa z príkazového riadka a jeho syntax je veľmi jednoduchá.
 Kontrolu súborov v adresári <code>/mnt/sdc3</code> spustíte príkazom:</p>
-
-<pre><code># esets_scan /mnt/sdc3
-</code></pre>
-
-<p>Výsledok je zobrazovaný na štandardný výstup a v prípade, že ho chcete zaznamenať do systémových logov, budete musieť k príkazu pridať niekoľko dodatočných parametrov.
+<pre tabindex="0"><code># esets_scan /mnt/sdc3
+</code></pre><p>Výsledok je zobrazovaný na štandardný výstup a v prípade, že ho chcete zaznamenať do systémových logov, budete musieť k príkazu pridať niekoľko dodatočných parametrov.
 Program <code>esets_scan</code> je vhodné použiť najmä v prípadoch, keď potrebujete vykonať jednorazovú kontrolu alebo keď chcete vykonávať antivírusovú kontrolu na vybraných súboroch v pravidelných intervaloch.
 Túto činnosť môžete zabezpečiť napríklad vytvorením plánovanej úlohy pomocou daemona cron.
 V niektorých prípadoch je však možné považovať za nevýhodu, že medzi jednotlivými kontrolami môže používateľ na disk nakopírovať infikovaný súbor a vymazať ho skôr než bude antivírusovým programom objavený.
 Túto nevýhodu odstraňuje kontrola súborov pri prístupe (on-access scanning) a s produktom ESET File Security si môžete vybrať spomedzi dvoch spôsobov jej vykonávania.
 Môžete použiť preload knižnicu <code>libesets_pac.so</code> alebo agenta <code>ESETS_DAC</code>.</p>
-
 <p>Preload knižnica <code>libesets_pac.so</code> odchytáva volania štandardných <code>open</code> a <code>open64</code> funkcií knižnice <a href="https://www.gnu.org/software/libc/">LIBC</a>, zabezpečuje vykonanie antivírusovej kontroly na otváranom súbore a následné volanie pôvodnej funkcie.
 Výhodou tohto riešenia je, že odpadá nutnosť kompilovať modul pre jadro a antivírusovú kontrolu môžete naviazať iba na konkrétny program pri jeho spustení nasledovným spôsobom:</p>
-
-<pre><code># LD_PRELOAD=libesets_pac.so program
-</code></pre>
-
-<p>Túto knižnicu som testoval s daemonom <a href="https://www.samba.org/">Samba</a>, ktorý slúži na zdieľanie súborov pomocou protokolu SMB/CIFS.
+<pre tabindex="0"><code># LD_PRELOAD=libesets_pac.so program
+</code></pre><p>Túto knižnicu som testoval s daemonom <a href="https://www.samba.org/">Samba</a>, ktorý slúži na zdieľanie súborov pomocou protokolu SMB/CIFS.
 Antivírusová kontrola mi nezabránila nahrať do zdieľaného adresára infikovaný súbor, ale pri prvom kopírovaní bol súbor skontrolovaný a jeho obsah vymazaný na nulovú dĺžku.
 Za zvláštne považujem, že Samba mi súbor sprístupnila v pôvodnej veľkosti avšak jeho obsahom boli samé nuly.
 Pri prvom teste som si ani nevšimol, že 300 MB archív obsahoval v skutočnosti len 300 MB núl.
 Tento jav však považujem skôr za problém daemona Samba, pri ktorého návrhu pravdepodobne nebolo s takýmto druhom kontroly počítané.
 Po drobnom neúspechu so Sambou som sa pokúsil použiť preload knižnicu s daemonom <a href="http://vsftpd.beasts.org/">vsftpd</a>.
 Antivírusová kontrola s ním však nefungovala vôbec.</p>
-
 <p>Agent <code>ESETS_DAC</code> pre svoju činnosť vyžaduje v jadre zavedený modul <a href="http://www.dazuko.org/"><code>dazuko</code></a>, ktorý umožňuje aplikáciám bežiacim v user-space manažovať prístup k súborom.
 Kompilácia modulu prebehla na mojom systéme bez problémov, no pri pokuse o jeho zavedenie som narazil na problém spôsobený už zavedeným modulom <code>capability</code>.
 Na domovskej stránke projektu dazuko v sekcii <a href="http://dazuko.dnsalias.org/wiki/index.php/FAQ">FAQ</a> však bolo detailne popísané riešenie, a tak bola inštalácia tohto modulu otázkou pár minút.</p>
-
 <p>Modul <code>dazuko</code> umožňuje aplikáciám odchytávať viaceré udalosti vyvolané manipuláciou so súborom.
 Ako príklad uvediem aspoň udalosti podporované agentom <code>ESETS_DAC</code> a síce <code>ON_OPEN</code>, <code>ON_EXEC</code> a <code>ON_CLOSE</code>.
 Na jadre 2.6.15, ktoré používal môj testovací systém však nefungovalo odchytávanie udalosti <code>ON_CLOSE</code>, a preto aplikáciám využívajúcim modul <code>dazuko</code> nebolo umožnené kontrolovať súbory po ich zatvorení.
 Predpokladám, že práve toto obmedzenie spôsobilo, že súbory nahrávané do kontrolovaného adresára boli reálne skontrolované až pri udalosti <code>ON_OPEN</code> a teda pri ich prvom otvorení.
 Najvýraznejší rozdiel oproti preload knižnici <code>libesets_pac.so</code> je najmä v tom, že agent <code>ESETS_DAC</code> kontroluje akýkoľvek prístup k súborom umiestneným v sledovaných adresároch a nielen prístupy vykonávané konkrétnou aplikáciou.
 S týmto agentom bez najmenšieho problému fungovala Samba aj FTP daemon vsftpd.</p>
-
 <p>Je ťažké povedať, ktorá z techník kontroly pri prístupe je lepšia, pretože to závisí od konkrétnej aplikácie, situácie, či potreby používateľa.
 Osobne sa mi viac pozdáva agent <code>ESETS_DAC</code> spolupracujúci s modulom <code>dazuko</code> avšak vďaka tomu, že kúpou ESET File Security získavate oba moduly, ostáva rozhodnutie na vás a môžete použiť ten, ktorý viac spĺňa vaše požiadavky.</p>
-
 <h1 id="záver">Záver</h1>
-
 <p>Na webe spoločnosti ESET je v súčasnosti <a href="http://www.eset.sk/tlacove-linuxy-beta">dostupná verejná beta verzia</a> produktov z rady ESET Server Security 3.0.
 S potešením môžem konštatovať, že odstraňuje najväčší problém popísaný v predchádzajúcej časti recenzie a síce beh všetkých súčastí pod používateľom root.
 Agent <code>ESETS_HTTP</code> navyše v novej verzii získal základnú podporu pre protokol FTP, čo výrazne zvýšilo jeho použiteľnosť.
 Nová rada prináša tiež možnosť komunikácie s produktom ESET Remote Administrator, ktorý umožňuje centralizovanú správu produktov spoločnosti ESET vo firemnom prostredí.</p>
-
 <p><a href="https://linuxos.sk/clanok/recenzia-eset-server-security-pre-linuxbsd-2/">Článok bol publikovaný aj na portáli linuxos.sk</a></p>
 
 </div>
@@ -146,11 +115,13 @@ Nová rada prináša tiež možnosť komunikácie s produktom ESET Remote Admini
 Move to <a href="https://jimrich.sk/recenzia-eset-server-security-pre-linuxbsd-1/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/vpn-siete-s-openvpn-1/">newer post</a>.
 </p>
 <p>
+  <small>
   License: Unless stated otherwise, all published content is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
-  Disclaimer: The views expressed on this website are mine alone and not those of my employer.<br/>
+  Disclaimer: The views expressed on this website are my own and do not reflect the views of my employer or any organization I am or have been associated with.<br/>
   Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
   Technology: This website lives in its own <a href="https://github.com/jariq/jimrich.sk">git repository</a> and breaths thanks to <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
-  Legalities: This website does not use any cookies ¯\_(ツ)_/¯<br/>
+  Legalities: This website does not use any cookies.<br/>
+  </small>
 </p>
 </body>
 </html>

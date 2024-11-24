@@ -11,41 +11,33 @@
 <body>
 <h1>Apache, PHP, MySQL a Windows</h1>
 <p>
+  <small>
   Language: <img src="/sk.svg" alt="Slovak flag" class="flag" /> Slovak<br/>
   Published: 03 August 2006<br/>
   Length: 5 minutes (995 words)
+  </small>
 </p>
 <p>
 Move to <a href="https://jimrich.sk/zmena-stylu/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/ja-ubuntu-ty-ubuntu/">newer post</a>.
 </p>
 <div lang="sk" class="content">
-
-
 <p>Pred pár dňami som na svoj pracovný počítač potreboval nainštalovať webový server, na ktorom by som mohol ladiť PHP skripty, a tak som sa rozhodol, že inštalačný proces zaznamenám.
 Hlavným dôvodom je, že nemám rád projekty ako napríklad PHPhome (linku neuvádzam zámerne), ktoré síce pomôžu začiatočníkom rýchlo spomínané produkty nainštalovať, no tým pred nimi skrývajú podstatu veci.
 Na škole som sa stretol s mnohými študentami, ktorí nemali ani len najmenšiu predstavu o tom, kde sa nachádzajú jednotlivé konfiguračné súbory alebo o tom, že PHP je príkazový interpret, ktorý nie je nijako zviazaný s webovým serverom Apache.
 Radšej ani nebudem písať, že stelesnením MySQL bol pre nich <a href="https://www.phpmyadmin.net/">phpMyAdmin</a> a na konzolu sa dokázali iba pozerať.</p>
-
-<h1 id="1-webový-daemon-server-apache-2-0-x">1. Webový daemon (server) APACHE - 2.0.x</h1>
-
+<h1 id="1-webový-daemon-server-apache---20x">1. Webový daemon (server) APACHE - 2.0.x</h1>
 <p>Apache si môžete stiahnuť zo <a href="https://httpd.apache.org/">stránky projektu</a>, a keďže verzie 1.3.x už pre systém Windows nie sú uvoľňované v binárnej podobe, bude logickou voľbou verzia 2.0.x.
 V mojom prípade som stiahol súbor s názvom <code>apache_2.0.58-win32-x86-no_ssl.msi</code>, čo je klasický inštalátor pre systém Windows.
 Odporúčam však pri inštalácii zmeniť cieľový adresár a nasmerovať ju priamo na disk <code>c:\</code>, kde bude inštalátorom aj tak automaticky vytvorený adresár <code>apache2</code>.
 Ušetríte si tým množstvo času stráveného preklikávaním sa cez <code>Program Files</code> a ďalšie nezmyselné adresáre s medzerami v názve.
 Po inštalácii stačí vo vašom prehliadači zadať adresu <a href="http://localhost">http://localhost</a> a ak táto akcia neskončí chybovou hláškou, máte v systéme bežiaci webový server.
 Ten prostredníctvom protokolu <a href="https://en.wikipedia.org/wiki/HTTP">HTTP</a> sprístupňuje súbory nachádzajúce sa v adresári <code>c:\apache2\htdocs</code>.</p>
-
 <p>Pri inštalácii príkazového interpreta PHP budeme zasahovať do konfiguračného súboru daemona Apache <code>c:\apache2\conf\httpd.conf</code>, preto ho vypneme z príkazového riadka (<code>cmd.exe</code>) príkazom:</p>
-
-<pre><code>C:\&gt; net stop apache2
-</code></pre>
-
-<p>Treba si zapamätať, že po každej úprave konfiguračného súboru je nutné daemon Apache reštartovať.
+<pre tabindex="0"><code>C:\&gt; net stop apache2
+</code></pre><p>Treba si zapamätať, že po každej úprave konfiguračného súboru je nutné daemon Apache reštartovať.
 Môžete na to použiť príkazy <code>net stop apache2</code> a <code>net start apache2</code> alebo grafický nástroj systému Windows nachádzajúci sa v sekcii <em>&ldquo;Computer Management&rdquo;</em> s názvom <em>&ldquo;Services&rdquo;</em>.
 Dokumentáciu k serveru Apache nájdete na adrese <a href="https://httpd.apache.org/docs/2.0/">http://httpd.apache.org/docs/2.0/</a>.</p>
-
-<h1 id="2-interpret-jazyka-php-5-x">2. Interpret jazyka PHP - 5.x</h1>
-
+<h1 id="2-interpret-jazyka-php---5x">2. Interpret jazyka PHP - 5.x</h1>
 <p>Málokto si uvedomuje, že PHP nie je nijako viazané na daemon Apache a môže bežať na akomkoľvek webovom serveri, ktorý podporuje rozhranie CGI.
 Dá sa tiež použiť aj ako samostatný príkazový interpret podobne ako napríklad <a href="https://en.wikipedia.org/wiki/Perl">Perl</a>.
 S daemonom Apache sa však často používa najmä preto, lebo sa dá do neho zaviesť ako modul.
@@ -54,95 +46,53 @@ Nevýhodou však je, že prípadná chyba v module servera väčšinou končí p
 Opravoval som už php skripty, ktoré kvôli nesprávnemu zaobchádzaniu s databázovým systémom <a href="https://www.firebirdsql.org/">Firebird</a> a dátovým typom blob spôsobovali pád celého daemona Apache.
 Pri rozhraní CGI prípadná chyba interpreta skončí len tým, že sa nepodarí zobraziť požadovanú stránku.
 Rozhranie CGI je však menej výkonné a nepodporuje niektoré pokročilé funkcie jazyka PHP.</p>
-
 <p>Z <a href="https://www.php.net">oficiálnej stránky projektu</a> si stiahnite <strong>zip archív</strong> PHP verzie 5.x.
 Verziu s inštalátorom som nikdy neskúšal, pretože v systéme Windows nie je možné presne sledovať čo tento inštalačný proces robí a používateľ tak stráca kontrolu nad systémom.
 Stiahnutý balík rozbaľte do adresára <code>c:\php</code>.</p>
-
 <p>V ďalšom kroku je nutné webový server nastaviť tak, aby používal v systéme nainštalovaný interpret jazyka PHP vo forme modulu.
 Otvorte si preto konfiguračný súbor apacha (<code>c:\apache\conf\httpd.conf</code>) v nejakom textovom editore a doplňte do neho nasledovné tri riadky:</p>
-
-<pre><code>LoadModule php5_module &quot;C:/php/php5apache2.dll&quot;
+<pre tabindex="0"><code>LoadModule php5_module &#34;C:/php/php5apache2.dll&#34;
 AddType application/x-httpd-php .php
-PHPIniDir &quot;C:/php&quot;
-</code></pre>
-
-<p>Skôr než zmeny uložíte, si ešte overte, či uvedené súbory a adresáre naozaj existujú.
+PHPIniDir &#34;C:/php&#34;
+</code></pre><p>Skôr než zmeny uložíte, si ešte overte, či uvedené súbory a adresáre naozaj existujú.
 Interpret jazyka PHP sa konfiguruje v jedinom súbore s názvom <code>php.ini</code>, ktorý bude daemon Apache vďaka predchádzajúcim nastaveniam hľadať v adresári <code>c:\php</code>.
 Pravdepodobne sa už vo vašom systéme nachádza súbor <code>c:\php\php.ini-recommended</code>, ktorý obsahuje odporúčanú konfiguráciu.
 Prekopírujte ho teda do súboru <code>c:\php\php.ini</code>.</p>
-
 <p>Ak ste zvyknutý používať ako štartovací tag skriptu <code>&lt;?</code> namiesto <code>&lt;?php</code>, tak nastavte v tomto súbore direktívu <code>short_open_tag</code> na hodnotu <code>On</code>.</p>
-
 <p>Ak chcete, aby váš webový server ako predvolený zobrazil obsah súboru s názvom <code>index.php</code>, je treba tento názov uviesť v konfiguračnom súbore daemona Apache ako obsah direktívy <code>DirectoryIndex</code>:</p>
-
-<pre><code>DirectoryIndex index.php index.html
-</code></pre>
-
-<p>Pre overenie funkčnosti inštalácie stačí už len spustiť daemon Apache (<code>net start apache2</code>) a vytvoriť súbor <code>c:\apache2\htdocs\index.php</code> s nasledovným obsahom:</p>
-
-<pre><code>&lt;? phpinfo(); ?&gt;
-</code></pre>
-
-<p>Zobrazená stránka by mala vyzerať nejako takto:</p>
-
-<p><img src="localhost.jpg" alt="Prehliadač" /></p>
-
+<pre tabindex="0"><code>DirectoryIndex index.php index.html
+</code></pre><p>Pre overenie funkčnosti inštalácie stačí už len spustiť daemon Apache (<code>net start apache2</code>) a vytvoriť súbor <code>c:\apache2\htdocs\index.php</code> s nasledovným obsahom:</p>
+<pre tabindex="0"><code>&lt;? phpinfo(); ?&gt;
+</code></pre><p>Zobrazená stránka by mala vyzerať nejako takto:</p>
+<p><img src="localhost.jpg" alt="Prehliadač"></p>
 <p>Nezabúdajte, že ak používate PHP ako modul daemona Apache, tak po každej zmene v konfiguračnom súbore <code>php.ini</code> je nutné Apache reštartovať.
 Oficiálna dokumentácia k PHP je dostupná na adrese <a href="https://secure.php.net/docs.php">http://www.php.net/docs.php</a> a na českom serveri <a href="http://www.linuxsoft.cz">linuxsoft.cz</a> vyšiel o tomto jazyku <a href="http://archiv.linuxsoft.cz/php/Serial-PHP.pdf">rozsiahly seriál</a>.</p>
-
-<h1 id="3-databázový-systém-mysql-5-0-x">3. Databázový systém MySQL - 5.0.x</h1>
-
+<h1 id="3-databázový-systém-mysql---50x">3. Databázový systém MySQL - 5.0.x</h1>
 <p>Reálna sila PHP ako skriptovacieho jazyka pre prostredie internetu sa ukáže až v spojení s nejakým relačným databázovým systémom.
 Medzi najpopulárnejšie bezpochýb patrí MySQL.
 Z <a href="https://www.mysql.com">oficiálnej stránky</a> si opäť stiahnite len zip archív <em>&ldquo;MySQL 5.0 Community Edition&rdquo;</em> bez inštalátora.
 Ja som sťahoval súbor s názvom <code>mysql-noinstall-5.0.22-win32.zip</code>.</p>
-
 <p>Obsah archívu rozbaľte do adresára <code>c:\mysql</code> a prekopírujte knižnicu <code>c:\mysql\bin\libmySQL.dll</code> do adresárov <code>c:\windows\system</code> a <code>c:\windows\system32</code>.
 Ak by ste náhodou nahradzovali túto verziu MySQL novšou, nezabudnite nahradiť aj túto knižnicu.</p>
-
 <p>Pre zaregistrovanie MySQL ako servisu (obdoba daemona z linuxu - &ldquo;stále bežiaci program&rdquo;) spustite v príkazovom riadku príkaz:</p>
-
-<pre><code>C:\mysql\bin&gt; mysqld --install
-</code></pre>
-
-<p>Následne môžete MySQL daemona spustiť príkazom:</p>
-
-<pre><code>C:\&gt; net start mysql
-</code></pre>
-
-<p>Hneď po prvom spustení daemona MySQL vám odporúčam spustiť konzolu mysql:</p>
-
-<pre><code>C:\mysql\bin&gt; mysql -u root mysql
-</code></pre>
-
-<p>Vytvoriť heslo pre používateľa root:</p>
-
-<pre><code>mysql&gt; UPDATE user SET Password = PASSWORD('heslo') WHERE User = 'root';
-</code></pre>
-
-<p>Zmazať všetkých ostatných používateľov:</p>
-
-<pre><code>mysql&gt; DELETE FROM user WHERE User NOT LIKE 'root';
-</code></pre>
-
-<p>A nakoniec prinútiť mysql znovu načítať prístupové údaje používateľov:</p>
-
-<pre><code>mysql&gt; FLUSH PRIVILEGES;
-</code></pre>
-
-<p>Aby mohli php skripty pristupovať do MySQL databázy, je treba v konfiguračnom súbore <code>php.ini</code> povoliť používanie rozšírenia pre MySQL.
+<pre tabindex="0"><code>C:\mysql\bin&gt; mysqld --install
+</code></pre><p>Následne môžete MySQL daemona spustiť príkazom:</p>
+<pre tabindex="0"><code>C:\&gt; net start mysql
+</code></pre><p>Hneď po prvom spustení daemona MySQL vám odporúčam spustiť konzolu mysql:</p>
+<pre tabindex="0"><code>C:\mysql\bin&gt; mysql -u root mysql
+</code></pre><p>Vytvoriť heslo pre používateľa root:</p>
+<pre tabindex="0"><code>mysql&gt; UPDATE user SET Password = PASSWORD(&#39;heslo&#39;) WHERE User = &#39;root&#39;;
+</code></pre><p>Zmazať všetkých ostatných používateľov:</p>
+<pre tabindex="0"><code>mysql&gt; DELETE FROM user WHERE User NOT LIKE &#39;root&#39;;
+</code></pre><p>A nakoniec prinútiť mysql znovu načítať prístupové údaje používateľov:</p>
+<pre tabindex="0"><code>mysql&gt; FLUSH PRIVILEGES;
+</code></pre><p>Aby mohli php skripty pristupovať do MySQL databázy, je treba v konfiguračnom súbore <code>php.ini</code> povoliť používanie rozšírenia pre MySQL.
 Overte si teda, či sú v ňom uvedené a nezakomentované nasledovné riadky:</p>
-
-<pre><code>extension_dir = &quot;c:\php\ext&quot;
+<pre tabindex="0"><code>extension_dir = &#34;c:\php\ext&#34;
 extension=php_mysql.dll
-</code></pre>
-
-<p>Ak ste ešte nepracovali so žiadnym databázovým systémom, tak sa na linuxsoft.cz určite pozrite aj na <a href="http://archiv.linuxsoft.cz/article_list.php?id_kategory=232">seriál o MySQL</a>.
+</code></pre><p>Ak ste ešte nepracovali so žiadnym databázovým systémom, tak sa na linuxsoft.cz určite pozrite aj na <a href="http://archiv.linuxsoft.cz/article_list.php?id_kategory=232">seriál o MySQL</a>.
 Nezabúdajte však ani na <a href="https://dev.mysql.com/doc/">oficiálnu dokumentáciu</a>, pretože patrí k najlepšie spracovaným dokumentáciam, aké som kedy videl.</p>
-
 <h1 id="záver">Záver</h1>
-
 <p>Pre istotu ešte raz pripomeniem, že <strong>Apache je webový server</strong>, ktorý môže byť doplnený o podporu jazyka PHP a vďaka rozšíreniam sa <strong>interpret jazyka PHP môže pripajáť k rôznym databázovým systémom</strong> ako napríklad MySQL, PostgreSQL alebo Oracle.</p>
 
 </div>
@@ -150,11 +100,13 @@ Nezabúdajte však ani na <a href="https://dev.mysql.com/doc/">oficiálnu dokume
 Move to <a href="https://jimrich.sk/zmena-stylu/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/ja-ubuntu-ty-ubuntu/">newer post</a>.
 </p>
 <p>
+  <small>
   License: Unless stated otherwise, all published content is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
-  Disclaimer: The views expressed on this website are mine alone and not those of my employer.<br/>
+  Disclaimer: The views expressed on this website are my own and do not reflect the views of my employer or any organization I am or have been associated with.<br/>
   Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
   Technology: This website lives in its own <a href="https://github.com/jariq/jimrich.sk">git repository</a> and breaths thanks to <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
-  Legalities: This website does not use any cookies ¯\_(ツ)_/¯<br/>
+  Legalities: This website does not use any cookies.<br/>
+  </small>
 </p>
 </body>
 </html>

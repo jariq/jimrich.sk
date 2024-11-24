@@ -11,69 +11,50 @@
 <body>
 <h1>Monitoring serveru s mobilom Siemens</h1>
 <p>
+  <small>
   Language: <img src="/sk.svg" alt="Slovak flag" class="flag" /> Slovak<br/>
   Published: 02 September 2005<br/>
   Length: 3 minutes (527 words)
+  </small>
 </p>
 <p>
 Move to <a href="https://jimrich.sk/firewall-linuxu-s-iptables/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/intel-prowireless-2100-a-linux/">newer post</a>.
 </p>
 <div lang="sk" class="content">
-
-
 <p>Po prečítaní článku <a href="http://archiv.linuxsoft.cz/article.php?id_article=857">o mobilných telefónoch Siemens v linuxe</a> na českom serveri <a href="http://www.linuxsoft.cz">linuxsoft.cz</a> som sa rozhodol, že pripojím mobil k jednému mnou spravovanému firewallovému systému a ten mi bude sms správami ohlasovať napríklad nedovolené prístupy k vybraným službám.
 Pripojenie som bol nútený realizovať cez sériový port, keďže na spomínanom serveri som zaviedol minimalistický &ldquo;custom kernel&rdquo; a myslím si, že podpora USB alebo nebodaj bluetooth by tam bola zbytočným prežitkom.</p>
-
 <h1 id="1-hardware">1. Hardware</h1>
-
 <p>Kolega mi požičal svoj staručký Siemens A35, ktorý sa však cez požičaný kábel a SCMxx nikdy neozval.
 Preto som zháňal ďalej a nakoniec ma správnym modelom - <strong>Siemens S45i</strong> - obdaril môj starší brat.
 S mobilom v ruke som sa vybral kúpiť sériový kábel.
 V prvom mobil shope ma predavač presviedčal, že také niečo sa už nevyrába, v ďalšom ho aspoň hľadal v katalógu.
 Samozrejme neúspešne.
 Ale nevzdal som sa a po nejakej tej hodinke behania po meste som ho predsa len kúpil.</p>
-
 <h1 id="2-úprava-kábla">2. Úprava kábla</h1>
-
 <p>Problém, ktorý treba pri neustálom pripojení telefónu značky Siemens k počítaču vyriešiť je jeho napájanie, pretože tieto telefóny používajú jediný konektor pre napájanie aj pre dátové prenosy.
 Preto bolo nutné rozobrať koncovku na dátovom kábli i na nabíjačke a integrovať ich do jednej.
 Je to síce veľmi jednoduchý zásah, no napriek tomu som to radšej zveril odborníkovi, ktorý bol vybavený mikrospájkou.
 Vykonaná operácia je znázornená na obrázku:</p>
-
-<p><img src="siemens.jpg" alt="Upravený konektor pre mobilný telefón" /></p>
-
+<p><img src="siemens.jpg" alt="Upravený konektor pre mobilný telefón"></p>
 <h1 id="3-príprava-systému">3. Príprava systému</h1>
-
 <p>Samozrejme treba správne nakonfigurovať sériový port.
 Na distribúcii Slackware stačí v <code>/etc/serial.conf</code> zrušiť komentár na riadku prislúchajúcemu <code>/dev/ttyS0</code> a skontrolovať, či sa pri štarte spúšťa inicializačný skript <code>/etc/rc.d/rc.serial</code>.
 Pre samotnú komunikáciu s telefónom som použil na linuxsoft.cz opisovaný program <a href="http://www.hendrik-sattler.de/scmxx/">SCMxx</a> od nemeckého autora Hendrika Sattlera, ktorý je určený pre shell a teda ľahko použiteľný v skriptoch.</p>
-
 <h1 id="4-oznamovanie-nedovoleného-prístupu">4. Oznamovanie nedovoleného prístupu</h1>
-
 <p>Celá filozofia oznamovania nedovoleného prístupu sa zakladá na použití <a href="https://en.wikipedia.org/wiki/TCP_Wrapper">TCP wrappers</a>, ktoré slúžia na kontrolovanie a obmedzovanie prístupu k sieťovým službám skompilovaným s ich podporou.
 TCP wrappers sa konfigurujú v súboroch <code>/etc/hosts.allow</code> a <code>/etc/hosts.deny</code>. Ja som použil démona sshd, ktorý umožňuje zakompilovať ich podporu.</p>
-
 <p>V súbore <code>/etc/hosts.allow</code> som teda uviedol zoznam IP adries, ktoré majú k sshd prístup</p>
-
-<pre><code>sshd: 10.1.1.2 10.1.1.3
-</code></pre>
-
-<p>a do súboru <code>/etc/hosts.deny</code> som zapísal nasledujúci &ldquo;kúzelný riadok&rdquo; :)</p>
-
-<pre><code>ALL : ALL : spawn (scmxx --device=/dev/ttyS0 --send --sms --direct --text=&quot;Pokus o pripojenie na sluzbu %d z IP adresy %a&quot; –number=&quot;0908xyzxyz&quot;) &amp; : DENY
-</code></pre>
-
-<p>Ak sa niekto pokúsi pripojiť na ssh démona je jeho IP adresa najskôr porovnaná s údajmi v súbore <code>hosts.allow</code>.
+<pre tabindex="0"><code>sshd: 10.1.1.2 10.1.1.3
+</code></pre><p>a do súboru <code>/etc/hosts.deny</code> som zapísal nasledujúci &ldquo;kúzelný riadok&rdquo; :)</p>
+<pre tabindex="0"><code>ALL : ALL : spawn (scmxx --device=/dev/ttyS0 --send --sms --direct --text=&#34;Pokus o pripojenie na sluzbu %d z IP adresy %a&#34; –number=&#34;0908xyzxyz&#34;) &amp; : DENY
+</code></pre><p>Ak sa niekto pokúsi pripojiť na ssh démona je jeho IP adresa najskôr porovnaná s údajmi v súbore <code>hosts.allow</code>.
 Ak sa zhoduje, prístup je umožnený.
 Ak sa nenájde zhoda, pokračuje sa v <code>hosts.deny</code>, kde je uvedená pre všetky služby a všetky hosty jediná akcia - poslať sms správu administrátorovi a odmietnuť prístup.
 Reťazce <code>%d</code> a <code>%a</code> pritom nahradia TCP wrappers konkrétnymi údajmi.
 Samozrejme, aby mala takáto funkcia význam, musí konfigurácia firewallu umožňovať prístup k portu 22/TCP.</p>
-
 <h1 id="5-záver">5. Záver</h1>
-
 <p>Toto je len malá ukážka možností, ktoré poskytuje mobilný telefón pripojený k linuxovému serveru a taktiež iba zlomok toho, čo sa dá docieliť správnou konfiguráciou TCP wrappers.
 Čo by ste povedali na wrappermi riadené pravidlá firewallu, na vzdialené ovládanie servera sms správami, oznamovanie o výpadkoch linky alebo informovanie o vyťažení systému..</p>
-
 <p>Špeciálne poďakovanie si zaslúži môj brat Stano a Andrej Eliáš, bez ktorých by tento článok nevznikol.</p>
 
 </div>
@@ -81,11 +62,13 @@ Samozrejme, aby mala takáto funkcia význam, musí konfigurácia firewallu umo�
 Move to <a href="https://jimrich.sk/firewall-linuxu-s-iptables/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/intel-prowireless-2100-a-linux/">newer post</a>.
 </p>
 <p>
+  <small>
   License: Unless stated otherwise, all published content is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
-  Disclaimer: The views expressed on this website are mine alone and not those of my employer.<br/>
+  Disclaimer: The views expressed on this website are my own and do not reflect the views of my employer or any organization I am or have been associated with.<br/>
   Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
   Technology: This website lives in its own <a href="https://github.com/jariq/jimrich.sk">git repository</a> and breaths thanks to <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
-  Legalities: This website does not use any cookies ¯\_(ツ)_/¯<br/>
+  Legalities: This website does not use any cookies.<br/>
+  </small>
 </p>
 </body>
 </html>

@@ -11,72 +11,57 @@
 <body>
 <h1>Recenzia ESET Server Security pre Linux/BSD (1)</h1>
 <p>
+  <small>
   Language: <img src="/sk.svg" alt="Slovak flag" class="flag" /> Slovak<br/>
   Published: 11 March 2008<br/>
   Length: 8 minutes (1690 words)
+  </small>
 </p>
 <p>
 Move to <a href="https://jimrich.sk/viazanie-kravaty/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/recenzia-eset-server-security-pre-linuxbsd-2/">newer post</a>.
 </p>
 <div lang="sk" class="content">
-
-
 <p>V prvej časti tejto dvojdielnej recenzie si predstavíme spoločnú architektúru produktov ESET Server Security a podrobnejšie sa pozrieme na produkt Gateway Security.
 V druhom diele sa s vami podelím o svoje skúsenosti s produktmi Mail Security a File Security.</p>
-
 <p>Skúsili ste ako začiatočník zadať do nejakého fóra zameraného na OS Linux otázku, či je potrebné mať na tomto operačnom systéme nainštalovaný antivírusový program?
 Ak áno, tak ste sa takmer určite stali svedkom búrlivej diskusie na tému Linux verzus Windows.
 Skutočnosť, že väčšina ľudí pracuje v OS Windows s právami administrátora a tým uľahčujú prácu tvorcom škodlivého kódu však nemusí hneď znamenať, že tento systém má zlú bezpečnostnú architektúru.
 Takmer určite mi dáte za pravdu, že ak by ste na Linuxe spustili vírus, alebo akýkoľvek škodlivý kód s právami roota, spôsobilo by to s vysokou pravdepodobnosťou kolaps celého systému.
 Dovolím si tiež tvrdiť, že písanie vírusov pre OS Linux je nepopulárna činnosť, najmä kvôli slabej rozšírenosti tohto systému a veľkej rôznorodosti používaných distribúcií.
 Navyše vírus schopný prežiť len na pár systémoch sa iba ťažko dostane do večerných správ.</p>
-
 <p>Tento článok však nemá byť o porovnávaní operačných systémov a polemizovaní nad tým či sú, alebo raz budú vírusy pre OS Linux.
 Jeho úlohou je poskytnúť môj názor na produkty spoločnosti ESET, ktoré som mal vďaka portálu <a href="https://linuxos.sk">linuxos.sk</a> možnosť otestovať.
 Hneď v úvode musím priznať, že nie som expert na vírusy, a preto nedokážem posúdiť kvalitu detekcie infiltrácií.
 Pri testovaní som väčšinou používal testovací súbor <a href="https://www.eicar.org/anti_virus_test_file.htm">eicar</a> a v recenzii som sa zameral najmä na popis vlastností testovaných programov.</p>
-
 <p><a href="https://www.eset.sk">ESET</a> je slovenská softvérová spoločnosť, ktorá má zastúpenie vo viac ako 100 krajinách po celom svete.
 Špecializuje sa na vývoj antivírusového a bezpečnostného softvéru.
 V portfóliu jej produktov nájdete antivírusové programy nielen pre OS Windows ale aj pre systémy Linux a FreeBSD, ktoré sú populárnou serverovou platformou.
 Poštové a proxy servery sú styčným bodom lokálnych sietí s okolitým svetom a práve preto sú ideálnym miestom, kde by mal začať boj s vírusmi a iným škodlivým kódom.
 Vírus poslaný e-mailom síce nenapadne váš poštový server, ale na klientskej stanici môže napáchať veľké škody.
 Preto je rozumné poštu a súbory sťahované z internetu kontrolovať skôr, než k ním umožníte prístup klientovi.</p>
-
 <h1 id="1-eset-server-security">1. ESET Server Security</h1>
-
 <p>ESET Server Security pre Linux/BSD je názov produktového radu spoločnosti ESET určeného pre operačný systém Linux, ktorý v súčasnosti obsahuje tri produkty:</p>
-
-<p><strong><a href="http://www.eset.sk/produkty/eset-gateway-security-pre-linux-bsd">ESET Gateway Security</a></strong><br />
+<p><strong><a href="http://www.eset.sk/produkty/eset-gateway-security-pre-linux-bsd">ESET Gateway Security</a></strong><br>
 Určený na kontrolu súborov prenášaných cez brány siete (routery) alebo proxy servery.</p>
-
-<p><strong><a href="http://www.eset.sk/produkty/eset-mail-security-pre-linux-bsd">ESET Mail Security</a></strong><br />
+<p><strong><a href="http://www.eset.sk/produkty/eset-mail-security-pre-linux-bsd">ESET Mail Security</a></strong><br>
 Určený na kontrolu e-mailov a ich príloh spracovávaných poštovými servermi.</p>
-
-<p><strong><a href="http://www.eset.sk/produkty/eset-file-security-pre-linux-bsd">ESET File Security</a></strong><br />
+<p><strong><a href="http://www.eset.sk/produkty/eset-file-security-pre-linux-bsd">ESET File Security</a></strong><br>
 Určený na kontrolu súborov uložených na súborových serveroch.</p>
-
 <p>Všetky tri produkty sú k dispozícii ako binárne balíčky vo formáte DEB (Debian, Ubuntu &hellip;), RPM (RedHat, Fedora, Suse …) a tiež ako TGZ archív (ostatné distribúcie a FreeBSD).
 Inštalácia je detailne popísaná v používateľskej príručke a vďaka svojej jednoduchosti by nemala robiť problémy ani menej skúseným správcom.
 Produkty som testoval na operačných systémoch Ubuntu 6.06 Server a OpenSuse 10.
 Vyskúšal som inštaláciu zo všetkých troch druhov balíčkov a vo všetkých prípadoch prebehla bez problémov.</p>
-
 <p>Z <a href="http://www.eset.sk/download/dokumentacia">oficiálnej dokumentácie</a> sa môžete dozvedieť, že ústredným prvkom systému ESET Server Security je daemon esets, ktorý koordinuje činnosť ostatných modulov a komunikuje s tzv. agentmi.
 Úlohou agentov je integrovať ESET Server Security do prostredia Mail, File alebo Gateway serverov.
 Každý agent pritom vykonáva jednu konkrétnu činnosť.
 Ako príklad môže poslúžiť agent <code>esets_http</code>, ktorý má na starosti kontrolu dát prenášaných prostredníctvom protokolu HTTP alebo agent <code>esets_smtp</code> kontrolujúci dáta prenášané protokolom SMTP.</p>
-
-<p><img src="esets.gif" alt="Obr.1: Architektúra Eset Server Security" /><br />
+<p><img src="esets.gif" alt="Obr.1: Architektúra Eset Server Security"><br>
 <em>Obr.1: Architektúra ESET Server Security</em></p>
-
 <p>I keď inštalačný balík obsahuje všetkých agentov, použiť ich môžete iba so správnym licenčným súborom, ktorý dostanete pri kúpe produktu.
 Ak si teda zakúpite ESET Gateway Security nemôžete používať agentov ESET Mail Security i keď ich v skutočnosti máte v systéme nainštalovaných.</p>
-
 <p>O aktualizáciu databáz vzoriek sa stará modul <code>esets_update</code>, ktorý je okrem aktualizácie ESET Server Security schopný udržiavať aj aktualizačný mirror pre antivírusový systém NOD32 verzie 2.7.</p>
-
 <p>Pri zistení infiltrácie spúšťa <code>esets_daemon</code> používateľom definovaný shell skript, ktorý o tejto udalosti informuje správcu napríklad prostredníctvom e-mailu.
 Eset Server Security podporuje tiež presun infikovaných objektov do karantény (vyhradeného adresára) a necháva tak na správcovi systému rozhodnutie ako naložiť s infikovaným súborom.</p>
-
 <p>Konfigurácia celého systému sa vykonáva manuálnou editáciou konfiguračného súboru <code>/etc/esets/esets.conf</code> alebo prostredníctvom webového rozhrania poskytovaného modulom <code>wwwi</code>, ktoré po inštalácii nie je zapnuté.
 Ak ho chcete používať, musíte ho zapnúť editovaním príslušnej sekcie v spomínanom konfiguračnom súbore.
 Toto rozhranie používa webový server <a href="http://shttpd.sourceforge.net/">shttpd</a>, ktorý je súčasťou produktu ESET Server Security, a teda ho nemusíte doinštalovávať ani konfigurovať.
@@ -87,85 +72,60 @@ Táto skutočnosť ma motivovala, aby som sa pokúsil overiť kvalitu kódu webo
 Ako potenciálne zneužiteľné miesto som identifikoval mazanie licenčného súboru a pokúsil som sa úpravou odosielaného formulára zmazať iný súbor uložený v adresári <code>/etc</code>.
 Aplikácia sa zachovala správne a odmietla súbor zmazať.
 Webové rozhranie som vypol a neskôr som v manuálových stránkach našiel, že samotný výrobca odporúča toto rozhranie vypínať, keď sa nepoužíva.</p>
-
 <p>Lepšiu predstavu o vzhľade a možnostiach webového konfiguračného rozhrania môžete získať z nasledujúcich snímok obrazovky:</p>
-
-<p><img src="esets-wwwi-1.png" alt="Hlavná obrazovka webového rozhrania" /><br />
+<p><img src="esets-wwwi-1.png" alt="Hlavná obrazovka webového rozhrania"><br>
 <em>Obr.2: Hlavná obrazovka webového rozhrania</em></p>
-
-<p><img src="esets-wwwi-2.png" alt="Správa licencií" /><br />
+<p><img src="esets-wwwi-2.png" alt="Správa licencií"><br>
 <em>Obr.3: Správa licencií</em></p>
-
-<p><img src="esets-wwwi-3.png" alt="Konfigurácia ESET Server Security" /><br />
+<p><img src="esets-wwwi-3.png" alt="Konfigurácia ESET Server Security"><br>
 <em>Obr.4: Konfigurácia ESET Server Security</em></p>
-
-<p><img src="esets-wwwi-4.png" alt="Konfigurácia HTTP agenta" /><br />
+<p><img src="esets-wwwi-4.png" alt="Konfigurácia HTTP agenta"><br>
 <em>Obr.5: Konfigurácia HTTP agenta</em></p>
-
-<p><img src="esets-wwwi-5.png" alt="Konfigurácia HTTP agenta - konkrétny klient" /><br />
+<p><img src="esets-wwwi-5.png" alt="Konfigurácia HTTP agenta - konkrétny klient"><br>
 <em>Obr.6: Konfigurácia HTTP agenta - konkrétny klient</em></p>
-
-<p><img src="esets-wwwi-6.png" alt="Konfigurácia aktualizácií" /><br />
+<p><img src="esets-wwwi-6.png" alt="Konfigurácia aktualizácií"><br>
 <em>Obr.7: Konfigurácia aktualizácií</em></p>
-
-<p><img src="esets-wwwi-7.png" alt="Nápoveda" /><br />
+<p><img src="esets-wwwi-7.png" alt="Nápoveda"><br>
 <em>Obr.8: Nápoveda</em></p>
-
 <p>Všetky doteraz uvedené vlastnosti sú spoločné pre celý produktový rad ESET Server Security. Poďme sa teraz pozrieť zblízka na jednotlivé produkty.</p>
-
 <h1 id="2-eset-gateway-security">2. ESET Gateway Security</h1>
-
 <p>Kúpou produktu ESET Gateway Security získate možnosť používať služby troch špecializovaných agentov - <code>esets_http</code>, <code>esets_ftp</code> a <code>esets_ssfi.so</code>.</p>
-
 <p>Agent <code>esets_http</code> je proxy server, ktorý je možné použiť v netransparentnom i v transparentnom móde.
 Len pre úplnosť uvediem, že pri použití v úlohe netransparentného proxy musia mať všetky klientske aplikácie vo svojej konfigurácii uvedenú IP adresu a port proxy servera.
 Pri použití v transparentnom móde je na bráne siete potrebné nastaviť presmerovanie HTTP komunikácie na port využívaný proxy serverom.</p>
-
 <p>O skutočnosti, že sa na prenášaných dátach vykonáva kontrola na prítomnosť škodlivého kódu sa koncový používateľ dozvie až pri prístupe k infikovanému zdroju.
 Agent <code>esets_http</code> mu namiesto požadovaného súboru zobrazí stránku s podrobnou informáciou o infiltrácii:</p>
-
-<p><img src="esets-eicar.png" alt="Download zablokovaný produktom Eset Gateway Security" /><br />
+<p><img src="esets-eicar.png" alt="Download zablokovaný produktom Eset Gateway Security"><br>
 <em>Obr.9: Download zablokovaný produktom Eset Gateway Security</em></p>
-
 <p>Zavedenie antivírusovej kontroly na proxy serveri má však aj jeden vedľajší účinok.
 Obsah stránok sa koncovým používateľom nezobrazuje postupne, ale celá stránka &ldquo;vyskakuje&rdquo; naraz, pretože jej obsah musí prejsť kontrolou na prítomnosť škodlivého kódu.
 Takýto postup by pri prenose väčších súborov mohol spôsobiť time-out spojenia.
 ESET Gateway Security má však na tento problém riešenie v podobe postupného sprístupňovania menšieho objemu dát koncovému klientovi, zatiaľ čo na reálne prijatých dátach je vykonávaná kontrola.
 V prípade, že je sťahovaný súbor vyhodnotený ako infikovaný, zastaví proxy server odosielanie dát koncovému klientovi a ten označí prenos za neúspešný.</p>
-
 <p>Vo všeobecnosti je možné za nevýhodu HTTP proxy serverov považovať fakt, že nedokážu kontrolovať HTTPS komunikáciu.
 Samozrejme dá sa oponovať tým, že protokol HTTPS bol navrhnutý na ochranu dát pred odpočúvaním, no v prípade ochrany siete pred škodlivým kódom sa táto vlastnosť stáva nevýhodou.
 Ak teda budete sťahovať infikovaný súbor prostredníctvom protokolu HTTP a bude zistená prítomnosť vírusu, agent <code>esets_http</code> vám odoprie prístup, no nezabráni vám v stiahnutí súboru pomocou protokolu HTTPS.
 Kvôli tejto skutočnosti nie je možné antivírus nainštalovaný na bráne siete považovať za dostatočnú ochranu siete a je nutné mať nainštalovaný antivírusový program aj na koncových klientskych staniciach, kde sú súbory stiahnuté cez HTTPS kontrolované počas ich zápisu na pevný disk.</p>
-
 <p>Agent <code>esets_http</code> nemusí mať priamy prístup na internet, pretože dokáže využívať služby nadriadeného (angl. parent) proxy servera.
 Ľubovoľnému HTTP proxy serveru prevádzkovanému na ľubovoľnom operačnom systéme tak môže pridať schopnosť vykonávať antivírusovú kontrolu na dátach prúdiacich medzi lokálnou sieťou a internetom.</p>
-
 <p>Agent <code>esets_ftp</code> je proxy server určený na kontrolu dát prenášaných prostredníctvom protokolu FTP a na rozdiel od agenta <code>esets_http</code> sa dá použiť iba ako transparentné proxy.
 Táto skutočnosť zabraňuje jeho nasadeniu v komplexnejších konfiguráciách proxy serverov.
 Osobne by som uvítal keby bola jeho funkcionalita začlenená do agenta <code>esets_http</code>, podobne ako je tomu napríklad pri proxy serveri <a href="http://www.squid-cache.org/">Squid</a>.</p>
-
 <p>Agent <code>esets_ssfi.so</code> je plugin pre proxy server <a href="https://www.safesquid.com/">SafeSquid</a>, ktorý je voľne dostupný na nekomerčné použitie v sieti s max. 20 klientskymi systémami.
 Tento agent nepracuje ako predchádzajúci dvaja agenti (nepočúva na vlastnom TCP porte), ale spomínaný proxy server mu odovzdáva dáta, ktoré je potrebné skontrolovať.
 SafeSquid na rozdiel od agenta <code>esets_http</code> podporuje aj FTP spojenia, a tak posúva agenta <code>esets_ssfi.so</code> na vrchol rebríčka použiteľnosti agentov dodávaných s Eset Gateway Security.
 Daňou za väčšiu použiteľnosť sa však stáva nutnosť zakúpiť komerčný proxy server.</p>
-
 <p>Pri testovaní tohto agenta som mal možnosť overiť aj úroveň podpory spoločnosti Eset, pretože agent obsiahnutý v mnou použitom balíčku Eset Server Security nebol kompatibilný s najnovšou verziou SafeSquid-u.
 Do 12 hodín od zadania požiadavky na podporu mi bola zaslaná nová verzia a bola tiež uvoľnená nová verzia balíčkov.</p>
-
 <p>Cieľovou používateľskou skupinou produktu ESET Gateway Security pre Linux/BSD sú najmä firemní zákazníci a jeho cena je závislá od počtu klientskych staníc.
 Aktuálnu cenu môžete zistiť v <a href="http://www.eset.sk/predaj/objednavkovy-system">on-line objednávkovom systéme</a>.</p>
-
 <h1 id="záver">Záver</h1>
-
 <p>Dovolím si tvrdiť, že antivírusový program je taký dobrý, aká je dobrá jeho vírusová databáza.
 Ak sa rozhodnete pre komerčné riešenie, môžete sa spoľahnúť na to, že každý pracovný deň sa nemalá skupina ľudí venuje rozširovaniu a skvalitňovaniu tejto databázy.</p>
-
 <p>ESET Server Security je <a href="http://www.eset.sk/eset-vydal-nove-linuxove-bezpecnostne-produkty">mladý produktový rad</a> s dobrým modulárnym návrhom, ktorý si určite získa používateľov najmä vďaka jednoduchej inštalácii, skvelej dokumentácii a skutočnosti, že používa rovnaký skenovací mechanizmus ako celosvetovo uznávané produkty spoločnosti Eset určené pre platformu Windows.
 Mnou testovaná verzia 2.71.12 síce ešte obsahuje pár nedostatkov ako napríklad všetky procesy spustené pod používateľom root, alebo agenta <code>esets_http</code> bez podpory FTP protokolu.
 Podľa vyjadrenia pracovníkov spoločnosti ESET sa však čoskoro dočkáme verejnej beta verzie z radu 3.0, ktorá už tieto nedostatky obsahovať nebude.
 Pevne verím, že sa im podarí udržať nasadený kurz a budú svoje produkty pre Linux/BSD naďalej rozvíjať a zlepšovať.</p>
-
 <p><a href="https://linuxos.sk/clanok/recenzia-eset-server-security-pre-linuxbsd-1/">Článok bol publikovaný aj na portáli linuxos.sk</a></p>
 
 </div>
@@ -173,11 +133,13 @@ Pevne verím, že sa im podarí udržať nasadený kurz a budú svoje produkty p
 Move to <a href="https://jimrich.sk/viazanie-kravaty/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/recenzia-eset-server-security-pre-linuxbsd-2/">newer post</a>.
 </p>
 <p>
+  <small>
   License: Unless stated otherwise, all published content is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
-  Disclaimer: The views expressed on this website are mine alone and not those of my employer.<br/>
+  Disclaimer: The views expressed on this website are my own and do not reflect the views of my employer or any organization I am or have been associated with.<br/>
   Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
   Technology: This website lives in its own <a href="https://github.com/jariq/jimrich.sk">git repository</a> and breaths thanks to <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
-  Legalities: This website does not use any cookies ¯\_(ツ)_/¯<br/>
+  Legalities: This website does not use any cookies.<br/>
+  </small>
 </p>
 </body>
 </html>
