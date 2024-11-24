@@ -62,4 +62,4 @@ Výsledok si môžete pozrieť v návodoch na stránke [Monkey Island Corner][7]
 [4]: http://store.steampowered.com/app/32360/The_Secret_of_Monkey_Island_Special_Edition/
 [5]: https://dojotoolkit.org/
 [6]: https://jquery.com/
-[7]: http://monkey.jariq.sk
+[7]: http://monkey.jimrich.sk
