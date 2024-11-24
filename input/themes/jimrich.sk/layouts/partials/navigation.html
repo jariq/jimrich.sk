@@ -1,7 +1,7 @@
 <p>
 Move 
-{{- if .Next}} to <a href="{{.Next.Permalink}}">older post</a> or{{end -}}
+{{- if .Prev}} to <a href="{{.Prev.Permalink}}">older post</a> or{{end -}}
 {{- ""}} to <a href="/">index</a>{{"" -}}
-{{- if .Prev}} or to <a href="{{.Prev.Permalink}}">newer post</a>{{end -}}
+{{- if .Next}} or to <a href="{{.Next.Permalink}}">newer post</a>{{end -}}
 .
 </p>

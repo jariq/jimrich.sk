@@ -1,4 +1,10 @@
+@echo off
 @setlocal
+
+if "%1"=="" (
+  echo Please provide the post name as an argument.
+  exit /b 1
+)
 
 @set arg1=%1
 @set HUGO=c:\hugo\hugo.exe

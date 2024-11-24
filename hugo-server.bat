@@ -5,6 +5,7 @@
 start "" http://localhost:1313
 
 %HUGO% server ^
+  --renderToMemory ^
   --disableFastRender ^
   --buildDrafts ^
   --forceSyncStatic ^

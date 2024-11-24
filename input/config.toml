@@ -9,3 +9,9 @@ languageCode = "en"
  
 # Disables building of "tags" and "categories"
 [taxonomies]
+
+# Tell the default Markdown renderer, which is Goldmark, to render raw HTML
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
