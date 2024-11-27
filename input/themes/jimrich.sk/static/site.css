@@ -93,7 +93,7 @@ blockquote {
 }
 
 ul {
-  list-style-type: none;
+  list-style-type: disc;
   margin: 1.5em;
   padding: 0px;
 }
