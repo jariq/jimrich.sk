@@ -57,6 +57,7 @@ code {
   color: #222222;
   padding: 0.1rem;
   overflow-x: auto;
+  white-space: nowrap;
 }
 
 pre {
@@ -71,6 +72,7 @@ pre {
 
 pre > code {
   background-color: transparent;
+  white-space: pre;
 }
 
 table, tr, th, td  {
