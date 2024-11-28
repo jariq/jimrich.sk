@@ -45,6 +45,7 @@ h4, h5, h6 {
 a, a:link, a:active, a:visited, a:hover {
   color: #2979f3;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 a > code {
