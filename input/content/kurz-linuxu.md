@@ -13,7 +13,7 @@ Informácie a materiály pre účastníkov mnou vedených kurzov o systéme G
 
 Kurz sa konal v zimnom semestri šk. roku 2005/2006 na novom internáte M.Uhra v Trnave. 
 Organizovalo ho záujmové združenie [Internet Klub][1]. 
-K dispozícii sú kompletné prednášky vo formátoch [ODP][2] a [PDF][3].
+K dispozícii sú kompletné prednášky vo formátoch [ODP][2] a [PDF][3].
 
 # GNU/Linux - Prvé kroky
 

@@ -19,7 +19,7 @@ Skôr než sa pustím do popisu produktu ESET Mail Security, ktorého úlohou j
 
 Základným prvkom je MTA (Mail Transfer Agent) komunikujúci s okolitým svetom prostredníctvom protokolu SMTP (Simple Mail Transfer Protocol). 
 Hlavnou úlohou MTA je odosielanie (angl. mail relay) a prijímanie pošty. 
-Ak MTA od iného serveru príjme správu pre používateľa v obsluhovanej doméne, odovzdá ju na spracovanie MDA (Mail Delivery Agent), ktorého úlohou je správy doručiť do schránky (angl. mailbox) používateľa. 
+Ak MTA od iného serveru príjme správu pre používateľa v obsluhovanej doméne, odovzdá ju na spracovanie MDA (Mail Delivery Agent), ktorého úlohou je správy doručiť do schránky (angl. mailbox) používateľa. 
 Používateľ si poštu môže vyzdvihnúť prostredníctvom MUA (Mail User Agent), ktorý kontaktuje IMAP (Internet Message Access Protocol) alebo POP (Post Office Protocol) server, ktoré majú priamy prístup k schránkam. 
 MUA odosiela správy pomocou protokolu SMTP priamo cez MTA. 
 Výmena správ medzi dvoma rôznymi servermi je len výmenou správ medzi ich MTA a prebieha s využitím protokolu SMTP.
@@ -33,7 +33,7 @@ Modulárna architektúra unixového poštového subsystému poskytuje pre zaved
 To je tiež jeden z dôvodov, prečo ESET Mail Security obsahuje podstatne viac agentov než Gateway alebo File Security.
 
 Osobne považujem za najvýhodnejšie integrovať kontrolu pošty priamo do MTA, pretože týmto komponentom prechádza každá prijatá či odosielaná správa. 
-ESET Mail Security je možné jednoducho integrovať so štyrmi najpoužívanejšími MTA a sú to [Sendmail][9], [Postfix][10], [Exim][11] a [QMail][12]. 
+ESET Mail Security je možné jednoducho integrovať so štyrmi najpoužívanejšími MTA a sú to [Sendmail][9], [Postfix][10], [Exim][11] a [QMail][12]. 
 Integráciu zabezpečujú agenti `ESETS_MDA`, `ESETS_SMTP` alebo v prípade Sendmail-u aj agent `ESETS_SMFI`, ktorý s ním spolupracuje ako content-filter.
 
 Agent `ESETS_MDA` je v podstate transparentný MDA, ktorý sa pri inštalácii umiestňuje medzi MTA a reálneho MDA. 
@@ -47,8 +47,8 @@ Podobne ako `ESETS_SMTP` aj agenti `ESETS_IMAP` a `ESETS_POP3` slúžia ako pr
 Môžete ich umiestniť pred reálny POP3/IMAP server a zabezpečiť tak kontrolu správ tesne pred ich sprístupnením koncovému používateľovi.
 
 Agent `ESETS_CLI` je určený pre použitie s open-source nástrojom [AMaViS][13], ktorého cieľom je vytvoriť rozhranie umožňujúce prepojenie MTA s ľubovoľným antivírusovým softvérom. 
-Po preštudovaní dostupných materiálov som však získal pocit, že AMaViS má viac nevýhod než výhod. 
-Ak ho použijete s ESET Mail Security, nemôžete využívať antispamovú kontrolu, nemôžete zo správ odstrániť infikované prílohy, nemôžete modifikovať telo správy a pridať do neho informáciu o nájdenom víruse atď. 
+Po preštudovaní dostupných materiálov som však získal pocit, že AMaViS má viac nevýhod než výhod. 
+Ak ho použijete s ESET Mail Security, nemôžete využívať antispamovú kontrolu, nemôžete zo správ odstrániť infikované prílohy, nemôžete modifikovať telo správy a pridať do neho informáciu o nájdenom víruse atď. 
 Preto som sa ani neunúval overiť či je môj pocit správny. Ak má niekto s AMaViS-om dobré skúsenosti, napíšte o nich prosím do diskusie.
 
 Ak sa v problematike poštových serverov príliš neorientujete a čelili by ste niekedy úlohe implementovať na poštový server antivírusovú a antispamovú kontrolu, nemusíte sa báť. 
@@ -64,16 +64,16 @@ V dokumentácii k Mail Security je téme antispamovej kontroly bohužiaľ veno
 Antispamový modul pridáva do kontrolovaných správ hlavičku, ktorá obsahuje dosiahnuté spamové skóre v rozsahu 0 - 100. 
 Správcovi teda nič nebráni nakonfigurovať MDA tak, aby na základe tejto hlavičky ukladal správy s vyšším skóre v schránke používateľa do samostatného adresára. 
 Filtrovanie správ podľa tejto hlavičky sa však dá ponechať aj na MUA koncového používateľa. 
-V prípade, že správa obsahuje vírusom infikovanú prílohu, môže byť v závislosti od nastavenia systému odstránená a do tela správy je následne pridaná podrobná informácia o objavených infiltráciách.
+V prípade, že správa obsahuje vírusom infikovanú prílohu, môže byť v závislosti od nastavenia systému odstránená a do tela správy je následne pridaná podrobná informácia o objavených infiltráciách.
 
 Myslím si, že vďaka veľkému počtu agentov a s nimi spojenými mnohými možnosťami nasadenia si ESET Mail Security nájde svoje miesto na nejednom linuxovom poštovom systému. 
-Jeho masovému rozšíreniu medzi menšími poskytovateľmi však pravdepodobne zabráni cena licencií, ktorá sa odvíja od počtu používateľov poštového systému. 
+Jeho masovému rozšíreniu medzi menšími poskytovateľmi však pravdepodobne zabráni cena licencií, ktorá sa odvíja od počtu používateľov poštového systému. 
 Aktuálnu cenu môžete podobne ako pri Gateway Security zistiť v [on-line objednávkovom systéme][15].
 
 # 2. ESET File Security
 
 Ako už názov napovedá, hlavnou úlohou ESET File Security je vykonávať antivírusovú kontrolu súborov na pripojených diskových oddieloch. 
-Na kontrolu súborov sú vo všeobecnosti aplikovateľné dva prístupy: **kontrola na vyžiadanie** (z angl. on-demand scanning) a **kontrola pri prístupe** (z angl. on-access scanning).
+Na kontrolu súborov sú vo všeobecnosti aplikovateľné dva prístupy: **kontrola na vyžiadanie** (z angl. on-demand scanning) a **kontrola pri prístupe** (z angl. on-access scanning).
 
 Kontrola na vyžiadanie je v prípade File Security zabezpečovaná programom `esets_scan`. 
 Tento program ako jediný z celej produktovej rady môže pracovať samostatne bez služby `esets_daemon`. 
@@ -103,21 +103,21 @@ Antivírusová kontrola mi nezabránila nahrať do zdieľaného adresára infik
 Za zvláštne považujem, že Samba mi súbor sprístupnila v pôvodnej veľkosti avšak jeho obsahom boli samé nuly. 
 Pri prvom teste som si ani nevšimol, že 300 MB archív obsahoval v skutočnosti len 300 MB núl. 
 Tento jav však považujem skôr za problém daemona Samba, pri ktorého návrhu pravdepodobne nebolo s takýmto druhom kontroly počítané. 
-Po drobnom neúspechu so Sambou som sa pokúsil použiť preload knižnicu s daemonom [vsftpd][18]. 
+Po drobnom neúspechu so Sambou som sa pokúsil použiť preload knižnicu s daemonom [vsftpd][18]. 
 Antivírusová kontrola s ním však nefungovala vôbec.
 
 Agent `ESETS_DAC` pre svoju činnosť vyžaduje v jadre zavedený modul [`dazuko`][19], ktorý umožňuje aplikáciám bežiacim v user-space manažovať prístup k súborom. 
 Kompilácia modulu prebehla na mojom systéme bez problémov, no pri pokuse o jeho zavedenie som narazil na problém spôsobený už zavedeným modulom `capability`. 
 Na domovskej stránke projektu dazuko v sekcii [FAQ][20] však bolo detailne popísané riešenie, a tak bola inštalácia tohto modulu otázkou pár minút.
 
-Modul `dazuko` umožňuje aplikáciám odchytávať viaceré udalosti vyvolané manipuláciou so súborom. 
+Modul `dazuko` umožňuje aplikáciám odchytávať viaceré udalosti vyvolané manipuláciou so súborom. 
 Ako príklad uvediem aspoň udalosti podporované agentom `ESETS_DAC` a síce `ON_OPEN`, `ON_EXEC` a `ON_CLOSE`. 
-Na jadre 2.6.15, ktoré používal môj testovací systém však nefungovalo odchytávanie udalosti `ON_CLOSE`, a preto aplikáciám využívajúcim modul `dazuko` nebolo umožnené kontrolovať súbory po ich zatvorení. 
+Na jadre 2.6.15, ktoré používal môj testovací systém však nefungovalo odchytávanie udalosti `ON_CLOSE`, a preto aplikáciám využívajúcim modul `dazuko` nebolo umožnené kontrolovať súbory po ich zatvorení. 
 Predpokladám, že práve toto obmedzenie spôsobilo, že súbory nahrávané do kontrolovaného adresára boli reálne skontrolované až pri udalosti `ON_OPEN` a teda pri ich prvom otvorení. 
 Najvýraznejší rozdiel oproti preload knižnici `libesets_pac.so` je najmä v tom, že agent `ESETS_DAC` kontroluje akýkoľvek prístup k súborom umiestneným v sledovaných adresároch a nielen prístupy vykonávané konkrétnou aplikáciou. 
 S týmto agentom bez najmenšieho problému fungovala Samba aj FTP daemon vsftpd.
 
-Je ťažké povedať, ktorá z techník kontroly pri prístupe je lepšia, pretože to závisí od konkrétnej aplikácie, situácie, či potreby používateľa. 
+Je ťažké povedať, ktorá z techník kontroly pri prístupe je lepšia, pretože to závisí od konkrétnej aplikácie, situácie, či potreby používateľa. 
 Osobne sa mi viac pozdáva agent `ESETS_DAC` spolupracujúci s modulom `dazuko` avšak vďaka tomu, že kúpou ESET File Security získavate oba moduly, ostáva rozhodnutie na vás a môžete použiť ten, ktorý viac spĺňa vaše požiadavky.
 
 # Záver
@@ -125,7 +125,7 @@ Osobne sa mi viac pozdáva agent `ESETS_DAC` spolupracujúci s modulom `dazuko`
 Na webe spoločnosti ESET je v súčasnosti [dostupná verejná beta verzia][21] produktov z rady ESET Server Security 3.0. 
 S potešením môžem konštatovať, že odstraňuje najväčší problém popísaný v predchádzajúcej časti recenzie a síce beh všetkých súčastí pod používateľom root. 
 Agent `ESETS_HTTP` navyše v novej verzii získal základnú podporu pre protokol FTP, čo výrazne zvýšilo jeho použiteľnosť. 
-Nová rada prináša tiež možnosť komunikácie s produktom ESET Remote Administrator, ktorý umožňuje centralizovanú správu produktov spoločnosti ESET vo firemnom prostredí.
+Nová rada prináša tiež možnosť komunikácie s produktom ESET Remote Administrator, ktorý umožňuje centralizovanú správu produktov spoločnosti ESET vo firemnom prostredí.
 
 [Článok bol publikovaný aj na portáli linuxos.sk][22]
 

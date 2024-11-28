@@ -26,13 +26,13 @@ Predpokladajme, že Alice vlastní kľúčový pár a chce elektronicky podpí
 Musí teda vypočítať hash (napr. SHA1) tohto dokumentu a výsledok zašifrovať pomocou svojho privátneho kľúča. 
 Pôvodný dokument pošle Alice spolu s podpisom Bobovi e-mailom.
 
-Ak chce mať Bob istotu, že dokument, ktorý dostal e-mailom naozaj pochádza od Alice, musí overiť jej elektronický podpis. 
+Ak chce mať Bob istotu, že dokument, ktorý dostal e-mailom naozaj pochádza od Alice, musí overiť jej elektronický podpis. 
 To znamená, že vypočíta hash prijatého dokumentu pomocou rovnakého algoritmu aký použila Alice, čo je v tomto prípade SHA1. 
 Následne použije Bob verejný kľúč Alice na dešifrovanie hashu dokumentu z elektronického podpisu, ktorý vytvorila Alice svojím privátnym kľúčom. 
-Ak je Bobom vypočítaný hash dokumentu zhodný s hashom dešifrovaným z elektronického podpisu, Bob môže zodpovedne prehlásiť, že dokument pochádza od Alice a nebol cestou k nemu nikým pozmenený.
+Ak je Bobom vypočítaný hash dokumentu zhodný s hashom dešifrovaným z elektronického podpisu, Bob môže zodpovedne prehlásiť, že dokument pochádza od Alice a nebol cestou k nemu nikým pozmenený.
 
 Z predchádzajúceho textu je možné získať základnú predstavu o elektronickom podpise, no nezodpovedanou otázkou ostáva, ako sa dostal verejný kľúč Alice k Bobovi. 
-Ak by ho Alice poslala Bobovi e-mailom, mohol by ho cestou niekto vymeniť za iný verejný kľúč a Bob by dokumenty podpísané útočníkom považoval za dokumenty pochádzajúce od Alice. 
+Ak by ho Alice poslala Bobovi e-mailom, mohol by ho cestou niekto vymeniť za iný verejný kľúč a Bob by dokumenty podpísané útočníkom považoval za dokumenty pochádzajúce od Alice. 
 Je teda veľmi dôležité sprostredkovať medzi zúčastnenými stranami výmenu verejného kľúča dôveryhodným spôsobom. 
 V tomto jednoduchom príklade by dôveryhodný spôsob mohol vypadať tak, že Alice donesie Bobovi svoj verejný kľúč osobne na USB kľúči.
 
@@ -163,7 +163,7 @@ daemon
 ```
 
 Aj v tomto prípade je väčšina direktív už známa. 
-Novinkou je direktíva `client`, ktorá o.i. povoľuje prijímanie `push` parametrov od servera. 
+Novinkou je direktíva `client`, ktorá o.i. povoľuje prijímanie `push` parametrov od servera. 
 Význam direktív `ca`, `cert` a `key` je rovnaký ako pri serveri s tým rozdielom, že na klientskej stanici určuje cesty k príslušným súborom patriacim Klientovi 1. 
 Nad významom direktívy `tls-remote` budeme ešte polemizovať v ďalšej sekcii článku, no pre úplnosť uvediem, že je nasledovaná hodnotou položky commonName zo subject-u certifikátu servera a zabezpečuje, že sa klient odmietne pripojiť na server, ktorého certifikát nevyhovie tomuto kritériu.
 

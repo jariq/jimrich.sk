@@ -20,11 +20,11 @@ Ešte počas štúdia na vysokej škole som s pomocou spolubývajúceho vyrob
 Potrebovali sme na to 10 LED diód, 10 rezistorov s odporom 100 &#8486;, jeden "male" (tzv. samec) LPT konektor s krytom a vhodný kábel. 
 Schéma tohto zariadenia je uvedená pod textom. 
 Mojím cieľom bolo vytvoriť program, ktorý by zabezpečil rozsvecovanie diód podľa aktuálneho využitia procesora. 
-Vyťaženie do 10% by znamenalo jednu rozsvietenú LED diódu a vyťaženie od 90 do 100% rozsvietených všetkých desať LED diód.
+Vyťaženie do 10% by znamenalo jednu rozsvietenú LED diódu a vyťaženie od 90 do 100% rozsvietených všetkých desať LED diód.
 
 ![CLM schema](schema-clm.gif)
 
-Výsledok asi po hodine práce s mikrospájkou vyzerá takto:
+Výsledok asi po hodine práce s mikrospájkou vyzerá takto:
 
 ![CLM foto](foto-clm.jpg)
 
@@ -32,7 +32,7 @@ Pre zjednodušenie celého zariadenia je možné zvoliť aj alternatívu, keď
 V takom prípade však postupné rozsvecovanie diód znamená znižovanie svietivosti tých, ktoré už svietia.
 
 V ďalšom texte sa pokúsim vysvetliť základy práce s LPT v jazyku C pod operačným systémom GNU/Linux. 
-Príklad budem postupne rozširovať o nové funkcie, až nakoniec vznikne program CLM (CPU Led Meter) - daemon zabezpečujúci rozsvecovanie diód na vyššie popísanom hardvéri podľa aktuálneho využitia procesora, ktorý bude schopný spracovávať signály a tiež komunikovať so syslog daemonom.
+Príklad budem postupne rozširovať o nové funkcie, až nakoniec vznikne program CLM (CPU Led Meter) - daemon zabezpečujúci rozsvecovanie diód na vyššie popísanom hardvéri podľa aktuálneho využitia procesora, ktorý bude schopný spracovávať signály a tiež komunikovať so syslog daemonom.
 
 # 2. Zápis na piny 2-9 - Data register
 
@@ -43,7 +43,7 @@ Register dostupný na porte s adresou báza + 1 (`379h`) sa nazýva "status
 Z pinov status registra je možné iba čítať. 
 Posledný register nesie názov "control register", je dostupný na adrese báza + 2 (`37Ah`) a prislúchajú mu piny 1, 14, 16 a 17. 
 Na tieto piny je možné signál vysielať, no tiež ho z nich aj prijímať. 
-Priradenie pinov k jednotlivým bitom spomínaných registrov je znázornené na nasledujúcom obrázku, ktorý je prebratý zo serveru [hw.cz][1].
+Priradenie pinov k jednotlivým bitom spomínaných registrov je znázornené na nasledujúcom obrázku, ktorý je prebratý zo serveru [hw.cz][1].
 
 ![LPT schema](lpt-hw.cz.gif)
 
@@ -116,7 +116,7 @@ Pre stiahnutie, skompilovanie a spustenie príkladu stačí pod používateľ
 
 # 4. Rozsvietenie diód podľa vyťaženia CPU
 
-V treťom ukážkovom programe som presunul prácu s LPT do funkcie `rozsviet_led`, ktorá zabezpečuje rozsvietenie príslušného počtu LED diód v závislosti od vstupného parametra `usage`. 
+V treťom ukážkovom programe som presunul prácu s LPT do funkcie `rozsviet_led`, ktorá zabezpečuje rozsvietenie príslušného počtu LED diód v závislosti od vstupného parametra `usage`. 
 Hodnotu tohto parametra určuje výstup funkcie `vytazenie_cpu`, ktorá vracia percentuálnu hodnotu aktuálneho vyťaženia CPU. 
 Pri písaní tejto funkcie som sa inšpiroval kódom aplikácie [wmcpuload][4], ktorej autorom je Seiichi SATO.
 
@@ -129,7 +129,7 @@ Pre stiahnutie, skompilovanie a spustenie príkladu stačí pod používateľ
 # ./clm3
 ```
 
-Hlavnou nevýhodou tohto programu však je, že po spustení blokuje terminál. 
+Hlavnou nevýhodou tohto programu však je, že po spustení blokuje terminál. 
 Tento nedostatok je možné odstrániť spustením na pozadí pomocou príkazu:
 
 ```
@@ -154,7 +154,7 @@ Pre stiahnutie, skompilovanie a spustenie príkladu stačí pod používateľ
 # ./clm4
 ```
 
-Program sa po spustení odpojí od terminálu a bude ďalej bežať na pozadí ako daemon. 
+Program sa po spustení odpojí od terminálu a bude ďalej bežať na pozadí ako daemon. 
 Ukončiť sa dá jedine zaslaním signálu `SIGTERM` alebo `SIGKILL`. 
 Ak neviete ako na to, mohla by vám pomôcť *"Lekcia4 - Získavanie informácií o systéme"* z [kurzu o systéme GNU/Linux][9].
 
@@ -164,7 +164,7 @@ Za nedostatok však možno považovať fakt, že pri ukončení daemona ostan
 
 V programoch pre unixové operačné systémy je možné pomocou funkcie `signal` určiť funkciu, ktorá má byť vykonaná pri prijatí definovaného signálu. 
 Možno vám práve napadlo vytvoriť funkciu, ktorá zabezpečí zhasnutie všetkých diód a s pomocou funkcie `signal` ju vykonať pri prijatí signálu `SIGTERM`. 
-Tento postup by samozrejme fungoval, no po prečítaní manuálu (`man 2 signal`) som nadobudol pocit, že bude lepšie, ak bude v obslužnej funkcii čo najmenej kódu. 
+Tento postup by samozrejme fungoval, no po prečítaní manuálu (`man 2 signal`) som nadobudol pocit, že bude lepšie, ak bude v obslužnej funkcii čo najmenej kódu. 
 Preto som upravil podmienku v hlavnom cykle programu tak, aby vykonanie obslužnej funkcie `spracovanie_signalu` spôsobilo ukončenie tohto cyklu a vykonanie kódu nasledujúceho za ním. 
 Tento kód samozrejme zabezpečí zhasnutie všetkých diód a ukončenie programu.
 
@@ -184,7 +184,7 @@ Samozrejme je možné presmerovať štandardný výstup do súboru, z ktorého
 Väčšinou sa však používa logovanie udalostí pomocou syslog daemona, ktorý je štandardnou súčasťou snáď každého unixového systému.
 
 Komunikácia s týmto daemonom sa inicializuje volaním funkcie `openlog`, ktorej tretí parameter určuje "syslog facility" a správa určená na zaznamenanie do systémových logov sa syslog-u odosiela pomocou rovnomennej funkcie `syslog`, ktorej prvý parameter zase určuje "syslog priority". 
-Po skončení práce so syslog daemonom by sa mala komunikácia ukončiť volaním funkcie `closelog`. 
+Po skončení práce so syslog daemonom by sa mala komunikácia ukončiť volaním funkcie `closelog`. 
 Ak vám termíny ako "facility" alebo "priority" nič nehovoria, odporúčam vám preštudovať časť [príručky systémového administrátora][11] popisujúcu [syslog daemona][12] a následne aj manuál (`man 3 syslog`) k spomínaným funkciám.
 
 [Ukážkový program č. 6][13] rozširuje predchádzajúci príklad o logovanie udalostí prostredníctvom syslog daemona. 
@@ -198,7 +198,7 @@ Pre stiahnutie, skompilovanie a spustenie príkladu stačí pod používateľ
 
 # 8. Záver
 
-Ukážkový program č. 6 obsahuje na začiatku článku požadovanú funkcionalitu - je to daemon, zabezpečuje rozsvecovanie diód na vyššie popísanom hardvéri podľa aktuálneho využitia procesora, je schopný spracovávať signály a komunikuje so syslog daemonom.
+Ukážkový program č. 6 obsahuje na začiatku článku požadovanú funkcionalitu - je to daemon, zabezpečuje rozsvecovanie diód na vyššie popísanom hardvéri podľa aktuálneho využitia procesora, je schopný spracovávať signály a komunikuje so syslog daemonom.
 
 Špeciálne poďakovanie si zaslúži [Michal Kopček][14], bez pomoci ktorého by tento článok nevznikol.
 

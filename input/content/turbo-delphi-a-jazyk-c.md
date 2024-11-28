@@ -17,9 +17,9 @@ Predstavuje spôsob, ako napísať časť programu v jazyku C a použiť ju v�
 
 Jednou z hlavných úloh tohto článku je názorne predviesť, ako v prostredí [Microsoft Visual Studio 2005 Professional][2] vytvoriť dynamicky linkovanú knižnicu (DLL súbor), ktorá exportuje funkcie obsahujúce potrebný kód napísaný v jazyku C a ako ju následne pripojiť k projektu vyvíjanému v Turbo Delphi.
 
-# Vytvorenie DLL knižnice vo Visual C++
+# Vytvorenie DLL knižnice vo Visual C++
 
-Vo Visual Studiu zvoľte možnosť založiť nový projekt pomocou menu "File > New > Project".
+Vo Visual Studiu zvoľte možnosť založiť nový projekt pomocou menu "File > New > Project".
 
 V okne "Project Types" vyberte voľbu "Visual C++ > Win32 > Win32 Console Application" a zvoľte názov projektu `DLLtest`.
 

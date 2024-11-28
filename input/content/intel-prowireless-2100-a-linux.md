@@ -4,16 +4,16 @@ date: 2005-10-19T12:14:21+00:00
 draft: false
 ji_lang_name: Slovak
 ji_lang_code: sk
-ji_rss_desc: Tiež patríte medzi ľudí, ktorí si kúpili notebook pýšiaci sa technológiou intel centrino a po inštalácii obľúbenej linuxovej distribúcie ste zistili, že "nefunguje" wifi karta? Tento problém sa samozrejme dá riešiť a s týmto návodom by to mal zvládnuť takmer každý.
+ji_rss_desc: Tiež patríte medzi ľudí, ktorí si kúpili notebook pýšiaci sa technológiou intel centrino a po inštalácii obľúbenej linuxovej distribúcie ste zistili, že "nefunguje" wifi karta? Tento problém sa samozrejme dá riešiť a s týmto návodom by to mal zvládnuť takmer každý.
 ---
 
-Tiež patríte medzi ľudí, ktorí si kúpili notebook pýšiaci sa technológiou intel centrino a po inštalácii obľúbenej linuxovej distribúcie ste zistili, že "nefunguje" wifi karta? 
+Tiež patríte medzi ľudí, ktorí si kúpili notebook pýšiaci sa technológiou intel centrino a po inštalácii obľúbenej linuxovej distribúcie ste zistili, že "nefunguje" wifi karta? 
 Nie je to tým, že by bola vaša distribúcia zlá, ale tým, že ovládače pre karty Intel PRO/Wireless 2100 zatiaľ neboli oficiálne začlenené do linuxového jadra a kvôli reštriktívnej licencii na firmvér asi ani nebudú. 
 Tento problém sa samozrejme dá riešiť a s týmto návodom by to mal zvládnuť takmer každý.
 
 [![ipw2100 MiniPCI](ipw2100.jpg)][1]
 
-Zo stránky [ipw2100.sourceforge.net][2] si stiahnite [ovládače][3] a [firmvér][4]. 
+Zo stránky [ipw2100.sourceforge.net][2] si stiahnite [ovládače][3] a [firmvér][4]. 
 Ak máte kernel radu 2.4, budete potrebovať aj [backpatch][5]. 
 Inštaláciu vykonávajte ako superužívateľ root. 
 Priamo v koreňovom adresári si vytvorte osobitný adresár určený len pre ňu a nakopírujte tam stiahnuté súbory.
@@ -84,7 +84,7 @@ Nakoniec môžete celý adresár `/build` odstrániť a reštartovať systém.
 # reboot
 ```
 
-Po reštarte si príkazom `lsmod` overte, či kernel používa modul `ipw2100`. Ak nie, nahrajte ho (samozrejme ako root) ručne
+Po reštarte si príkazom `lsmod` overte, či kernel používa modul `ipw2100`. Ak nie, nahrajte ho (samozrejme ako root) ručne
 
 ```
 # modprobe ipw2100
@@ -93,7 +93,7 @@ Po reštarte si príkazom `lsmod` overte, či kernel používa modul `ipw2100`.
 Na záver stačí už len nastaviť parametre bezdrôtovej siete. 
 Nasledovné príklady by vám v tom mohli pomôcť.
 
-**Sieť typu "ad-hoc" so statickou IP adresou:**
+**Sieť typu "ad-hoc" so statickou IP adresou:**
 
 ```
 # iwconfig eth1 mode ad-hoc channel 5 essid linux

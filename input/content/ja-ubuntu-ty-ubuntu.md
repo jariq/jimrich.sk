@@ -7,7 +7,7 @@ ji_lang_code: sk
 ji_rss_desc: Cieľom článku je previesť mojím "postinštalačným rituálom" pre Ubuntu 6.06 (Dapper Drake) používateľa ľubovoľnej inej distribúcie.
 ---
 
-Bola doba, keď som mal z inštalácie softvéru zo zdrojových kódov strach, pretože môj [Mandrake][1] pri nej stále vyhadzoval nejaké chyby. 
+Bola doba, keď som mal z inštalácie softvéru zo zdrojových kódov strach, pretože môj [Mandrake][1] pri nej stále vyhadzoval nejaké chyby. 
 Niekde som sa dočítal, že existuje distribúcia [Debian][2] a že sú pre ňu dostupné tisíce binárnych balíkov. 
 S vidinou lepšej budúcnosti som sa teda pretrápil inštaláciou stable vetvy a zistil som, že balíkov síce sú tisíce, no nie práve najnovších verzií. 
 Tak som Debian nechal Debianom a predstavoval si, aký by to bol systém, keby sa dal ľahšie nainštalovať a mal novšie verzie balíkov. 
@@ -15,7 +15,7 @@ Dnes už si taký systém predstavovať nemusím.
 Je tu a volá sa [Ubuntu][3].
 
 Hneď v úvode musím upozorniť, že článok nie je určený pre začínajúcich používateľov. 
-Jeho cieľom je stručne previesť mojím "postinštalačným rituálom" používateľa ľubovoľnej inej distribúcie a upozorniť ho na niektoré vlastnosti, ktorými sa tento systém vo verzii 6.06 (Dapper Drake) líši od ostatných distribúcií.
+Jeho cieľom je stručne previesť mojím "postinštalačným rituálom" používateľa ľubovoľnej inej distribúcie a upozorniť ho na niektoré vlastnosti, ktorými sa tento systém vo verzii 6.06 (Dapper Drake) líši od ostatných distribúcií.
 
 # 1. Kde je root?
 
@@ -32,7 +32,7 @@ Ak sa rozhodnete používať sudo a budete spúšťať za sebou viacero príka
 $ sudo su
 ```
 
-Po zadaní vášho používateľského hesla budete mať prístupný plnohodnotný rootovský shell. 
+Po zadaní vášho používateľského hesla budete mať prístupný plnohodnotný rootovský shell. 
 Ak však preferujete klasický prístup, stačí ak pre používateľa root vytvoríte heslo
 
 ```
@@ -44,7 +44,7 @@ a upravíte súbor `/etc/sudoers`, kde odoberiete právo bežným používateľ
 # 2. Verzie, zdroje balíkov a nástroje APT
 
 Jednotlivé verzie Ubuntu majú samozrejme číselné značenie, no zároveň má každá verzia svoj vlastný názov, ako napríklad "Hoary Hedgehog", "Breezy Badger", či "Dapper Drake". 
-Používatelia vo fórach často používajú radšej tieto mená než numerické verzie, preto by ste si mali čím skôr na ne zvyknúť a overiť si, ako sa volá verzia, ktorú používate.
+Používatelia vo fórach často používajú radšej tieto mená než numerické verzie, preto by ste si mali čím skôr na ne zvyknúť a overiť si, ako sa volá verzia, ktorú používate.
 
 To, že Ubuntu vychádza z Debianu potvrdzuje aj skutočnosť, že používa deb balíky a nástroje na ich správu súhrne známe pod názvom APT. 
 V úvode spomínané tisíce balíkov sú rozdelené do [viacerých skupín][5]. 
@@ -52,8 +52,8 @@ Prvou z nich je skupina **main** obsahujúca základné komponenty systému, kt
 V skupine **restricted** sa nachádzajú balíky, ktorých licencia nejakým spôsobom čiastočne zabraňuje ich úplne voľnému šíreniu, no sú bežne používané a pre niektoré počítačové systémy nevyhnutné. 
 Na balíky z týchto dvoch skupín poskytuje Ubuntu Team plnú podporu a garantuje vydávanie bezpečnostných záplat. 
 Skupina balíkov s názvom **universe** obsahuje obrovské množstvo softvéru, ktorý však nie je oficiálne udržiavaný Ubuntu Teamom a o aktualizácie a bezpečnostné záplaty sa stará používateľská komunita. 
-Skupina **multiverse** obsahuje na rozdiel od predchádzajúcich troch skupín len softvér, ktorý nie je voľne šíriteľný a je na používateľovi, aby si overil v licenčných podmienkach, či ho používať môže. 
-Patrí tu napríklad flash-player od firmy Macromedia. 
+Skupina **multiverse** obsahuje na rozdiel od predchádzajúcich troch skupín len softvér, ktorý nie je voľne šíriteľný a je na používateľovi, aby si overil v licenčných podmienkach, či ho používať môže. 
+Patrí tu napríklad flash-player od firmy Macromedia. 
 Pre staršie verzie systému je k dispozícii ešte skupina balíkov s názvom **backports**, v ktorej sú dostupné nové verzie niektorých často používaných programov prebrané z aktuálnej verzie systému.
 
 To, ktoré skupiny balíkov chcete používať a z akého mirroru ich sťahovať sa nastavuje v konfiguračnom súbore `/etc/apt/sources.list`. 
@@ -67,7 +67,7 @@ deb http://sk.archive.ubuntu.com/ubuntu/ dapper-backports main restricted univer
 ```
 
 Z predchádzajúcich stĺpcov by ste už mali vedieť, čo znamenajú jednotlivé názvy v týchto riadkoch. 
-Snáď len pripomeniem, že po inštalácii sú povolené iba skupiny main a restricted. 
+Snáď len pripomeniem, že po inštalácii sú povolené iba skupiny main a restricted. 
 Ak chcete používať softvér z universe a multiverse, musíte tento súbor editovať.
 
 V úvode som spomínal, že na správu balíkov používa Ubuntu nástroje APT. 
@@ -117,9 +117,9 @@ Balíky, ktoré už nepotrebujete odoberiete príkazom:
 
 Ďalšie možnosti použitia nástrojov apt môžete nájsť v manuálových stránkach (`man apt`).
 
-# 3. Softvér, ktorý mi po inštalácii chýba
+# 3. Softvér, ktorý mi po inštalácii chýba
 
-Ideálna distribúcia bohužiaľ neexistuje a v každej mi po inštalácii chýbajú niketoré programy, na ktoré som zvyknutý. 
+Ideálna distribúcia bohužiaľ neexistuje a v každej mi po inštalácii chýbajú niketoré programy, na ktoré som zvyknutý. 
 V Ubuntu pridávam nasledovné balíky:
 
 Midnight Commander:
@@ -140,7 +140,7 @@ Macromedia flash plugin pre Firefox:
 # apt-get install flashplugin-nonfree
 ```
 
-Dodatkové true type fonty od Microsoftu (Arial, Courier, Times New Roman a ďalšie):
+Dodatkové true type fonty od Microsoftu (Arial, Courier, Times New Roman a ďalšie):
 
 ```
 # apt-get install msttcorefonts
@@ -166,7 +166,7 @@ Poštový klient Mozilla Thunderbird s podporou pre [GnuPG][6]:
 ```
 
 V prostredí Gnome je predvolený emailový klient Evolution, no ja preferujem Thunderbird. 
-Preto ho po inštalácii ešte nastavujem ako predvolený pomocou grafickej aplikácie dostupnej prostredníctvom menu *"System - Preferences - Preferred Applications"*.
+Preto ho po inštalácii ešte nastavujem ako predvolený pomocou grafickej aplikácie dostupnej prostredníctvom menu *"System - Preferences - Preferred Applications"*.
 
 Ak vám vadí, že zástupcovia pre Firefox a Thunderbird v menu Applications nepoužívajú oficiálne ikony, môžete si ich stiahnuť z [kde-look.org][7] a pomocou *"Alacarte Menu Editor"* (*"Applications - Accessories - Alacarte Menu Editor"*) to napraviť.
 
@@ -200,12 +200,12 @@ V praxi to znamená len toľko, že nahradím prehrávač totem skompilovaný
 ```
 
 Pri inštalácii tohto balíka sa odoberie pôvodný `totem-gstreamer`. 
-Keď som testoval Dapper-a, tak som si všimol, že ak po tomto kroku spustím totem cez menu *"Applications"*, tak okamžite spadne. 
+Keď som testoval Dapper-a, tak som si všimol, že ak po tomto kroku spustím totem cez menu *"Applications"*, tak okamžite spadne. 
 Ak je však spustený cez Nautilus dvojklikom na nejaký video súbor, tak ho bez problému prehrá. 
 Aj to je jedna z príčin, prečo ešte stále používam Breezy-ho. 
 No o tom až v závere.
 
-Podporu prehrávania videa vo formáte mpeg4 pridáte inštaláciou balíka `libxine-extracodecs`, s ktorým sa nainštaluje aj knižnica `libmad0`, ktorá umožňuje prehrávanie zvukových súborov vo formáte mp3.
+Podporu prehrávania videa vo formáte mpeg4 pridáte inštaláciou balíka `libxine-extracodecs`, s ktorým sa nainštaluje aj knižnica `libmad0`, ktorá umožňuje prehrávanie zvukových súborov vo formáte mp3.
 
 ```
 # apt-get install libxine-extracodecs
@@ -228,15 +228,15 @@ Tento prehrávač používa staré GTK1, preto ak by sa vám jeho vzhľad nepo
 # Záver
 
 Ubuntu hodnotím ako skvelý systém na desktop, pretože v oficiálnych repozitároch je dostupné obrovské množstvo balíkov v novších verziách než sú v stable vetve Debianu. 
-Už si ani nespomínam, kedy som naposledy musel kompilovať nejaký program zo zdrojových kódov, lebo na `apt-get install takmerkazdybalik` sa zvyká veľmi ľahko :) 
+Už si ani nespomínam, kedy som naposledy musel kompilovať nejaký program zo zdrojových kódov, lebo na `apt-get install takmerkazdybalik` sa zvyká veľmi ľahko :) 
 Ubuntu dokonca poopravilo aj môj nie práve najlepší názor na prostredie Gnome. 
-Táto distribúcia je určite ústretovým krokom voči začiatočníkom, no ešte stále ich môže odradiť, keď budú musieť upravovať záznamy v `/etc/fstab` kvôli nepripojeným diskovým oddielom so súborovým systémom NTFS, alebo editovať `xorg.conf`, kvôli úprave frekvencie monitora. 
+Táto distribúcia je určite ústretovým krokom voči začiatočníkom, no ešte stále ich môže odradiť, keď budú musieť upravovať záznamy v `/etc/fstab` kvôli nepripojeným diskovým oddielom so súborovým systémom NTFS, alebo editovať `xorg.conf`, kvôli úprave frekvencie monitora. 
 Pomôcť s týmito banálnymi úlohami im však môže viacero dokumentačných projektov, z ktorých musím spomenúť aspoň [Unofficial Ubuntu Starter Guide][8].
 
 Možno ste v texte postrehli, že aj keď Dapper bol vypustený už dávnejšie, ešte stále používam Breezy-ho. 
 Je to kvôli viacerým chybám podobným tej s totemom, ktoré som objavil pri testovacej inštalácii a kvôli tomu, že sa viacero mojich známych sťažovalo na stabilitu niektorých aplikácií. 
 Neberte však moje frflanie tak, že Dapper je zlý a Breeze je lepší. 
-Keby som teraz preinštalovával na mojom desktope systém, určite by som použil Dapper-a, pretože Ubuntu je distribúcia pružne reagujúca na zmeny a je možné, že nedostatky, ktoré ma odradili od upgradu pred dvoma mesiacmi sú už dávno odstránené.
+Keby som teraz preinštalovával na mojom desktope systém, určite by som použil Dapper-a, pretože Ubuntu je distribúcia pružne reagujúca na zmeny a je možné, že nedostatky, ktoré ma odradili od upgradu pred dvoma mesiacmi sú už dávno odstránené.
 
 [Článok bol publikovaný aj na portáli linuxos.sk][9]
 

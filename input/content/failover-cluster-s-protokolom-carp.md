@@ -13,7 +13,7 @@ Ako už názov článku napovedá, úlohou nasledujúceho textu je priblížiť
 
 # 1. Motivácia
 
-Nároky na dostupnosť služieb poskytovaných počítačovými systémami sú v každej organizácii špecifické a líšia sa prípad od prípadu. 
+Nároky na dostupnosť služieb poskytovaných počítačovými systémami sú v každej organizácii špecifické a líšia sa prípad od prípadu. 
 Pre niektoré spoločnosti môže byť napríklad akceptovateľný celodenný výpadok webu, pre iné pár minút nedostupnosti tejto či inej služby môže znamenať vážne straty. 
 Pri zvlášť kritických službách je vhodné implementovať redundantné riešenie a tou správnou cestou môže byť práve spomínaný failover cluster. 
 Cluster je však len čiastočným riešením problému, pretože okrem "zdvojenia" kritického systému je nutné zabezpečiť napríklad aj nepretržitý prívod elektrickej energie, záložnú sieťovú konektivitu a mnoho ďalších vecí, ktoré v konečnom dôsledku môžu spôsobiť to isté, čo chyba hardvéru.
@@ -24,7 +24,7 @@ Protokol [CARP][2] (Common Address Redundancy Protocol) je bezpečnou a voľne 
 Dovoľuje viacerým systémom z tzv. "redundantnej skupiny" zdieľať v lokálnej sieti rovnakú IP adresu. 
 Jeden systém z tejto skupiny je považovaný za "hlavný" (angl. master) a ostatné za "zálohy" (angl. backups). 
 Za normálnych okolností používa zdieľanú IP adresu iba hlavný systém a obsluhuje všetky požiadavky, ktoré sú na ňu smerované. 
-Ak by však tento systém z ľubovoľných príčin prestal reagovať, začne zdieľanú IP adresu používať jeden zo záložných systémov v závislosti od jeho priority.
+Ak by však tento systém z ľubovoľných príčin prestal reagovať, začne zdieľanú IP adresu používať jeden zo záložných systémov v závislosti od jeho priority.
 
 Tento protokol je jednou z mnohých technológií, ktoré dala svetu skupina vývojárov zoskupená okolo systému [OpenBSD][5]. 
 Jeho port pre ostatné systémy, medzi ktoré patrí samozrejme aj GNU/Linux sa volá UCARP a je k dispozícii na webovej stránke [ucarp.org][6].
@@ -46,22 +46,22 @@ Takáto konfigurácia je výhodná, keď máme výkonný počítač "poistený"
 ![Cluster schema](carp1.gif)
 
 Jednou z hlavných výhod riešenia failover cluster-a s protokolom CARP je, že nevyžaduje žiadne dodatočné sieťové prepájanie členských systémov. 
-Je tomu tak najmä vďaka skutočnosti, že všetky informácie o aktuálnom stave cluster-a, ktoré si medzi sebou tieto systémy vymieňajú, sú po sieti prenášané šifrované. 
+Je tomu tak najmä vďaka skutočnosti, že všetky informácie o aktuálnom stave cluster-a, ktoré si medzi sebou tieto systémy vymieňajú, sú po sieti prenášané šifrované. 
 Preto môžu byť všetky tri opisované počítače pripojené na jediný switch, ako je znázornené na nasledujúcom obrázku.
 
 ![Cluster schema](carp2.gif)
 
-V tomto zapojení by malo byť možné pripojiť sa z klientskeho počítača priamo na WEB1 i WEB2 a po nainštalovaní a nakonfigurovaní balíka ucarp bude možné pripájať sa aj priamo na zdieľanú IP adresu, ktorú bude používať jeden z dvoch členov cluster-a.
+V tomto zapojení by malo byť možné pripojiť sa z klientskeho počítača priamo na WEB1 i WEB2 a po nainštalovaní a nakonfigurovaní balíka ucarp bude možné pripájať sa aj priamo na zdieľanú IP adresu, ktorú bude používať jeden z dvoch členov cluster-a.
 
 # 4. Inštalácia balíka ucarp
 
-Ak používate distribúciu [Ubuntu][7], môžete nainštalovať balík ucarp zo skupiny universe príkazom:
+Ak používate distribúciu [Ubuntu][7], môžete nainštalovať balík ucarp zo skupiny universe príkazom:
 
 ```
 $ sudo apt-get install ucarp
 ```
 
-Pokiaľ používate inú distribúciu a balík ucarp sa v nej nenachádza, môžete ho zostaviť zo zdrojových kódov napríklad spustením nasledujúcich príkazov:
+Pokiaľ používate inú distribúciu a balík ucarp sa v nej nenachádza, môžete ho zostaviť zo zdrojových kódov napríklad spustením nasledujúcich príkazov:
 
 ```
 # wget http://download.pureftpd.org/pub/ucarp/ucarp-1.2.tar.gz
@@ -89,7 +89,7 @@ Zvyčajne tento skript ukladám do súboru `/usr/local/bin/carp-up.sh` a pre 
 echo "Prebehla zmena master hostu failover cluster-a" | /usr/bin/mail -s Cluster spravca@mail.local
 ```
 
-Druhý skript je vykonávaný v prípade, že počítač prejde zo stavu master do stavu backup. 
+Druhý skript je vykonávaný v prípade, že počítač prejde zo stavu master do stavu backup. 
 Zvyčajne tento skript ukladám do súboru `/usr/local/bin/carp-down.sh` a úplne stačí keď obsahuje uvoľnenie zdieľanej IP adresy:
 
 ```
@@ -105,7 +105,7 @@ V **modelovej situácii A** spustíme na počítači WEB1 program ucarp príka
 # ucarp --interface=eth0 --vhid=42 --pass=heslo --addr 10.1.1.10 --srcip 10.1.1.20 --upscript=/usr/local/bin/carp-up.sh --downscript=/usr/local/bin/carp-down.sh --daemonize
 ```
 
-Na počítači WEB2 spustíme program ucarp príkazom, ktorý sa od predchádzajúceho líši iba IP adresou systému:
+Na počítači WEB2 spustíme program ucarp príkazom, ktorý sa od predchádzajúceho líši iba IP adresou systému:
 
 ```
 # ucarp --interface=eth0 --vhid=42 --pass=heslo --addr 10.1.1.10 --srcip 10.1.1.30 --upscript=/usr/local/bin/carp-up.sh --downscript=/usr/local/bin/carp-down.sh --daemonize
@@ -119,7 +119,7 @@ Posledný parameter `daemonize` zabezpečuje daemonizáciu procesu, a teda okre
 Pri takejto konfigurácii sa hlavným systémom stane počítač, na ktorom bude program ucarp spustený skôr. 
 Pre názornosť predpokladajme, že to bude počítač WEB1. 
 V prípade, že tomuto počítaču odpojíme sieťový kábel, prejde do stavu master počítač WEB2. 
-Počítač WEB1 po obnovení pripojenia zistí, že sa na sieti už nachádza hlavný systém s rovnakou prioritou (WEB2) a prejde do stavu backup. 
+Počítač WEB1 po obnovení pripojenia zistí, že sa na sieti už nachádza hlavný systém s rovnakou prioritou (WEB2) a prejde do stavu backup. 
 Do stavu master prejde až pri budúcom výpadku aktuálneho hlavného systému, ktorým je v tomto prípade WEB2.
 
 V **modelovej situácii B** spustíme na preferovanom systéme WEB1 program ucarp príkazom:
@@ -141,10 +141,10 @@ Keďže počítač WEB2 chceme používať ako záložný systém, prispôsobím
 
 Pri takejto konfigurácii nezáleží na tom, či bol program ucarp na niektorom počítači spustený skôr alebo neskôr. 
 Hlavným systémom bude vždy počítač WEB1. 
-Ak ho odpojíme od siete, prejde do stavu master počítač WEB2. 
+Ak ho odpojíme od siete, prejde do stavu master počítač WEB2. 
 Ak WEB1 pripojíme späť, WEB2 sa okamžite vráti do stavu backup. 
-Po pripojení preferovaného systému sa však pravdepodobne prejaví dočasné obmedzenie jeho konektivity ako dôsledok skutočnosti, že tento systém nevyšle do lokálnej siete gratuitous ARP obežník. 
-Tento výpadok by však nemal trvať viac než minútu, kým v ARP cache okolitých systémov neexspiruje záznam vytvorený v dôsledku predchádzajúcej komunikácie so záložným systémom.
+Po pripojení preferovaného systému sa však pravdepodobne prejaví dočasné obmedzenie jeho konektivity ako dôsledok skutočnosti, že tento systém nevyšle do lokálnej siete gratuitous ARP obežník. 
+Tento výpadok by však nemal trvať viac než minútu, kým v ARP cache okolitých systémov neexspiruje záznam vytvorený v dôsledku predchádzajúcej komunikácie so záložným systémom.
 
 Na existenciu tohto problému som sa už dva krát pokúšal upozorniť autora programu ucarp, no zatiaľ sa mi s ním nepodarilo nadviazať kontakt. 
 V dohľadnej dobe sa preto chystám pripraviť patch, ktorý zabezpečí vyslanie spomínaného ARP obežníka a následne by som chcel tému prebrať s vývojármi referenčnej implementácie v systéme OpenBSD, ktorá bohužiaľ trpí rovnakým nedostatkom.

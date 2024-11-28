@@ -7,7 +7,7 @@ ji_lang_code: sk
 ji_rss_desc: Tento návod vám pomôže nainštalovať a nakonfigurovať známy vsftpd server.
 ---
 
-Potrebujete po sieti prijímať väčšie množstvo súborov a už vás a ani vašich kolegov nebaví posielať ich cez icq? 
+Potrebujete po sieti prijímať väčšie množstvo súborov a už vás a ani vašich kolegov nebaví posielať ich cez icq? 
 Riešenie je jednoduché - pustite na vašej pracovnej stanici ftp server. 
 Neviete ako na to? 
 Čítajte ďalej a tento návod vám pomôže nainštalovať a nakonfigurovať známy [vsftpd][1] server. 
@@ -15,7 +15,7 @@ Návod je "šitý na mieru" pre distribúciu Slackware, ale s výnimkou umie
 
 # 1. Inštalácia a príprava systému
 
-Keďže je vsftpd súčasťou spomínanej distribúcie, nemusíme ho kompilovať zo zdrojových kódov, ale stačí napr. pomocou utility `slackpkg` nainštalovať distribučný balík. 
+Keďže je vsftpd súčasťou spomínanej distribúcie, nemusíme ho kompilovať zo zdrojových kódov, ale stačí napr. pomocou utility `slackpkg` nainštalovať distribučný balík. 
 Ako root teda zadáme príkaz:
 
 ```
@@ -64,7 +64,7 @@ Posledný krok v príprave systému je vytvorenie adresára, v ktorom budú s�
 
 Vsftpd server má konfiguráciu uloženú v konfiguračnom súbore `/etc/vsftpd.conf`, ktorý je síce dobre komentovaný, no ako býva zvykom, neobsahuje všetky možné direktívy. 
 Tie sa môžeme dozvedieť jedine čítaním manuálu (`man vsftpd.conf`). 
-Konfiguračný súbor pre náš jednoduchý server môže vyzerať napríklad takto (po každej časti uvádzam komentár, ktorý do súboru samozrejme nepatrí):
+Konfiguračný súbor pre náš jednoduchý server môže vyzerať napríklad takto (po každej časti uvádzam komentár, ktorý do súboru samozrejme nepatrí):
 
 ```
 #####################################
@@ -119,7 +119,7 @@ Napriek tomu, že takto zostavený [konfiguračný súbor][2] by mal byť pre 
 # 3. Štartovací skript
 
 Pre uľahčenie spúšťania ftp servera je dobré vytvoriť si štartovací skript, ktorý môže mať napríklad [takúto podobu][3]. 
-Uložíme ho do súboru `/etc/rc.d/rc.vsftpd`, a ak chceme server spúšťať priamo po štarte operačného systému, dopíšeme na koniec súboru `/etc/rc.d/rc.local` nasledovný text:
+Uložíme ho do súboru `/etc/rc.d/rc.vsftpd`, a ak chceme server spúšťať priamo po štarte operačného systému, dopíšeme na koniec súboru `/etc/rc.d/rc.local` nasledovný text:
 
 ```
 if [ -x /etc/rc.d/rc.vsfpd ]; then

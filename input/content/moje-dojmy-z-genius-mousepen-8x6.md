@@ -29,7 +29,7 @@ Ani tie však nepoužívam, nakoľko mám pri kreslení ľavú ruku voľnú a�
 ![DzejDzej](jj.jpg)
 
 Na priloženom CD sú ovládače len pre systém MS Windows. 
-Po kratšom googlení som však našiel aj [ovládače pre systém GNU/Linux][2].
+Po kratšom googlení som však našiel aj [ovládače pre systém GNU/Linux][2].
 
 Spolu s tabletom som (znovu) objavil ešte jeden fenomén - [GIMP][3]. 
 Spolupráca tohto tabletu s gimpom mi ako nováčikovi vyráža dych. 
@@ -43,9 +43,9 @@ Teraz som si istý..
 
 ![Janka a Kopec](jankaakopec.jpg)
 
-Po nainštalovaní som si najskôr iba tak čarbal, skúšal sa podpisovať a vytešoval som sa ako malé dieťa. 
+Po nainštalovaní som si najskôr iba tak čarbal, skúšal sa podpisovať a vytešoval som sa ako malé dieťa. 
 Neskôr som sa preorientoval na kreslenie portrétov. 
-Prišlo to nenásilne, samo od seba. 
+Prišlo to nenásilne, samo od seba. 
 Kreslenie na počítači, resp. v gimpe má tú výhodu, že sa dajú používať vrstvy. 
 Takže do pozadia si vložím fotografiu osoby a potom na transparentnej vrstve nad ňou kreslím. 
 Je to cheating, uznávam, ale úžasne sa pri tom bavím a kým nezískam do ruky istotu, tak to považujem za vhodný druh tréningu.

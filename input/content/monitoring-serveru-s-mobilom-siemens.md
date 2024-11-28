@@ -4,10 +4,10 @@ date: 2005-09-02T12:20:55+00:00
 draft: false
 ji_lang_name: Slovak
 ji_lang_code: sk
-ji_rss_desc: Po prečítaní článku o mobilných telefónoch Siemens v linuxe na českom serveri linuxsoft.cz som sa rozhodol, že pripojím mobil k jednému mnou spravovanému firewallovému systému a ten mi bude sms správami ohlasovať napríklad nedovolené prístupy k vybraným službám.
+ji_rss_desc: Po prečítaní článku o mobilných telefónoch Siemens v linuxe na českom serveri linuxsoft.cz som sa rozhodol, že pripojím mobil k jednému mnou spravovanému firewallovému systému a ten mi bude sms správami ohlasovať napríklad nedovolené prístupy k vybraným službám.
 ---
 
-Po prečítaní článku [o mobilných telefónoch Siemens v linuxe][1] na českom serveri [linuxsoft.cz][2] som sa rozhodol, že pripojím mobil k jednému mnou spravovanému firewallovému systému a ten mi bude sms správami ohlasovať napríklad nedovolené prístupy k vybraným službám. 
+Po prečítaní článku [o mobilných telefónoch Siemens v linuxe][1] na českom serveri [linuxsoft.cz][2] som sa rozhodol, že pripojím mobil k jednému mnou spravovanému firewallovému systému a ten mi bude sms správami ohlasovať napríklad nedovolené prístupy k vybraným službám. 
 Pripojenie som bol nútený realizovať cez sériový port, keďže na spomínanom serveri som zaviedol minimalistický "custom kernel" a myslím si, že podpora USB alebo nebodaj bluetooth by tam bola zbytočným prežitkom.
 
 # 1. Hardware
@@ -17,7 +17,7 @@ Preto som zháňal ďalej a nakoniec ma správnym modelom - **Siemens S45i**�
 S mobilom v ruke som sa vybral kúpiť sériový kábel. 
 V prvom mobil shope ma predavač presviedčal, že také niečo sa už nevyrába, v ďalšom ho aspoň hľadal v katalógu. 
 Samozrejme neúspešne. 
-Ale nevzdal som sa a po nejakej tej hodinke behania po meste som ho predsa len kúpil.
+Ale nevzdal som sa a po nejakej tej hodinke behania po meste som ho predsa len kúpil.
 
 # 2. Úprava kábla
 Problém, ktorý treba pri neustálom pripojení telefónu značky Siemens k počítaču vyriešiť je jeho napájanie, pretože tieto telefóny používajú jediný konektor pre napájanie aj pre dátové prenosy. 
@@ -31,7 +31,7 @@ Vykonaná operácia je znázornená na obrázku:
 
 Samozrejme treba správne nakonfigurovať sériový port. 
 Na distribúcii Slackware stačí v `/etc/serial.conf` zrušiť komentár na riadku prislúchajúcemu `/dev/ttyS0` a skontrolovať, či sa pri štarte spúšťa inicializačný skript `/etc/rc.d/rc.serial`. 
-Pre samotnú komunikáciu s telefónom som použil na linuxsoft.cz opisovaný program [SCMxx][3] od nemeckého autora Hendrika Sattlera, ktorý je určený pre shell a teda ľahko použiteľný v skriptoch.
+Pre samotnú komunikáciu s telefónom som použil na linuxsoft.cz opisovaný program [SCMxx][3] od nemeckého autora Hendrika Sattlera, ktorý je určený pre shell a teda ľahko použiteľný v skriptoch.
 
 # 4. Oznamovanie nedovoleného prístupu
 

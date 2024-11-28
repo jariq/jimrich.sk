@@ -26,14 +26,14 @@ Jednou z kľúčových vlastností každého VPN riešenia je šifrovanie, ktor
 Dáta zašifrované nejakým heslom je možné dešifrovať len tým istým heslom. 
 Hlavným problémom tohto spôsobu šifrovania sa teda logicky stáva bezpečná výmena hesla medzi zúčastnenými stranami.
 
-**Asymetrické šifry** narozdiel od symetrických, používajú kľúčový pár (napr. RSA) pozostávajúci z privátnej a verejnej časti. 
+**Asymetrické šifry** narozdiel od symetrických, používajú kľúčový pár (napr. RSA) pozostávajúci z privátnej a verejnej časti. 
 Dáta zašifrované verejným kľúčom je možné dešifrovať len privátnym kľúčom a naopak. 
 Preto verejná časť kľúčového páru môže byť distribuovaná aj po nezabezpečenom kanáli. 
 Viac o používaní asymetrických šifier sa môžete dozvedieť z článku [Sila GnuPG][1].
 
 OpenVPN podporuje obidva uvedené spôsoby šifrovania. 
 Symetrické šifrovanie sa využíva v móde s tzv. statickým kľúčom a asymetrické šifrovanie v móde využívajúcom certifikáty. 
-Základný zoznam vlastností oboch riešení som zámerne nerozdelil na výhody a nevýhody, pretože vždy závisí od konkrétneho prípadu a našich požiadaviek, či je daná vlastnosť výhodná alebo nevýhodná.
+Základný zoznam vlastností oboch riešení som zámerne nerozdelil na výhody a nevýhody, pretože vždy závisí od konkrétneho prípadu a našich požiadaviek, či je daná vlastnosť výhodná alebo nevýhodná.
 
 Riešenie so statickým kľúčom:
 
@@ -71,7 +71,7 @@ Virtuálne sieťové rozhranie systému A v nej bude používať IP adresu 10.
 
 ![Schéma siete](static2.png)
 
-Systém A bude plniť úlohu VPN servera, čo znamená, že bude na porte 1194/UDP počúvať na prichádzajúce spojenie od systému B, ktorý bude v úlohe VPN klienta.
+Systém A bude plniť úlohu VPN servera, čo znamená, že bude na porte 1194/UDP počúvať na prichádzajúce spojenie od systému B, ktorý bude v úlohe VPN klienta.
 
 # 3. Inštalácia OpenVPN
 

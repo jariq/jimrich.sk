@@ -154,7 +154,7 @@ Samozrejme ich k tomu môže viesť potreba zvýšenia bezpečnosti lokálnej 
 Ak sa rozhodnete tu popísanú techniku použiť vo vašej sieti, dovolím si vám pripomenúť, že v nej môže byť zakázaná a môžete jej použitím porušiť pravidlá používania danej siete, čo sa väčšinou neobíde bez následkov.
 
 Na tomto mieste by som rád zdôraznil, že **každý tunel má dve strany**, a preto musíte mať v externej sieti dostupný počítač, na ktorom môžete spustiť OpenVPN server. 
-Pri tunelovaní proxy servera pomocou OpenVPN sa využíva najmä skutočnosť, že SSL spojenie vytvorené aplikáciou OpenVPN je pre bežne nakonfigurovaný proxy server alebo firewall nerozoznateľné od ostatných spojení využívajúcich protokol HTTPS. 
+Pri tunelovaní proxy servera pomocou OpenVPN sa využíva najmä skutočnosť, že SSL spojenie vytvorené aplikáciou OpenVPN je pre bežne nakonfigurovaný proxy server alebo firewall nerozoznateľné od ostatných spojení využívajúcich protokol HTTPS. 
 Opisovaná technika sa samozrejme dá použiť aj v sieťach, ktoré nepoužívajú proxy server, ale sú chránené sieťovým firewallom. 
 Na jej realizáciu stačí do externých sietí otvorený jediný UDP alebo TCP port.
 

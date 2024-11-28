@@ -7,7 +7,7 @@ ji_lang_code: sk
 ji_rss_desc: Oklieštená verzia mojej bakalárskej práce s názvom "Elektronický obchod". 
 ---
 
-Takmer po roku a pol od štátnic som sa rozhodol uvoľniť oklieštenú verziu (web release) mojej bakalárskej práce s názvom "Elektronický obchod". 
+Takmer po roku a pol od štátnic som sa rozhodol uvoľniť oklieštenú verziu (web release) mojej bakalárskej práce s názvom "Elektronický obchod". 
 V práci som sa podrobne venoval najmä bezpečnosti webových aplikácií, takže každý, koho táto problematika zaujíma, môže do nej nahliadnuť.
 
 Web release verzia neobsahuje rozsiahle kapitoly s návrhom databázy a správcovskej aplikácie. 

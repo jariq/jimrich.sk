@@ -14,11 +14,11 @@ Radšej ani nebudem písať, že stelesnením MySQL bol pre nich [phpMyAdmin][
 
 # 1. Webový daemon (server) APACHE - 2.0.x
 
-Apache si môžete stiahnuť zo [stránky projektu][2], a keďže verzie 1.3.x už pre systém Windows nie sú uvoľňované v binárnej podobe, bude logickou voľbou verzia 2.0.x. 
+Apache si môžete stiahnuť zo [stránky projektu][2], a keďže verzie 1.3.x už pre systém Windows nie sú uvoľňované v binárnej podobe, bude logickou voľbou verzia 2.0.x. 
 V mojom prípade som stiahol súbor s názvom `apache_2.0.58-win32-x86-no_ssl.msi`, čo je klasický inštalátor pre systém Windows. 
 Odporúčam však pri inštalácii zmeniť cieľový adresár a nasmerovať ju priamo na disk `c:\`, kde bude inštalátorom aj tak automaticky vytvorený adresár `apache2`. 
 Ušetríte si tým množstvo času stráveného preklikávaním sa cez `Program Files` a ďalšie nezmyselné adresáre s medzerami v názve. 
-Po inštalácii stačí vo vašom prehliadači zadať adresu [http://localhost][3] a ak táto akcia neskončí chybovou hláškou, máte v systéme bežiaci webový server. 
+Po inštalácii stačí vo vašom prehliadači zadať adresu [http://localhost][3] a ak táto akcia neskončí chybovou hláškou, máte v systéme bežiaci webový server. 
 Ten prostredníctvom protokolu [HTTP][4] sprístupňuje súbory nachádzajúce sa v adresári `c:\apache2\htdocs`.
 
 Pri inštalácii príkazového interpreta PHP budeme zasahovať do konfiguračného súboru daemona Apache `c:\apache2\conf\httpd.conf`, preto ho vypneme z príkazového riadka (`cmd.exe`) príkazom:
@@ -27,7 +27,7 @@ Pri inštalácii príkazového interpreta PHP budeme zasahovať do konfigurač
 C:\> net stop apache2
 ```
 
-Treba si zapamätať, že po každej úprave konfiguračného súboru je nutné daemon Apache reštartovať. 
+Treba si zapamätať, že po každej úprave konfiguračného súboru je nutné daemon Apache reštartovať. 
 Môžete na to použiť príkazy `net stop apache2` a `net start apache2` alebo grafický nástroj systému Windows nachádzajúci sa v sekcii *"Computer Management"* s názvom *"Services"*. 
 Dokumentáciu k serveru Apache nájdete na adrese [http://httpd.apache.org/docs/2.0/][5].
 
@@ -46,7 +46,7 @@ Z [oficiálnej stránky projektu][8] si stiahnite **zip archív** PHP verzie 5.
 Verziu s inštalátorom som nikdy neskúšal, pretože v systéme Windows nie je možné presne sledovať čo tento inštalačný proces robí a používateľ tak stráca kontrolu nad systémom. 
 Stiahnutý balík rozbaľte do adresára `c:\php`.
 
-V ďalšom kroku je nutné webový server nastaviť tak, aby používal v systéme nainštalovaný interpret jazyka PHP vo forme modulu. 
+V ďalšom kroku je nutné webový server nastaviť tak, aby používal v systéme nainštalovaný interpret jazyka PHP vo forme modulu. 
 Otvorte si preto konfiguračný súbor apacha (`c:\apache\conf\httpd.conf`) v nejakom textovom editore a doplňte do neho nasledovné tri riadky:
 
 ```
@@ -57,7 +57,7 @@ PHPIniDir "C:/php"
 
 Skôr než zmeny uložíte, si ešte overte, či uvedené súbory a adresáre naozaj existujú. 
 Interpret jazyka PHP sa konfiguruje v jedinom súbore s názvom `php.ini`, ktorý bude daemon Apache vďaka predchádzajúcim nastaveniam hľadať v adresári `c:\php`. 
-Pravdepodobne sa už vo vašom systéme nachádza súbor `c:\php\php.ini-recommended`, ktorý obsahuje odporúčanú konfiguráciu. 
+Pravdepodobne sa už vo vašom systéme nachádza súbor `c:\php\php.ini-recommended`, ktorý obsahuje odporúčanú konfiguráciu. 
 Prekopírujte ho teda do súboru `c:\php\php.ini`.
 
 Ak ste zvyknutý používať ako štartovací tag skriptu `<?` namiesto `<?php`, tak nastavte v tomto súbore direktívu `short_open_tag` na hodnotu `On`.
@@ -78,7 +78,7 @@ Zobrazená stránka by mala vyzerať nejako takto:
 
 ![Prehliadač](localhost.jpg)
 
-Nezabúdajte, že ak používate PHP ako modul daemona Apache, tak po každej zmene v konfiguračnom súbore `php.ini` je nutné Apache reštartovať. 
+Nezabúdajte, že ak používate PHP ako modul daemona Apache, tak po každej zmene v konfiguračnom súbore `php.ini` je nutné Apache reštartovať. 
 Oficiálna dokumentácia k PHP je dostupná na adrese [http://www.php.net/docs.php][9] a na českom serveri [linuxsoft.cz][10] vyšiel o tomto jazyku [rozsiahly seriál][11].
 
 # 3. Databázový systém MySQL - 5.0.x
@@ -103,7 +103,7 @@ Následne môžete MySQL daemona spustiť príkazom:
 C:\> net start mysql
 ```
 
-Hneď po prvom spustení daemona MySQL vám odporúčam spustiť konzolu mysql:
+Hneď po prvom spustení daemona MySQL vám odporúčam spustiť konzolu mysql:
 
 ```
 C:\mysql\bin> mysql -u root mysql
@@ -135,7 +135,7 @@ extension_dir = "c:\php\ext"
 extension=php_mysql.dll
 ```
 
-Ak ste ešte nepracovali so žiadnym databázovým systémom, tak sa na linuxsoft.cz určite pozrite aj na [seriál o MySQL][13]. 
+Ak ste ešte nepracovali so žiadnym databázovým systémom, tak sa na linuxsoft.cz určite pozrite aj na [seriál o MySQL][13]. 
 Nezabúdajte však ani na [oficiálnu dokumentáciu][14], pretože patrí k najlepšie spracovaným dokumentáciam, aké som kedy videl.
 
 # Záver

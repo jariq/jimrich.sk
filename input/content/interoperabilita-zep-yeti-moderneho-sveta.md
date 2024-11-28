@@ -267,38 +267,38 @@ Zvýšenie schopnosti interoperability na úrovni EÚ by zas mohlo priniesť po
 # Literatúra
 
 1. SMERNICA EURÓPSKEHO PARLAMENTU A RADY 1999/93/ES z 13. decembra 1999 o rámci spoločenstva pre elektronické podpisy.  
-   [Odkaz na online verziu][1]
+   [Odkaz na online verziu][1]
 2. Zákon č. 215/2002 Z. z. o elektronickom podpise a o zmene a doplnení niektorých zákonov v znení zákona č. 76/2009 Z. z.  
-   [Odkaz na online verziu][2]
+   [Odkaz na online verziu][2]
 3. ROZHODNUTIE KOMISIE 2011/130/EÚ z 25. februára 2011, ktorým sa ustanovujú minimálne požiadavky na cezhraničné spracovanie dokumentov elektronicky podpísaných príslušnými orgánmi v zmysle smernice Európskeho parlamentu a Rady 2006/123/ES o službách na vnútornom trhu.  
-   [Odkaz na online verziu][3]
+   [Odkaz na online verziu][3]
 4. European Telecommunications Standards Institute. Plugtests™ & Standards.  
-   [Odkaz na online verziu][4] - cit. 20.01.2012
+   [Odkaz na online verziu][4] - cit. 20.01.2012
 5. European Telecommunications Standards Institute. CONFIDENTIAL DISCLOSURE AGREEMENT FOR PLUGTESTSTM EVENTS.  
-   [Odkaz na online verziu][5] - cit. 20.01.2012
+   [Odkaz na online verziu][5] - cit. 20.01.2012
 6. Národný bezpečnostný úrad. Formáty zaručených elektronických podpisov.  
    Verzia 3.0 z 12.08.2009. Č.: 1223/2010/IBEP/OEP-001.  
-   [Odkaz na online verziu][6]
+   [Odkaz na online verziu][6]
 7. Vyhláška Národného bezpečnostného úradu 136/2009 Z. z. z 26. marca 2009 o spôsobe a postupe používania elektronického podpisu v obchodnom styku a administratívnom styku.  
-   [Odkaz na online verziu][7]
+   [Odkaz na online verziu][7]
 8. Národný bezpečnostný úrad. Upresnenia obsahu a formálne špecifikácie formátov dokumentov pre ZEP.  
    Verzia 1.0 z 24.07.2007. Č.: 3198/2007/IBEP-004.  
-   [Odkaz na online verziu][8]
+   [Odkaz na online verziu][8]
 9. Vyhláška Národného bezpečnostného úradu 135/2009 Z. z. z 26. marca 2009 o formáte a spôsobe vyhotovenia zaručeného elektronického podpisu, spôsobe zverejňovania verejného kľúča úradu, podmienkach platnosti pre zaručený elektronický podpis, postupe pri overovaní a podmienkach overovania zaručeného elektronického podpisu, formáte časovej pečiatky a spôsobe jej vyhotovenia, požiadavkách na zdroj časových údajov a požiadavkách na vedenie dokumentácie časových pečiatok (o vyhotovení a overovaní elektronického podpisu a časovej pečiatky).  
-   [Odkaz na online verziu][9]
+   [Odkaz na online verziu][9]
 10. Europe's Information Society Thematic Portal. CROBIES : Study on Cross-Border Interoperability of eSignatures.  
-    [Odkaz na online verziu][10] - cit. 20.01.2012
+    [Odkaz na online verziu][10] - cit. 20.01.2012
 11. ROZHODNUTIE KOMISIE 2010/425/EÚ z 28. júla 2010,ktorým sa mení a dopĺňa rozhodnutie 2009/767/ES, pokiaľ ide o zostavenie, vedenie a uverejňovanie zoznamov dôveryhodných informácií o poskytovateľoch certifikačných služieb, ktorí sú pod dohľadom členského štátu alebo sú v ňom akreditovaní.  
-    [Odkaz na online verziu][11]
+    [Odkaz na online verziu][11]
 12. Národný bezpečnostný úrad. Informácia o podmienkach použitia rodného čísla v kvalifikovaných certifikátoch pre zaručený elektronický podpis v administratívnom styku.  
-    [Odkaz na online verziu][12] - cit. 20.01.2012
+    [Odkaz na online verziu][12] - cit. 20.01.2012
 13. SMERNICA EURÓPSKEHO PARLAMENTU A RADY 2006/123/ES z 12. decembra 2006 o službách na vnútornom trhu.  
-    [Odkaz na online verziu][13]
+    [Odkaz na online verziu][13]
 14. ROZHODNUTIE KOMISIE 2009/767/ES zo 16. októbra 2009, ktorým sa ustanovujú opatrenia na uľahčenie postupov elektronickými spôsobmi prostredníctvom "miest jednotného kontaktu" podľa smernice Európskeho parlamentu a Rady 2006/123/ES o službách na vnútornom trhu.  
-    [Odkaz na online verziu][14]
+    [Odkaz na online verziu][14]
 15. Národný bezpečnostný úrad. Formáty zoznamu zrušených certifikátov a potvrdzovania stavu a platnosti certifikátov.  
     Verzia 3.0 zo 17.01.2010. Č.: 6535/2009/IBEP/OEP-001.  
-    [Odkaz na online verziu][15]
+    [Odkaz na online verziu][15]
 
 
 [1]: http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=DD:13:24:31999L0093:SK:PDF

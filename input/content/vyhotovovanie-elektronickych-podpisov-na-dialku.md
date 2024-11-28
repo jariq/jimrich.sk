@@ -192,7 +192,7 @@ Ak systém pre vyhotovovanie elektronických podpisov na diaľku dokáže spl
 # Literatúra
 
 1. NARIADENIE EURÓPSKEHO PARLAMENTU A RADY (EÚ) č. 910/2014 z 23. júla 2014 o elektronickej identifikácii a dôveryhodných službách pre elektronické transakcie na vnútornom trhu a o zrušení smernice 1999/93/ES.  
-   [Odkaz na online verziu][1]
+   [Odkaz na online verziu][1]
 2. CEN/TS 419241:2014 - Security Requirements for Trustworthy Systems Supporting Server Signing
 
 [1]: http://eurlex.europa.eu/legal-content/SK/ALL/?uri=CELEX:32014R0910

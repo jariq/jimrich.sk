@@ -17,11 +17,11 @@ Preto sa budeme zaoberať práve tvorbou firewallu pomocou iptables.
 # 1. Úvod
 
 Pravidlá pre filtrovanie paketov sa pomocou iptables zoraďujú do troch hlavných reťazí - **INPUT**, **OUTPUT** a **FORWARD**. 
-Reťaz INPUT, ako už jej názov napovedá, bude obsahovať pravidlá pre pakety vstupujúce do systému zo siete. 
+Reťaz INPUT, ako už jej názov napovedá, bude obsahovať pravidlá pre pakety vstupujúce do systému zo siete. 
 Reťaz OUTPUT zas obsahuje pravidlá pre pakety odchádzajúce z nášho systému do siete a reťaz FORWARD sa využíva pri budovaní routerov a firewallov oddeľujúcich siete. 
 Pri bežnom zabezpečení pracovnej stanice alebo servera sa reťaz FORWARD nevyužíva.
 
-Paket, ktorý príde do systému je porovnávaný postupne so všetkými pravidlami odpovedajúcej reťaze (pre prichádzajúce pakety je to INPUT) a pri nájdení prvého pravidla, ktorému vyhovuje sa s ním vykoná akcia, ktorú toto pravidlo definuje. 
+Paket, ktorý príde do systému je porovnávaný postupne so všetkými pravidlami odpovedajúcej reťaze (pre prichádzajúce pakety je to INPUT) a pri nájdení prvého pravidla, ktorému vyhovuje sa s ním vykoná akcia, ktorú toto pravidlo definuje. 
 Najbežnejšie akcie sú **ACCEPT**, **REJECT** a **DROP**. 
 ACCEPT povolí prechod paketu, DROP paket zahodí a REJECT paket odmietne, pričom o tom pomocou ICMP správy informuje jeho zdroj.
 
@@ -42,15 +42,15 @@ target prot opt source destination
 ```
 
 Na výpise môžeme vidieť už spomínané tri hlavné reťaze a za každou z nich v zátvorke uvedenú politiku reťaze. 
-Politika reťaze je základným pravidlom, ktoré platí pre paket, ktorý sa nezhoduje so žiadnym pravidlom z danej reťaze. 
-Z príkladu je zrejmé, že pre pakety prichádzajúce do systému zo siete (INPUT) je politika ACCEPT a pretože reťaz neobsahuje žiadne pravidlá, budú všetky pakety prijaté. 
+Politika reťaze je základným pravidlom, ktoré platí pre paket, ktorý sa nezhoduje so žiadnym pravidlom z danej reťaze. 
+Z príkladu je zrejmé, že pre pakety prichádzajúce do systému zo siete (INPUT) je politika ACCEPT a pretože reťaz neobsahuje žiadne pravidlá, budú všetky pakety prijaté. 
 Obdobná situácia je aj v reťaziach FORWARD a OUTPUT.
 
 # 2. Syntax
 
-Po nutnom, avšak veľmi odľahčenom teoretickom úvode nasleduje názorná ukážka syntaxe iptables. 
+Po nutnom, avšak veľmi odľahčenom teoretickom úvode nasleduje názorná ukážka syntaxe iptables. 
 Tieto príklady obsahujú popis len základných parametrov. 
-Pre kompletný opis možností odporúčam preštudovať manuálové stránky programu iptables `man iptables`.
+Pre kompletný opis možností odporúčam preštudovať manuálové stránky programu iptables `man iptables`.
 
 ```
 # iptables -F
@@ -63,7 +63,7 @@ Vymaže všetky definované pravidlá v reťaziach INPUT OUTPUT a FORWARD.
 ```
 
 Nastaví politiku (`-P`) pre reťaz INPUT na DROP. 
-Na vstupe zo siete sú teda odhadzované všetky pakety, pre ktoré neexistuje iné pravidlo.
+Na vstupe zo siete sú teda odhadzované všetky pakety, pre ktoré neexistuje iné pravidlo.
 
 ```
 # iptables -A INPUT -p tcp --dport 80 -m state --state NEW -j ACCEPT
@@ -107,7 +107,7 @@ Reťaz INPUT má politiku DROP, aby sa zamedzilo pokusom o pripojenie sa k ne
 Reťaz FORWARD má politiku DROP, pretože sa jedná o jednoduchý systém, ktorý nepreposiela pakety medzi dvoma sieťami. 
 Politika ACCEPT reťaze OUTPUT znamená, že akákoľvek sieťová komunikácia, ktorú zahájime z našej stanice je povolená. 
 Nasledujúce pravidlo povoľuje spojenia z localhostu. 
-Localhost je fiktívne sieťové rozhranie reprezentujúce náš systém a ten sám so sebou komunikovať môže. 
+Localhost je fiktívne sieťové rozhranie reprezentujúce náš systém a ten sám so sebou komunikovať môže. 
 Ak by toto pravidlo chýbalo, nemusel by vôbec na pracovnej stanici fungovať grafický X-server. 
 Posledné pravidlo skriptu garantuje vstup do systému paketom, ktoré pochádzajú z niektorého spojenia, ktoré sme nadviazali z našej stanice. 
 Teda z vonkajšej siete nemôže byť zahájená komunikácia s naším systémom, ale náš systém môže zahájit komunikáciu s vonkajšími systémami a tejto komunikácii bude garantovaný hladký priebeh.
