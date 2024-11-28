@@ -1,14 +1,14 @@
 ---
-title: "Basic analysis of segmentation fault on Linux platforms"
+title: "Basic analysis of segmentation fault on Linux platforms"
 date: 2015-11-23T22:49:45+00:00
 draft: false
 ji_lang_name: English
 ji_lang_code: en
-ji_rss_desc: I was adding a few lines of new code to pkcs11-logger library on Windows last week and when I was happy with the result I wanted to test the code on Linux. It built nicely but when I tried to use the resulting library with pkcs11-tool I got segmentation fault.
+ji_rss_desc: I was adding a few lines of new code to pkcs11-logger library on Windows last week and when I was happy with the result I wanted to test the code on Linux. It built nicely but when I tried to use the resulting library with pkcs11-tool I got segmentation fault.
 ---
 
-I was adding a few lines of new code to [pkcs11-logger][1] library on Windows last week and when I was happy with the result I wanted to test the code on Linux. 
-It built nicely but when I tried to use the resulting library with `pkcs11-tool` I got [segmentation fault][2].
+I was adding a few lines of new code to [pkcs11-logger][1] library on Windows last week and when I was happy with the result I wanted to test the code on Linux. 
+It built nicely but when I tried to use the resulting library with `pkcs11-tool` I got [segmentation fault][2].
 
 ```
 jariq@ubuntu:~$ pkcs11-tool --module pkcs11-logger-x64.so -I
@@ -16,11 +16,11 @@ jariq@ubuntu:~$ pkcs11-tool --module pkcs11-logger-x64.so -I
 Aborted (core dumped)
 ```
 
-Segfault indicates memory access violation and the displayed error will almost never reveal which library and/or function should be blamed for it. 
-Luckily linux kernel has the ability to dump the memory of faulting process into a [core file][3].
+Segfault indicates memory access violation and the displayed error will almost never reveal which library and/or function should be blamed for it. 
+Luckily linux kernel has the ability to dump the memory of faulting process into a [core file][3].
 
-Core file gets generated automatically when segfault occurs and its size does not overflow corresponding ulimit. 
-Maximum allowed size of core file can be displayed with `ulimit -c` command and the limit can be completely removed with `ulimit -c unlimited` command.
+Core file gets generated automatically when segfault occurs and its size does not overflow corresponding ulimit. 
+Maximum allowed size of core file can be displayed with `ulimit -c` command and the limit can be completely removed with `ulimit -c unlimited` command.
 
 ```
 jariq@ubuntu:~$ ulimit -c
@@ -30,8 +30,8 @@ jariq@ubuntu:~$ ulimit -c
 unlimited
 ```
 
-Failing program needs to be executed once again after the size limit has been removed. 
-Right after the segfault there will be core file generated in a current directory.
+Failing program needs to be executed once again after the size limit has been removed. 
+Right after the segfault there will be core file generated in a current directory.
 
 ```
 jariq@ubuntu:~$ pkcs11-tool --module pkcs11-logger-x64.so -I
@@ -41,7 +41,7 @@ jariq@ubuntu:~$ ls –la | grep core
 -rw-------  1 jariq jariq 729088 nov 21 07:50 core
 ```
 
-Saved core file can be opened for example with GNU Debugger:
+Saved core file can be opened for example with GNU Debugger:
 
 ```
 jariq@ubuntu:~$ gdb pkcs11-tool core
@@ -70,7 +70,7 @@ Program terminated with signal SIGABRT, Aborted.
 (gdb)
 ```
 
-Backtrace of all stack frames can be printed with `where` command issued in gdb shell:
+Backtrace of all stack frames can be printed with `where` command issued in gdb shell:
 
 ```
 (gdb) where
@@ -88,8 +88,8 @@ Backtrace of all stack frames can be printed with `where` command issued in gdb 
 #11 0x0000000000406072 in ?? ()
 ```
 
-Displayed backtrace clearly identified [line 237 of init.c file][4] as a source of the failure. 
-I have examined the code and I found out that I was trying to free statically allocated memory returned by [`getenv()`][5] function. OMG :)
+Displayed backtrace clearly identified [line 237 of init.c file][4] as a source of the failure. 
+I have examined the code and I found out that I was trying to free statically allocated memory returned by [`getenv()`][5] function. OMG :)
 
 
 [1]: https://github.com/Pkcs11Interop/pkcs11-logger
