@@ -1,10 +1,10 @@
 ---
-title: "VPN siete s OpenVPN (2)"
+title: "VPN siete s OpenVPN (2)"
 date: 2008-10-20T07:15:20+00:00
 draft: false
 ji_lang_name: Slovak
 ji_lang_code: sk
-ji_rss_desc: Teoretické poznatky o VPN sieťach z prvého dielu dnes rozšírime o prvú praktickú skúsenosť. Názorne si predvedieme nasadenie OpenVPN v najjednoduchšej forme t.j. vo forme VPN serveru pre jediného klienta s využitím statického šifrovacieho kľúča.
+ji_rss_desc: Teoretické poznatky o VPN sieťach z prvého dielu dnes rozšírime o prvú praktickú skúsenosť. Názorne si predvedieme nasadenie OpenVPN v najjednoduchšej forme t.j. vo forme VPN serveru pre jediného klienta s využitím statického šifrovacieho kľúča.
 ---
 
 Všetky diely seriálu: 
@@ -14,84 +14,84 @@ Všetky diely seriálu:
 [4](/vpn-siete-s-openvpn-4/) 
 [5](/vpn-siete-s-openvpn-5/)
 
-Teoretické poznatky o VPN sieťach z prvého dielu dnes rozšírime o prvú praktickú skúsenosť. 
-Názorne si predvedieme nasadenie OpenVPN v najjednoduchšej forme t.j. vo forme VPN serveru pre jediného klienta s využitím statického šifrovacieho kľúča.
+Teoretické poznatky o VPN sieťach z prvého dielu dnes rozšírime o prvú praktickú skúsenosť. 
+Názorne si predvedieme nasadenie OpenVPN v najjednoduchšej forme t.j. vo forme VPN serveru pre jediného klienta s využitím statického šifrovacieho kľúča.
 
 # 1. Statický kľúč vs. certifikáty
 
-Jednou z kľúčových vlastností každého VPN riešenia je šifrovanie, ktoré zabraňuje nielen odpočúvaniu prenosov ale aj neoprávnenému pozmeneniu prenášaných údajov. 
-Šifry môžeme vo všeobecnosti rozdeliť na symetrické a asymetrické.
+Jednou z kľúčových vlastností každého VPN riešenia je šifrovanie, ktoré zabraňuje nielen odpočúvaniu prenosov ale aj neoprávnenému pozmeneniu prenášaných údajov. 
+Šifry môžeme vo všeobecnosti rozdeliť na symetrické a asymetrické.
 
-**Symetrické šifry** zväčša využívajú na šifrovanie údajov i na ich dešifrovanie jedno tajomstvo - v prevažnej väčšine implementácií je to heslo. 
-Dáta zašifrované nejakým heslom je možné dešifrovať len tým istým heslom. 
+**Symetrické šifry** zväčša využívajú na šifrovanie údajov i na ich dešifrovanie jedno tajomstvo - v prevažnej väčšine implementácií je to heslo. 
+Dáta zašifrované nejakým heslom je možné dešifrovať len tým istým heslom. 
 Hlavným problémom tohto spôsobu šifrovania sa teda logicky stáva bezpečná výmena hesla medzi zúčastnenými stranami.
 
-**Asymetrické šifry** narozdiel od symetrických, používajú kľúčový pár (napr. RSA) pozostávajúci z privátnej a verejnej časti. 
-Dáta zašifrované verejným kľúčom je možné dešifrovať len privátnym kľúčom a naopak. 
-Preto verejná časť kľúčového páru môže byť distribuovaná aj po nezabezpečenom kanáli. 
-Viac o používaní asymetrických šifier sa môžete dozvedieť z článku [Sila GnuPG][1].
+**Asymetrické šifry** narozdiel od symetrických, používajú kľúčový pár (napr. RSA) pozostávajúci z privátnej a verejnej časti. 
+Dáta zašifrované verejným kľúčom je možné dešifrovať len privátnym kľúčom a naopak. 
+Preto verejná časť kľúčového páru môže byť distribuovaná aj po nezabezpečenom kanáli. 
+Viac o používaní asymetrických šifier sa môžete dozvedieť z článku [Sila GnuPG][1].
 
 OpenVPN podporuje obidva uvedené spôsoby šifrovania. 
-Symetrické šifrovanie sa využíva v móde s tzv. statickým kľúčom a asymetrické šifrovanie v móde využívajúcom certifikáty. 
-Základný zoznam vlastností oboch riešení som zámerne nerozdelil na výhody a nevýhody, pretože vždy závisí od konkrétneho prípadu a našich požiadaviek, či je daná vlastnosť výhodná alebo nevýhodná.
+Symetrické šifrovanie sa využíva v móde s tzv. statickým kľúčom a asymetrické šifrovanie v móde využívajúcom certifikáty. 
+Základný zoznam vlastností oboch riešení som zámerne nerozdelil na výhody a nevýhody, pretože vždy závisí od konkrétneho prípadu a našich požiadaviek, či je daná vlastnosť výhodná alebo nevýhodná.
 
-Riešenie so statickým kľúčom:
+Riešenie so statickým kľúčom:
 
 - využíva symetrické šifrovanie
 - jednoduchá konfigurácia
 - nemusíte prevádzkovať certifikačnú autoritu
-- na server sa môže pripojiť len jeden klient
-- kľúč musí byť uložený v textovej podobe na oboch systémoch (klient a server), kde je vystavený riziku, že bude odcudzený
+- na server sa môže pripojiť len jeden klient
+- kľúč musí byť uložený v textovej podobe na oboch systémoch (klient a server), kde je vystavený riziku, že bude odcudzený
 
-Riešenie s certifikátmi:
+Riešenie s certifikátmi:
 
 - využíva asymetrické šifrovanie
 - zložitejšia konfigurácia
 - musíte prevádzkovať certifikačnú autoritu
-- na server sa môže pripojiť viac ako jeden klient
-- kľúč môže byť bezpečne uložený na čipovej karte chránený PIN kódom
+- na server sa môže pripojiť viac ako jeden klient
+- kľúč môže byť bezpečne uložený na čipovej karte chránený PIN kódom
 
-Ako už bolo spomenuté v úvode, tento diel seriálu sa zaoberá nasadením OpenVPN so statickým kľúčom. 
-Využitie certifikátov bude témou niektorého z ďalších dielov.
+Ako už bolo spomenuté v úvode, tento diel seriálu sa zaoberá nasadením OpenVPN so statickým kľúčom. 
+Využitie certifikátov bude témou niektorého z ďalších dielov.
 
 # 2. Modelová situácia
 
-Predpokladajme, že máme k dispozícii dva počítače A a B, medzi ktorými chceme vytvoriť VPN sieť. 
-Prostredie oddeľujúce tieto dva systémy nie je vôbec podstatné, môže to byť napríklad krížený sieťový kábel alebo aj internet. 
-Jediná podmienka je, že systém B musí mať možnosť pripojiť sa na port 1194/UDP systému A.
+Predpokladajme, že máme k dispozícii dva počítače A a B, medzi ktorými chceme vytvoriť VPN sieť. 
+Prostredie oddeľujúce tieto dva systémy nie je vôbec podstatné, môže to byť napríklad krížený sieťový kábel alebo aj internet. 
+Jediná podmienka je, že systém B musí mať možnosť pripojiť sa na port 1194/UDP systému A.
 
-V ďalšom texte predpokladajme počítače prepojené kríženým káblom. 
-Oba počítače majú k dispozícii jediné sieťové rozhranie a je na nich nainštalovaný operačný systém [Ubuntu 6.06 Server][2]. 
-Systém A bude na reálnom sieťovom rozhraní používať IP adresu 192.168.1.1 a systém B IP adresu 192.168.1.2.
+V ďalšom texte predpokladajme počítače prepojené kríženým káblom. 
+Oba počítače majú k dispozícii jediné sieťové rozhranie a je na nich nainštalovaný operačný systém [Ubuntu 6.06 Server][2]. 
+Systém A bude na reálnom sieťovom rozhraní používať IP adresu 192.168.1.1 a systém B IP adresu 192.168.1.2.
 
 ![Schéma siete](static1.png)
 
 Našou úlohou je medzi týmito počítačmi vytvoriť VPN sieť [10.1.1.0/255.255.255.252][3]. 
-Virtuálne sieťové rozhranie systému A v nej bude používať IP adresu 10.1.1.1 a virtuálne sieťové rozhranie systému B IP adresu 10.1.1.2.
+Virtuálne sieťové rozhranie systému A v nej bude používať IP adresu 10.1.1.1 a virtuálne sieťové rozhranie systému B IP adresu 10.1.1.2.
 
 ![Schéma siete](static2.png)
 
-Systém A bude plniť úlohu VPN servera, čo znamená, že bude na porte 1194/UDP počúvať na prichádzajúce spojenie od systému B, ktorý bude v úlohe VPN klienta.
+Systém A bude plniť úlohu VPN servera, čo znamená, že bude na porte 1194/UDP počúvať na prichádzajúce spojenie od systému B, ktorý bude v úlohe VPN klienta.
 
 # 3. Inštalácia OpenVPN
 
-Aplikácia OpenVPN pozostáva z jediného rovnomenného spustiteľného binárneho súboru. 
-Tento súbor sa používa na spustenie serveru i klienta, a preto je nutné rovnakú aplikáciu nainštalovať na oba systémy. 
-Rozdiel medzi klientom a serverom je len v konfigurácii.
+Aplikácia OpenVPN pozostáva z jediného rovnomenného spustiteľného binárneho súboru. 
+Tento súbor sa používa na spustenie serveru i klienta, a preto je nutné rovnakú aplikáciu nainštalovať na oba systémy. 
+Rozdiel medzi klientom a serverom je len v konfigurácii.
 
-Ak ste zvyknutí pracovať s viacerými operačnými systémami určite oceníte multiplatformovosť, pretože OpenVPN je podľa oficiálnej dokumentácie možné prevádzkovať na platformách Linux 2.2+, Solaris, OpenBSD 3.0+, Mac OS X, FreeBSD, NetBSD a v neposlednej rade aj Microsoft Windows. 
-Osobne mám skúsenosti s prevádzkovaním na Linuxe, OpenBSD a MS Windows a môžem potvrdiť, že OpenVPN na týchto platformách funguje naozaj bez najmenších problémov.
+Ak ste zvyknutí pracovať s viacerými operačnými systémami určite oceníte multiplatformovosť, pretože OpenVPN je podľa oficiálnej dokumentácie možné prevádzkovať na platformách Linux 2.2+, Solaris, OpenBSD 3.0+, Mac OS X, FreeBSD, NetBSD a v neposlednej rade aj Microsoft Windows. 
+Osobne mám skúsenosti s prevádzkovaním na Linuxe, OpenBSD a MS Windows a môžem potvrdiť, že OpenVPN na týchto platformách funguje naozaj bez najmenších problémov.
 
-OpenVPN odporúčam inštalovať z oficiálnych repozitárov vami používanej distribúcie. 
-Ak používate distribúciu [Ubuntu][4], môžete balík "openvpn" zo skupiny "universe" nainštalovať príkazom:
+OpenVPN odporúčam inštalovať z oficiálnych repozitárov vami používanej distribúcie. 
+Ak používate distribúciu [Ubuntu][4], môžete balík "openvpn" zo skupiny "universe" nainštalovať príkazom:
 
 ```
 $ sudo apt-get install openvpn
 ```
 
-Pokiaľ používate inú distribúciu a balík OpenVPN sa v nej nenachádza, môžete ho zostaviť zo zdrojových kódov, ktoré sú k dispozícii na [domovskej stránke projektu][5]. 
-Budete na to potrebovať v systéme nainštalované knižnice [LZO][6] a [OpenSSL][7]. 
-Inštaláciu zo zdrojových kódov môžete vykonať napríklad spustením nasledovných príkazov:
+Pokiaľ používate inú distribúciu a balík OpenVPN sa v nej nenachádza, môžete ho zostaviť zo zdrojových kódov, ktoré sú k dispozícii na [domovskej stránke projektu][5]. 
+Budete na to potrebovať v systéme nainštalované knižnice [LZO][6] a [OpenSSL][7]. 
+Inštaláciu zo zdrojových kódov môžete vykonať napríklad spustením nasledovných príkazov:
 
 ```
 # wget http://openvpn.net/release/openvpn-2.0.9.tar.gz
@@ -102,14 +102,14 @@ Inštaláciu zo zdrojových kódov môžete vykonať napríklad spustením nasle
 # make install
 ```
 
-V tomto prípade bude výsledný binárny súbor `openvpn` umiestnený do adresára `/usr/local/sbin`.
+V tomto prípade bude výsledný binárny súbor `openvpn` umiestnený do adresára `/usr/local/sbin`.
 
 # 4. Virtuálne sieťové rozhrania
 
-OpenVPN pracuje s virtuálnymi sieťovými rozhraniami [TUN/TAP][8], ktoré softvérovo emulujú sieťové zariadenia a musia mať podporu v jadre operačného systému.
+OpenVPN pracuje s virtuálnymi sieťovými rozhraniami [TUN/TAP][8], ktoré softvérovo emulujú sieťové zariadenia a musia mať podporu v jadre operačného systému.
 
-Väčšina distribučných jadier TUN/TAP ovládač obsahuje, no pokiaľ si zostavujete jadro sami, mali by ste sa uistiť, že ste tento ovládač pridali. 
-Nachádza sa v sekcii ovládačov sieťových rozhraní pod názvom *"Universal TUN/TAP device driver support"* a jeho prítomnosť vo vašom jadre môžete overiť prítomnosťou riadku
+Väčšina distribučných jadier TUN/TAP ovládač obsahuje, no pokiaľ si zostavujete jadro sami, mali by ste sa uistiť, že ste tento ovládač pridali. 
+Nachádza sa v sekcii ovládačov sieťových rozhraní pod názvom *"Universal TUN/TAP device driver support"* a jeho prítomnosť vo vašom jadre môžete overiť prítomnosťou riadku
 
 ```
 CONFIG_TUN=m
@@ -121,28 +121,28 @@ alebo
 CONFIG_TUN=y
 ```
 
-v `config` súbore vytvorenom pri zostavovaní jadra.
+v `config` súbore vytvorenom pri zostavovaní jadra.
 
-Kým bežné sieťové rozhrania ako `eth0` priamo zastupujú hardvér, čo môže byť napríklad sieťová karta v PCI slote, tak pakety prechádzajúce rozhraniami TUN/TAP sú preposielané používateľskému programu. 
-Táto vlastnosť sa v prípade OpenVPN využíva o.i. na šifrovanie a dešifrovanie paketov pred ich odoslaním cez reálne sieťové rozhranie.
+Kým bežné sieťové rozhrania ako `eth0` priamo zastupujú hardvér, čo môže byť napríklad sieťová karta v PCI slote, tak pakety prechádzajúce rozhraniami TUN/TAP sú preposielané používateľskému programu. 
+Táto vlastnosť sa v prípade OpenVPN využíva o.i. na šifrovanie a dešifrovanie paketov pred ich odoslaním cez reálne sieťové rozhranie.
 
-Rozhranie TAP simuluje klasické zariadenie typu Ethernet pracujúce s rámcami na druhej (linkovej) vrstve [OSI modelu][9] a rozhranie TUN simuluje point-to-point zariadenie pracujúce s paketmi na tretej (sieťovej) vrstve rovnakého modelu. 
-Zjednodušene sa dá povedať, že TAP sa primárne používa na vytvorenie bridge-ovanej VPN siete a TUN na vytvorenie route-ovanej VPN siete.
+Rozhranie TAP simuluje klasické zariadenie typu Ethernet pracujúce s rámcami na druhej (linkovej) vrstve [OSI modelu][9] a rozhranie TUN simuluje point-to-point zariadenie pracujúce s paketmi na tretej (sieťovej) vrstve rovnakého modelu. 
+Zjednodušene sa dá povedať, že TAP sa primárne používa na vytvorenie bridge-ovanej VPN siete a TUN na vytvorenie route-ovanej VPN siete.
 
-# 5. Spustenie VPN servera a klienta
+# 5. Spustenie VPN servera a klienta
 
-Takmer všetky konfiguračné nastavenia OpenVPN je možné uviesť priamo cez parametre pri spustení, alebo ich aplikácia môže čítať z konfiguračného súboru. 
-Osobne uprednostňujem druhú možnosť kvôli jednoduchšej údržbe, no v nasledujúcom príklade bude kvôli väčšej názornosti konfigurácia vykonaná prostredníctvom parametrov z príkazového riadka. 
-Použitie konfiguračných súborov bude popísané v nasledujúcom článku.
+Takmer všetky konfiguračné nastavenia OpenVPN je možné uviesť priamo cez parametre pri spustení, alebo ich aplikácia môže čítať z konfiguračného súboru. 
+Osobne uprednostňujem druhú možnosť kvôli jednoduchšej údržbe, no v nasledujúcom príklade bude kvôli väčšej názornosti konfigurácia vykonaná prostredníctvom parametrov z príkazového riadka. 
+Použitie konfiguračných súborov bude popísané v nasledujúcom článku.
 
-Pred prvým spustením OpenVPN v móde so statickým kľúčom je nutné tento kľúč vygenerovať. 
-Používa sa na to príkaz:
+Pred prvým spustením OpenVPN v móde so statickým kľúčom je nutné tento kľúč vygenerovať. 
+Používa sa na to príkaz:
 
 ```
 root@A:~# openvpn --genkey --secret static.key
 ```
 
-V aktuálnom adresári bude po spustení tohto príkazu vytvorený súbor `static.key` s obsahom podobným tomuto:
+V aktuálnom adresári bude po spustení tohto príkazu vytvorený súbor `static.key` s obsahom podobným tomuto:
 
 ```
 #
@@ -168,15 +168,15 @@ a46a0569bf9e50f46d1f300fcc8d15d3
 -----END OpenVPN Static key V1-----
 ```
 
-OpenVPN server na systéme A môžeme následne spustiť príkazom:
+OpenVPN server na systéme A môžeme následne spustiť príkazom:
 
 ```
 root@A:~# openvpn --dev tun --ifconfig 10.1.1.1 10.1.1.2 --secret static.key
 ```
 
-Parameter `--dev tun` určuje, že má byť použité virtuálne sieťové rozhranie typu TUN. 
-Parameter `--ifconfig 10.1.1.1 10.1.1.2` hovorí, že bude vytvorený tunel medzi IP adresou 10.1.1.1 a 10.1.1.2. 
-OpenVPN vďaka tomuto parametru automaticky nastaví na vytvorené virtuálne sieťové rozhranie adresu 10.1.1.1 a bude očakávať, že sa pripojí klient s IP adresou 10.1.1.2. 
+Parameter `--dev tun` určuje, že má byť použité virtuálne sieťové rozhranie typu TUN. 
+Parameter `--ifconfig 10.1.1.1 10.1.1.2` hovorí, že bude vytvorený tunel medzi IP adresou 10.1.1.1 a 10.1.1.2. 
+OpenVPN vďaka tomuto parametru automaticky nastaví na vytvorené virtuálne sieťové rozhranie adresu 10.1.1.1 a bude očakávať, že sa pripojí klient s IP adresou 10.1.1.2. 
 Parameter `--secret static.key` určuje názov súboru, ktorý obsahuje statický kľúč.
 
 Výstupom tohto príkazu by mal byť text podobný tomuto:
@@ -191,26 +191,26 @@ Sat Jan 5 17:16:18 2008 UDPv4 link local (bound): [undef]:1194
 Sat Jan 5 17:16:18 2008 UDPv4 link remote: [undef]
 ```
 
-Z výpisu je pre nás podstatná iba informácia o názve vytvoreného virtuálneho sieťového rozhrania, čo je v tomto prípade `tun0`.
+Z výpisu je pre nás podstatná iba informácia o názve vytvoreného virtuálneho sieťového rozhrania, čo je v tomto prípade `tun0`.
 
-Príkaz po spustení ostane blokovať konzolu a ďalší výpis textu uvidíme až pri pripájaní klienta. 
-Samozrejme OpenVPN sa dá používať aj ako daemon (systémová služba), ktorý neblokuje terminál. 
-Postup priameho spúšťania z konzoly sa však používa najmä pri prvotnom testovaní spojenia, pretože prípadnú chybu v konfigurácii okamžite vidíme na obrazovke.
+Príkaz po spustení ostane blokovať konzolu a ďalší výpis textu uvidíme až pri pripájaní klienta. 
+Samozrejme OpenVPN sa dá používať aj ako daemon (systémová služba), ktorý neblokuje terminál. 
+Postup priameho spúšťania z konzoly sa však používa najmä pri prvotnom testovaní spojenia, pretože prípadnú chybu v konfigurácii okamžite vidíme na obrazovke.
 
-V ďalšom kroku musíme súbor so statickým kľúčom zo systému A bezpečne (ideálne na USB kľúči alebo pomocou SSH spojenia) preniesť na systém B. 
-Ak by niekto tento kľúč pri prenose odcudzil, mohol by dešifrovať všetky údaje prenášané VPN sieťou.
+V ďalšom kroku musíme súbor so statickým kľúčom zo systému A bezpečne (ideálne na USB kľúči alebo pomocou SSH spojenia) preniesť na systém B. 
+Ak by niekto tento kľúč pri prenose odcudzil, mohol by dešifrovať všetky údaje prenášané VPN sieťou.
 
-OpenVPN klienta na systéme B môžeme spustiť príkazom:
+OpenVPN klienta na systéme B môžeme spustiť príkazom:
 
 ```
 root@B:~# openvpn --remote 192.168.1.1 --dev tun --ifconfig 10.1.1.2 10.1.1.1 --secret static.key
 ```
 
-Parameter `--remote 192.168.1.1` určuje reálnu IP adresu VPN servera, na ktorý sa má klient pripojiť. 
-V tomto prípade sa teda systém B pripojí na adresu 192.168.1.1 a predvolený port 1194/UDP. 
-Význam ostatných parametrov je rovnaký ako pri VPN serveri. 
-Všimnite si však opačné poradie adries určených parametrom `--ifconfig 10.1.1.2 10.1.1.1`. 
-OpenVPN vďaka tomuto parametru automaticky nastaví na vytvorené virtuálne sieťové rozhranie adresu 10.1.1.2 a na druhej strane tunela bude očakávať server s adresou 10.1.1.1.
+Parameter `--remote 192.168.1.1` určuje reálnu IP adresu VPN servera, na ktorý sa má klient pripojiť. 
+V tomto prípade sa teda systém B pripojí na adresu 192.168.1.1 a predvolený port 1194/UDP. 
+Význam ostatných parametrov je rovnaký ako pri VPN serveri. 
+Všimnite si však opačné poradie adries určených parametrom `--ifconfig 10.1.1.2 10.1.1.1`. 
+OpenVPN vďaka tomuto parametru automaticky nastaví na vytvorené virtuálne sieťové rozhranie adresu 10.1.1.2 a na druhej strane tunela bude očakávať server s adresou 10.1.1.1.
 
 Výstupom tohto príkazu by mal byť text podobný tomuto:
 
@@ -226,19 +226,19 @@ Sat Jan 5 17:17:35 2008 Peer Connection Initiated with 192.168.1.1:1194
 Sat Jan 5 17:17:36 2008 Initialization Sequence Completed
 ```
 
-Na termináli systému A by mali pribudnúť dva riadky informujúce o pripojení klienta:
+Na termináli systému A by mali pribudnúť dva riadky informujúce o pripojení klienta:
 
 ```
 Sat Jan 5 17:17:36 2008 Peer Connection Initiated with 192.168.1.2:1194
 Sat Jan 5 17:17:36 2008 Initialization Sequence Completed
 ```
 
-Po úspešnom nadviazaní spojenia medzi klientom a serverom je medzi systémom A a systémom B vytvorená VPN sieť 10.1.1.0/30.
+Po úspešnom nadviazaní spojenia medzi klientom a serverom je medzi systémom A a systémom B vytvorená VPN sieť 10.1.1.0/30.
 
 # 6. Overenie funkčnosti VPN siete
 
-Medzi používanými sieťovými rozhraniami by na oboch systémoch malo pribudnúť jedno rozhranie typu TUN. 
-Konfiguráciu sieťových rozhraní systému A môžeme zobraziť príkazom `ifconfig`:
+Medzi používanými sieťovými rozhraniami by na oboch systémoch malo pribudnúť jedno rozhranie typu TUN. 
+Konfiguráciu sieťových rozhraní systému A môžeme zobraziť príkazom `ifconfig`:
 
 ```
 root@A:~# ifconfig
@@ -270,8 +270,8 @@ collisions:0 txqueuelen:100
 RX bytes:0 (0.0 b) TX bytes:0 (0.0 b)
 ```
 
-Z výpisu je vidieť, že systém A používa rozhranie `tun0` s IP adresou 10.1.1.1. 
-Na systéme B je výstup príkazu ifconfig analogický, a teda je z neho vidieť, že tento systém používa rozhranie `tun0` s IP adresou 10.1.1.2:
+Z výpisu je vidieť, že systém A používa rozhranie `tun0` s IP adresou 10.1.1.1. 
+Na systéme B je výstup príkazu ifconfig analogický, a teda je z neho vidieť, že tento systém používa rozhranie `tun0` s IP adresou 10.1.1.2:
 
 ```
 root@B:~# ifconfig
@@ -303,8 +303,8 @@ collisions:0 txqueuelen:100
 RX bytes:0 (0.0 b) TX bytes:0 (0.0 b)
 ```
 
-Ak ani jeden zo systémov nepoužíva firewall, malo by byť možné príkazom ping overiť konektivitu medzi virtuálnymi rozhraniami. 
-Z počítača A by sa nám malo podariť "pingnúť" virtuálnu IP adresu počítača B:
+Ak ani jeden zo systémov nepoužíva firewall, malo by byť možné príkazom ping overiť konektivitu medzi virtuálnymi rozhraniami. 
+Z počítača A by sa nám malo podariť "pingnúť" virtuálnu IP adresu počítača B:
 
 ```
 root@A:~# ping 10.1.1.2 -c 4
@@ -319,7 +319,7 @@ PING 10.1.1.2 (10.1.1.2) 56(84) bytes of data.
 rtt min/avg/max/mdev = 0.553/0.966/1.790/0.483 ms
 ```
 
-Ak by sme počas pingovania z počítača A pustili na virtuálnom rozhraní počítača B analyzátor sieťovej prevádzky tzv. sniffer, mali by sme vidieť ICMP echo pakety vysielané programom ping a zároveň ICMP reply pakety, ktoré odosiela systém B ako odpoveď:
+Ak by sme počas pingovania z počítača A pustili na virtuálnom rozhraní počítača B analyzátor sieťovej prevádzky tzv. sniffer, mali by sme vidieť ICMP echo pakety vysielané programom ping a zároveň ICMP reply pakety, ktoré odosiela systém B ako odpoveď:
 
 ```
 root@B:~# tcpdump -i tun0
@@ -340,7 +340,7 @@ listening on tun0, link-type LINUX_SLL (Linux cooked), capture size 96 bytes
 0 packets dropped by kernel
 ```
 
-Na reálnom sieťovom rozhraní systému B by však sniffer v tomto momente zachytil len VPN pakety prichádzajúce na port 1194/UDP, ktorý je v nasledujúcom výpise označený slovom "opevpn":
+Na reálnom sieťovom rozhraní systému B by však sniffer v tomto momente zachytil len VPN pakety prichádzajúce na port 1194/UDP, ktorý je v nasledujúcom výpise označený slovom "opevpn":
 
 ```
 root@B:~# tcpdump -i eth0
@@ -360,16 +360,16 @@ listening on eth0, link-type EN10MB (Ethernet), capture size 96 bytes
 0 packets dropped by kernel
 ```
 
-Tieto výpisy názorne potvrdzujú "princíp šifrovaného tunelu" (vysvetlený v predchádzajúcom dieli tohto seriálu), ktorý spočíva v tom, že pakety pre privátnu sieť sú prenášané v zašifrovanej podobe v dátovej časti verejných paketov. 
-V tomto konkrétnom prípade teda pakety vymieňané medzi verejnými rozhraniami s IP adresami 192.168.1.1 a 192.168.1.2 v sebe obsahujú ICMP komunikáciu medzi IP adresami 10.1.1.1 a 10.1.1.2.
+Tieto výpisy názorne potvrdzujú "princíp šifrovaného tunelu" (vysvetlený v predchádzajúcom dieli tohto seriálu), ktorý spočíva v tom, že pakety pre privátnu sieť sú prenášané v zašifrovanej podobe v dátovej časti verejných paketov. 
+V tomto konkrétnom prípade teda pakety vymieňané medzi verejnými rozhraniami s IP adresami 192.168.1.1 a 192.168.1.2 v sebe obsahujú ICMP komunikáciu medzi IP adresami 10.1.1.1 a 10.1.1.2.
 
 # 7. Záver
 
-V treťom dieli sa pokúsime vylepšiť konfiguráciu dnes vytvorenej VPN siete použitím konfiguračných súborov a daemonizáciou procesu. 
-Pozrieme sa aj na prístup distribúcie Ubuntu, ktorá vhodne kombinuje konfiguračné parametre odovzdávané z príkazového riadka s parametrami načítavanými z konfiguračných súborov. 
-No a aby nechýbal ani príklad z reálneho života, použijeme OpenVPN so statickým kľúčom na tunelovanie proxy servera.
+V treťom dieli sa pokúsime vylepšiť konfiguráciu dnes vytvorenej VPN siete použitím konfiguračných súborov a daemonizáciou procesu. 
+Pozrieme sa aj na prístup distribúcie Ubuntu, ktorá vhodne kombinuje konfiguračné parametre odovzdávané z príkazového riadka s parametrami načítavanými z konfiguračných súborov. 
+No a aby nechýbal ani príklad z reálneho života, použijeme OpenVPN so statickým kľúčom na tunelovanie proxy servera.
 
-[Článok bol publikovaný aj na portáli linuxos.sk][10]
+[Článok bol publikovaný aj na portáli linuxos.sk][10]
 
 Všetky diely seriálu: 
 [1](/vpn-siete-s-openvpn-1/) 
