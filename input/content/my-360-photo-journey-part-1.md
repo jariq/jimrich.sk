@@ -71,6 +71,7 @@ All parts of the journey:
 > **Copyright &copy; 2018-2024 Jaroslav IMRICH. All rights reserved.**  
 > None of the photos linked above may be reproduced or used in any manner whatsoever without the express written permission of the author.
 
+
 [1]: https://web.archive.org/web/20220706192732/https://www.mi.com/us/mi-sphere-camera-kit
 [2]: https://en.wikipedia.org/wiki/Equirectangular_projection
 [3]: https://www.kuk360.com/
