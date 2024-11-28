@@ -1,18 +1,18 @@
 ---
-title: "Environment.SpecialFolder on Windows, Linux and OS X"
+title: "Environment.SpecialFolder on Windows, Linux and OS X"
 date: 2015-01-18T12:45:58+00:00
 draft: false
 ji_lang_name: English
 ji_lang_code: en
-ji_rss_desc: I have created simple test application which dumps values of System.Environment.SpecialFolder enumeration members and executed it on Windows 8.1 with .NET Framework 4.5, on Ubuntu 14.04 LTS with Mono 3.2.8 and on Mac OS X 10.10.1 Yosemite with Mono 3.10.0.
+ji_rss_desc: I have created simple test application which dumps values of System.Environment.SpecialFolder enumeration members and executed it on Windows 8.1 with .NET Framework 4.5, on Ubuntu 14.04 LTS with Mono 3.2.8 and on Mac OS X 10.10.1 Yosemite with Mono 3.10.0.
 ---
 
-While developing [Pkcs11Admin][1] - multiplatform application written in C# - I was trying to figure out where to store log file so it can be easily reached by the user on all supported operating systems - Windows, Linux and Mac OS X.
+While developing [Pkcs11Admin][1] - multiplatform application written in C# - I was trying to figure out where to store log file so it can be easily reached by the user on all supported operating systems - Windows, Linux and Mac OS X.
 
-To avoid hardcoding I wanted to use [`System.Environment.SpecialFolder`][2] enumeration but I was not quite sure which member (`ENM`) to choose because the documentation does not contain the actual paths. 
-So I have created simple test application which dumps these paths and executed it on Windows 8.1 with .NET Framework 4.5 (`WIN`), on Ubuntu 14.04 LTS with Mono 3.2.8 (`LIN`) and on Mac OS X 10.10.1 Yosemite with Mono 3.10.0 (`OSX`).
+To avoid hardcoding I wanted to use [`System.Environment.SpecialFolder`][2] enumeration but I was not quite sure which member (`ENM`) to choose because the documentation does not contain the actual paths. 
+So I have created simple test application which dumps these paths and executed it on Windows 8.1 with .NET Framework 4.5 (`WIN`), on Ubuntu 14.04 LTS with Mono 3.2.8 (`LIN`) and on Mac OS X 10.10.1 Yosemite with Mono 3.10.0 (`OSX`).
 
-Here are the results:
+Here are the results:
 
 ```
 ENM: System.Environment.SpecialFolder.AdminTools
@@ -251,7 +251,7 @@ LIN: empty
 OSX: empty
 ```
 
-For now I have ended up using `Environment.SpecialFolder.MyDocuments` member because it points to the directories which are easily accessible even by a casual user.
+For now I have ended up using `Environment.SpecialFolder.MyDocuments` member because it points to the directories which are easily accessible even by a casual user.
 
 
 [1]: https://www.pkcs11admin.net
