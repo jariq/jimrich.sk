@@ -1,20 +1,20 @@
 ---
-title: "Troubleshooting Pkcs11Interop with PKCS11-LOGGER"
+title: "Troubleshooting Pkcs11Interop with PKCS11-LOGGER"
 date: 2015-12-14T23:50:32+00:00
 draft: false
 ji_lang_name: English
 ji_lang_code: en
-ji_rss_desc: Due to the complexity of PKCS#11 API it is not rare that user needs to troubleshoot communication problems between application and PKCS#11 library. That is the moment when PKCS11-LOGGER may come handy.
+ji_rss_desc: Due to the complexity of PKCS#11 API it is not rare that user needs to troubleshoot communication problems between application and PKCS#11 library. That is the moment when PKCS11-LOGGER may come handy.
 ---
 
-[Pkcs11Interop][1] is managed library written in C# that brings full power of PKCS#11 API to the .NET environment. 
-It loads unmanaged PKCS#11 library provided by the cryptographic device vendor and makes its functions accessible to .NET application.
+[Pkcs11Interop][1] is managed library written in C# that brings full power of PKCS#11 API to the .NET environment. 
+It loads unmanaged PKCS#11 library provided by the cryptographic device vendor and makes its functions accessible to .NET application.
 
-Following figure presents the typical usage of Pkcs11Interop library in .NET application:
+Following figure presents the typical usage of Pkcs11Interop library in .NET application:
 
 ![Pkcs11Interop without logger](pkcs11interop-without-logger.png)
 
-Next code sample shows how to load PKCS#11 library via Pkcs11Interop in .NET application:
+Next code sample shows how to load PKCS#11 library via Pkcs11Interop in .NET application:
 
 ```
 string pkcs11Library = null;
@@ -34,17 +34,17 @@ using (var pkcs11 = new Net.Pkcs11Interop.HighLevelAPI.Pkcs11(pkcs11Library, tru
 }
 ```
 
-Due to the complexity of PKCS#11 API it is not rare that user needs to troubleshoot communication problems between application and PKCS#11 library. 
-That is the moment when [PKCS11-LOGGER][2] may come handy.
+Due to the complexity of PKCS#11 API it is not rare that user needs to troubleshoot communication problems between application and PKCS#11 library. 
+That is the moment when [PKCS11-LOGGER][2] may come handy.
 
-Logger takes place between the application and the original PKCS#11 library. 
-Application calls PKCS#11 function provided by logger, logger calls the same function provided by the original PKCS#11 library and while logging everything it returns the result to the application.
+Logger takes place between the application and the original PKCS#11 library. 
+Application calls PKCS#11 function provided by logger, logger calls the same function provided by the original PKCS#11 library and while logging everything it returns the result to the application.
 
-Following figure presents the typical usage of Pkcs11Interop library with PKCS11-LOGGER proxy in .NET application:
+Following figure presents the typical usage of Pkcs11Interop library with PKCS11-LOGGER proxy in .NET application:
 
-![Pkcs11Interop with logger](pkcs11interop-with-pkcs11-logger.png)
+![Pkcs11Interop with logger](pkcs11interop-with-pkcs11-logger.png)
 
-Next code sample shows how to load PKCS#11 library via PKCS11-LOGGER and Pkcs11Interop in .NET application:
+Next code sample shows how to load PKCS#11 library via PKCS11-LOGGER and Pkcs11Interop in .NET application:
 
 ```
 string pkcs11Library = null;
@@ -74,9 +74,9 @@ using (var pkcs11 = new Net.Pkcs11Interop.HighLevelAPI.Pkcs11(loggerLibrary, tru
 }
 ```
 
-Analysis of the logged information should be performed by a person familiar with [PKCS#11 specifications][3].
+Analysis of the logged information should be performed by a person familiar with [PKCS#11 specifications][3].
 
-Here’s the short sample of the content extracted from the beginning of the log file:
+Here’s the short sample of the content extracted from the beginning of the log file:
 
 ```
 0x000013c8 : 0x00001078 : ****************************** 2015-12-14 23:56:07 ***
@@ -125,7 +125,7 @@ Here’s the short sample of the content extracted from the beginning of the log
 0x000013c8 : 0x00001078 : Returning 0 (CKR_OK)
 ```
 
-**Warning: Log files produced by PKCS11-LOGGER may contain sensitive information and should not be shared publicly.**
+**Warning:** Log files produced by PKCS11-LOGGER may contain sensitive information and should not be shared publicly.
 
 
 [1]: https://www.pkcs11interop.net/
