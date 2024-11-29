@@ -13,7 +13,7 @@ Neviete ako na to?
 Čítajte ďalej a tento návod vám pomôže nainštalovať a nakonfigurovať známy [vsftpd][1] server. 
 Návod je "šitý na mieru" pre distribúciu Slackware, ale s výnimkou umiestnenia štartovacieho skriptu, by mal byť použiteľný aj na iných distribúciách.
 
-# 1. Inštalácia a príprava systému
+## 1. Inštalácia a príprava systému
 
 Keďže je vsftpd súčasťou spomínanej distribúcie, nemusíme ho kompilovať zo zdrojových kódov, ale stačí napr. pomocou utility `slackpkg` nainštalovať distribučný balík. 
 Ako root teda zadáme príkaz:
@@ -60,7 +60,7 @@ Posledný krok v príprave systému je vytvorenie adresára, v ktorom budú s�
 # chown ftpuser:ftpusers /var/ftp
 ```
 
-# 2. Nastavenia v súbore vsftpd.conf
+## 2. Nastavenia v súbore vsftpd.conf
 
 Vsftpd server má konfiguráciu uloženú v konfiguračnom súbore `/etc/vsftpd.conf`, ktorý je síce dobre komentovaný, no ako býva zvykom, neobsahuje všetky možné direktívy. 
 Tie sa môžeme dozvedieť jedine čítaním manuálu (`man vsftpd.conf`). 
@@ -116,7 +116,7 @@ V poslednej časti ukážkového konfiguračného súboru je napríklad povolen
 Tiež sú tu nastavené sieťové parametre a zapnuté logovanie udalostí. 
 Napriek tomu, že takto zostavený [konfiguračný súbor][2] by mal byť pre implementáciu slabo zaťaženého servera postačujúci, ešte raz vám odporúčam si aspoň zbežne prezrieť konfiguračné direktívy popísané v manuálových stránkach (`man vstpd.conf`).
 
-# 3. Štartovací skript
+## 3. Štartovací skript
 
 Pre uľahčenie spúšťania ftp servera je dobré vytvoriť si štartovací skript, ktorý môže mať napríklad [takúto podobu][3]. 
 Uložíme ho do súboru `/etc/rc.d/rc.vsftpd`, a ak chceme server spúšťať priamo po štarte operačného systému, dopíšeme na koniec súboru `/etc/rc.d/rc.local` nasledovný text:
@@ -127,7 +127,7 @@ if [ -x /etc/rc.d/rc.vsfpd ]; then
 fi
 ```
 
-# 4. Pravidlá firewallu
+## 4. Pravidlá firewallu
 
 Pre ftp prenosy v aktívnom móde je potrebné na vstupe povoliť nadviazanie spojenia na port 21/tcp. 
 Ak chceme používať ftp v pasívnom móde a filtrujeme pomocou stavového firewallu sprostredkovaného netfiltrom, treba do jadra nahrať modul `ip_conntrack_ftp`, ktorý dokáže rozoznávať spojenia vytvorené pasívnym prenosom ftp.

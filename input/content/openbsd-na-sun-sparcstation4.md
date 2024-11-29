@@ -16,7 +16,7 @@ Mal som tú česť a do rúk sa mi dostal starší produkt tejto firmy s ozna
 
 ![Sun SparcStation4](sun1.jpg)
 
-# 1. Hardvér
+## 1. Hardvér
 
 Sun SparcStation4 (ďalej len SS4), s ktorým pracujem slúžil pôvodne ako grafická pracovná stanica. 
 Je vybavený procesorom microSPARC II pracujúcim na frekvencii 110 Mhz, má k dispozícii 64 MB RAM a SCSI disk s kapacitou 1GB. 
@@ -42,7 +42,7 @@ Netuším, akú funkciu tento jumper plní a nevedel mi to povedať ani nikto z
 [Servisný manuál][8] síce tento jumper spomína, avšak bližšie jeho význam nepopisuje. 
 Navyše pomocou externej SCSI redukcie, veľkej skoro ako samotný pizzabox, je možné pripojiť aj klasickú IDE CD-ROM mechaniku.
 
-# 2. Inštalácia operačného systému
+## 2. Inštalácia operačného systému
 
 Najpoužívanejší operačný systém na počítačoch firmy Sun je samozrejme [Solaris][9]. 
 Ja som sa však rozhodol na SS4 nainštalovať nejakú distribúciu systému GNU/Linux. 
@@ -78,7 +78,7 @@ Po dokončení inštalácie je treba zadať príkaz `halt` a reštartovať po�
 Pri prvom štarte systému sa generujú kľúčové páry využívané ssh démonom. 
 Keďže vo verzii 3.8 sa veľkosť týchto kľúčov zmenila z 1024 na 2048 bitov, trvalo ich generovanie staručkej SS4 viac než hodinu.
 
-# 3. OpenBSD
+## 3. OpenBSD
 
 Ak máte zvládnuté základy práce v niektorom unixovom operačnom systéme, budete si prácu s OpenBSD užívať. 
 Webový server [apache][17] beží hneď po inštalácii v chrootovanom prostredí a jeho rozšírenie o podporu SSL je vďaka [OpenBSD FAQ][18] otázkou pár minút. 
@@ -90,7 +90,7 @@ Správa pravidiel s PF je však oveľa prehľadnejšia, pretože pravidlá, kt
 
 Čo ma však ohromilo je jednoduchosť, s akou sa dá na OpenBSD vytvoriť redundantný firewall, ktorý je dokonca schopný synchronizovať informácie o stavoch spojení obsluhovaných primárnym firewallom.
 
-# 4. Záver
+## 4. Záver
 
 Sila open source softvéru je obrovská. 
 Mnohí z nás si ju však neuvedomujú a nevenujú jej dostatočnú pozornosť. 

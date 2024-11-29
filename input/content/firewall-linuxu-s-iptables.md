@@ -14,7 +14,7 @@ Nie je ich však možné kombinovať, čo znamená, že buď máte firewall 
 Syntax oboch programov je veľmi podobná, avšak významný rozdiel medzi nimi je v tom, že iptables poskytujú možnosti stavového firewallu, čo veľmi uľahčuje vytváranie pravidiel najmä pre gateway, ale i bežnú pracovnú stanicu či server. 
 Preto sa budeme zaoberať práve tvorbou firewallu pomocou iptables.
 
-# 1. Úvod
+## 1. Úvod
 
 Pravidlá pre filtrovanie paketov sa pomocou iptables zoraďujú do troch hlavných reťazí - **INPUT**, **OUTPUT** a **FORWARD**. 
 Reťaz INPUT, ako už jej názov napovedá, bude obsahovať pravidlá pre pakety vstupujúce do systému zo siete. 
@@ -46,7 +46,7 @@ Politika reťaze je základným pravidlom, ktoré platí pre paket, ktorý sa n
 Z príkladu je zrejmé, že pre pakety prichádzajúce do systému zo siete (INPUT) je politika ACCEPT a pretože reťaz neobsahuje žiadne pravidlá, budú všetky pakety prijaté. 
 Obdobná situácia je aj v reťaziach FORWARD a OUTPUT.
 
-# 2. Syntax
+## 2. Syntax
 
 Po nutnom, avšak veľmi odľahčenom teoretickom úvode nasleduje názorná ukážka syntaxe iptables. 
 Tieto príklady obsahujú popis len základných parametrov. 
@@ -84,7 +84,7 @@ Toto spojenie však musí pochádzať z IP adresy 10.1.1.15 (`-s 10.1.1.15`).
 
 Do reťaze INPUT pridá (`-A`) stavové pravidlo (`-m state`), ktoré povolí (`-j ACCEPT`) prechod pre pakety, ktoré sú príbuzné alebo patria do už nadviazaného spojenia (`--state ESTABLISHED,RELATED`).
 
-# 3. Pracovná stanica
+## 3. Pracovná stanica
 
 Toto boli príklady pravidiel, ktorých znalosť je postačujúca pre vytvorenie firewallu určeného pre pracovnú stanicu či server. 
 Ukážme si ďalej príklad kompletného firewallového skriptu pre pracovnú stanicu, na ktorej nebežia žiadne sieťové služby (ftp, www, samba..), ku ktorým by pristupovali užívatelia z iných systémov. 
@@ -112,7 +112,7 @@ Ak by toto pravidlo chýbalo, nemusel by vôbec na pracovnej stanici fungova�
 Posledné pravidlo skriptu garantuje vstup do systému paketom, ktoré pochádzajú z niektorého spojenia, ktoré sme nadviazali z našej stanice. 
 Teda z vonkajšej siete nemôže byť zahájená komunikácia s naším systémom, ale náš systém môže zahájit komunikáciu s vonkajšími systémami a tejto komunikácii bude garantovaný hladký priebeh.
 
-# 4. Webový server
+## 4. Webový server
 
 Ďalší príklad bude firewallový skript pre webový server. 
 Webový server zvyčajne obsluhuje pripojenia na port 80/TCP. 
@@ -137,7 +137,7 @@ Vidíme, že kostra skriptu ostala úplne rovnaká a rovnaký je aj jej výz
 Doplnené pravidlá odzrkadľujú presne naše požiadavky. 
 IP adresu 10.1.1.145 sme úplne zbavili prístupu a povolili sme prichádzajúcu komunikáciu len na port 80/TCP.
 
-# 5. Pokročilý skript
+## 5. Pokročilý skript
 
 Jednoduché skripty máme za sebou. 
 Ukážeme si aj jeden mierne pokročilý. 
@@ -205,7 +205,7 @@ Na povolenie vybraných TCP portov je použitý cyklus, ktorý sa vykoná pre 
 No a posledný riadok skriptu zavedie do jadra modul ip_conntrack_ftp, ktorý pomáha netfiltru sledovať stav FTP spojení a umožnuje využívať službu FTP v aktívnom i v pasívnom móde. 
 Nezabúdajte, že výpis pravidiel pomocou už notoricky známeho `iptables -L` je skvelý na kontrolu správnosti skriptu.
 
-# 6. Záver
+## 6. Záver
 
 Filtrovanie paketov pomocou iptables sa dá využiť nielen na ochranu počítača pred sieťou, ale aj na ochranu siete pred používateľmi počítača. 
 Pridaním pravidiel povoľujúcich iba služby DNS a WEB do reťaze OUTPUT môžeme docieliť, že bežný používateľ systému bude môcť využívať iba programy pracujúce s týmto portom, čiže webové prehliadače. 

@@ -10,7 +10,7 @@ ji_rss_desc: Článok popisuje vybrané možnosti a konfiguráciu modulu mod_ss
 Článok popisuje vybrané možnosti a konfiguráciu modulu [mod_ssl][1], ktorý rozširuje webový server [Apache HTTPD][2] o podporu protokolu SSL. 
 Zaoberá sa nielen autentizáciou servera ale aj autentizáciou klientov pomocou klientských certifikátov.
 
-# 1. Motivácia
+## 1. Motivácia
 
 Ak ste sa rozhodli rozšíriť svoj webový server o podporu pre protokol SSL (Secure Sockets Layer), pravdepodobne ste tak učinili kvôli tomu, že chcete využiť jeho schopnosť zabezpečiť údaje prenášané cez nechránené siete proti odpočúvaniu a pozmeneniu. 
 Tento protokol však vďaka využitiu princípov PKI (Public Key Infrastructure) zabezpečuje aj dôveryhodnú autentizáciu komunikujúcich strán.
@@ -25,7 +25,7 @@ Autentizácia klientskym certifikátom môže vhodne doplniť alebo dokonca úp
 
 V článku sa venujem popisu konfigurácie pre oba typy SSL autentizácie.
 
-# 2. Vydávanie certifikátov s OpenSSL
+## 2. Vydávanie certifikátov s OpenSSL
 
 V tomto odseku je stručne popísaný postup na vydanie všetkých potrebných certifikátov pomocou aplikácie [OpenSSL][3]. 
 Postup je síce veľmi rýchly, no pri správe väčšieho počtu certifikátov by bol nepraktický, a preto v takom prípade odporúčam použiť [CA modul][4] aplikácie OpenSSL. 
@@ -138,7 +138,7 @@ Súbor `client.p12` obsahuje privátny kľúč i certifikát klienta a súbory
 $ rm client.key client.cer client.req
 ```
 
-# 3. Jednosmerná SSL autentizácia
+## 3. Jednosmerná SSL autentizácia
 
 Keďže certifikát i privátny kľúč servera už máme k dispozícii, prichádza na rad konfigurácia podpory SSL vo webovom serveri Apache. 
 Väčšinou pozostáva len z dvoch krokov - z povolenia modulu mod_ssl a vytvorenia virtual hostu pre port 443/TCP.
@@ -219,7 +219,7 @@ V prehliadači [Mozilla Firefox][7] sa to vykonáva v menu "Preferences > Adva
 
 Ak by ste sa chceli vyhnúť potrebe importovať certifikát autority do úložiska prehliadača, môžete si napríklad zakúpiť serverový certifikát od niektorej z komerčných autorít, ktorých certifikáty sú distribuované s prehliadačom.
 
-# 4. Obojsmerná SSL autentizácia
+## 4. Obojsmerná SSL autentizácia
 
 Ak ste sa rozhodli, že budete od každého klienta povinne vyžadovať autentizáciu certifikátom, stačí keď do definície virtual hostu pridáte nasledovné direktívy:
 
@@ -260,7 +260,7 @@ Po výbere platného certifikátu sa nadviaže SSL spojenie a webový server v
 
 V tomto momente sa ku zdrojom z vášho webového servera dostanú len používatelia disponujúci klientskym certifikátom od príslušnej autority a konfiguráciu obojsmernej SSL autentizácie môžeme považovať za hotovú.
 
-# 5. Ďalšie výhody obojsmernej SSL autentizácie
+## 5. Ďalšie výhody obojsmernej SSL autentizácie
 
 Údaje z klientskeho certifikátu môžete použiť aj na presnú identifikáciu konkrétneho používateľa v prevádzkovaných aplikáciách. 
 Stačí ak použijete konfiguračnú direktívu `SSLOptions` s hodnotou `+StdEnvVars` a mod_ssl sprístupní webovým aplikáciám informácie získané z certifikátu i certifikát samotný pomocou premenných prostredia.
@@ -306,7 +306,7 @@ Môžete tak napríklad obmedziť prístup k zdrojom nachádzajúcim sa v urč
 Tieto premenné sa však dajú využiť aj s konfiguračnou direktívou `CustomLog` na logovanie podrobností o jednotlivých prístupoch na webový server. 
 Viac informácii k tejto téme môžete opäť nájsť v [oficiálnej dokumentácii][10].
 
-# 6. Záver
+## 6. Záver
 
 Ak ste sa doteraz s obojsmernou SSL autentizáciou ešte nestretli, pravdepodobne si budete po prečítaní výhod opísaných v tomto článku klásť otázku prečo sa v praxi nepoužíva viac. 
 Odpoveď je relatívne jednoduchá - kryptografické operácie vykonávané pri SSL spojeniach sú náročné na výpočtový výkon. 

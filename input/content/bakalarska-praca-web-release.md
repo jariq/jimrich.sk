@@ -15,7 +15,7 @@ Vypustil som ich kvôli obave, že by sa takmer určite našiel niekto, kto by
 V teoretickej časti práce som však rozobral množstvo bezpečnostných problémov, ktoré sprevádzajú nasadzovanie a vývoj webových aplikácií. 
 Snáď niekto tento text využije na zdokonalenie seba samého a rozšírenie svojich vedomostí.
 
-**Web release verzia tejto práce je určená výhradne na vzdelávacie účely. Žiadna časť tejto práce nesmie by reprodukovaná alebo šírená akýmkoľvek spôsobom bez môjho predchádzajúceho súhlasu.**
+> **Upozornenie:** Web release verzia tejto práce je určená výhradne na vzdelávacie účely. Žiadna časť tejto práce nesmie by reprodukovaná alebo šírená akýmkoľvek spôsobom bez môjho predchádzajúceho súhlasu.
 
 Prácu si môžete stiahnuť v [PDF formáte][1].
 

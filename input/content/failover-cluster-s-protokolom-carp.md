@@ -11,14 +11,14 @@ ji_rss_desc: Článok približuje implementáciu jednoduchého failover cluster-
 Vytvára sa v prípadoch, keď je nutné zabezpečiť nepretržitú dostupnosť systému (High-availability alebo tiež Failover cluster), rozdeliť záťaž na viacero počítačov (Load-balancing cluster) alebo spojiť výpočtový výkon viacerých počítačov (High-performance computing cluster). 
 Ako už názov článku napovedá, úlohou nasledujúceho textu je priblížiť implementáciu jednoduchého failover cluster-a s využitím protokolu [CARP][2].
 
-# 1. Motivácia
+## 1. Motivácia
 
 Nároky na dostupnosť služieb poskytovaných počítačovými systémami sú v každej organizácii špecifické a líšia sa prípad od prípadu. 
 Pre niektoré spoločnosti môže byť napríklad akceptovateľný celodenný výpadok webu, pre iné pár minút nedostupnosti tejto či inej služby môže znamenať vážne straty. 
 Pri zvlášť kritických službách je vhodné implementovať redundantné riešenie a tou správnou cestou môže byť práve spomínaný failover cluster. 
 Cluster je však len čiastočným riešením problému, pretože okrem "zdvojenia" kritického systému je nutné zabezpečiť napríklad aj nepretržitý prívod elektrickej energie, záložnú sieťovú konektivitu a mnoho ďalších vecí, ktoré v konečnom dôsledku môžu spôsobiť to isté, čo chyba hardvéru.
 
-# 2. CARP
+## 2. CARP
 
 Protokol [CARP][2] (Common Address Redundancy Protocol) je bezpečnou a voľne dostupnou alternatívou k protokolom [VRRP][3] (Virtual Router Redundancy Protocol) a [HSRP][4] (Hot Standby Router Protocol). 
 Dovoľuje viacerým systémom z tzv. "redundantnej skupiny" zdieľať v lokálnej sieti rovnakú IP adresu. 
@@ -29,7 +29,7 @@ Ak by však tento systém z ľubovoľných príčin prestal reagovať, začne
 Tento protokol je jednou z mnohých technológií, ktoré dala svetu skupina vývojárov zoskupená okolo systému [OpenBSD][5]. 
 Jeho port pre ostatné systémy, medzi ktoré patrí samozrejme aj GNU/Linux sa volá UCARP a je k dispozícii na webovej stránke [ucarp.org][6].
 
-# 3. Modelové situácie
+## 3. Modelové situácie
 
 Predpokladajme, že máme k dispozícii dva počítače WEB1 a WEB2, ktoré chceme použiť na vytvorenie failover cluster-a, a preto sme ich nakonfigurovali tak, aby pomocou protokolu HTTP sprístupňovali rovnaké informácie. 
 Počítaču s názvom WEB1 sme pridelili IP adresu 10.1.1.20 a počítaču s názvom WEB2 IP adresu 10.1.1.30. 
@@ -53,7 +53,7 @@ Preto môžu byť všetky tri opisované počítače pripojené na jediný swit
 
 V tomto zapojení by malo byť možné pripojiť sa z klientskeho počítača priamo na WEB1 i WEB2 a po nainštalovaní a nakonfigurovaní balíka ucarp bude možné pripájať sa aj priamo na zdieľanú IP adresu, ktorú bude používať jeden z dvoch členov cluster-a.
 
-# 4. Inštalácia balíka ucarp
+## 4. Inštalácia balíka ucarp
 
 Ak používate distribúciu [Ubuntu][7], môžete nainštalovať balík ucarp zo skupiny universe príkazom:
 
@@ -73,7 +73,7 @@ Pokiaľ používate inú distribúciu a balík ucarp sa v nej nenachádza, mô
 
 V tomto prípade bude výsledný binárny súbor umiestnený do adresára `/usr/local/sbin`.
 
-# 5. Konfigurácia programu ucarp
+## 5. Konfigurácia programu ucarp
 
 Konfigurácia programu ucarp je veľmi jednoduchá. 
 Tento program nepoužíva žiadny konfiguračný súbor, ale preberá všetky parametre z príkazového riadku. 
@@ -149,7 +149,7 @@ Tento výpadok by však nemal trvať viac než minútu, kým v ARP cache okoli
 Na existenciu tohto problému som sa už dva krát pokúšal upozorniť autora programu ucarp, no zatiaľ sa mi s ním nepodarilo nadviazať kontakt. 
 V dohľadnej dobe sa preto chystám pripraviť patch, ktorý zabezpečí vyslanie spomínaného ARP obežníka a následne by som chcel tému prebrať s vývojármi referenčnej implementácie v systéme OpenBSD, ktorá bohužiaľ trpí rovnakým nedostatkom.
 
-# 6. Záver
+## 6. Záver
 
 Riešenie failover cluster-a s protokolom CARP má voči konkurenčným riešeniam výhodu najmä vďaka jednoduchosti implementácie a faktu, že komunikácia medzi jednotlivými členskými systémami cluster-a je šifrovaná.
 

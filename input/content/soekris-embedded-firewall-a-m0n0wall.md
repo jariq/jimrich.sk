@@ -12,7 +12,7 @@ Priamo adresovateľný počítač je vystavený príliš veľkému riziku a min
 O moje linuxové stroje som až taký strach nemal, ale nedala mi spať predstava, že v prípade núdze pripojím firemný "oknoidný" notebook na sieť s verejnou IP adresou. 
 Riešenie bolo jasné - potreboval som sieťový firewall.
 
-# Úvod
+## Úvod
 
 Hneď v úvode musím upresniť, že pod pojmom sieťový firewall rozumiem osobitný počítač, ktorého hlavnou a často jedinou úlohou je oddeliť vnútornú relatívne bezpečnejšiu sieť od vonkajšej nebezpečnej siete. 
 Nemýľte si teda sieťový firewall s firewallom hostovým, ktorý mnohí nazývajú tiež firewallom personálnym. 
@@ -26,7 +26,7 @@ Už dávnejšie som experimentoval s mini-ATX systémami, ktoré síce boli o�
 Potrebovali tiež klasický počítačový zdroj, ktorý je vždy vybavený ventilátorom. 
 Preto som sa vybral iným smerom a rozhodol som sa skúsiť hardvér z produkcie firmy [Soekris Engineering][2].
 
-# Objednávka
+## Objednávka
 
 Soekris Engineering je menšia firma sídliaca v Kalifornii, ktorá sa špecializuje na návrh a výrobu tzv. "embedded" zariadení. 
 V ponuke tejto firmy nájdeme najmä základné dosky s integrovanými procesormi typu 486 a 586, sieťové karty, ale aj šifrovacie akcelerátory, ktoré pri nasadení vo [VPN sieťach][3] odbremeňujú hlavný procesor. 
@@ -36,7 +36,7 @@ Ihneď po prijatí peňazí druhou stranou mi bol doručený identifikátor zá
 Doručenie trvalo tri pracovné dni a keď som od kuriéra v Bratislave preberal balík, podľa webu UPS sa stále nachádzal len v Nemecku. 
 Poučil som sa a druhý krát už tomuto systému sledovania zásielok nebudem venovať pozornosť.
 
-# Hardvér
+## Hardvér
 
 Dorazila ku mne objednaná základná dosku **Soekris net4801-60**, ktorá je osadená procesorom AMD GEODE pracujúcim na frekvencii 266MHz a má k dispozícii 256 MB SDRAM. 
 Priamo na doske sú tri 10/100 Mbit ethernet rozhrania a čítačka CF kariet. 
@@ -78,7 +78,7 @@ Musím ešte dodať, že celý firewall prišiel kompletne zmontovaný a troc
 Krabica je dodávaná v surovom stave bez povrchovej úpravy a pri jej striekaní na čierno som musel nožičky násilne odstrániť. 
 Naspäť ich pravdepodobne budem lepiť sekundovým lepidlom.
 
-# Softvér
+## Softvér
 
 Tento počítač sa ovláda podobne ako napríklad inteligentné switch-e prostredníctvom sériovej konzoly. 
 Ak vám to nič nehovorí, vedzte, že stačí len správnym káblom prepojiť sériový port počítača so sériovým portom vyvedeným na prednej strane firewallu a použiť príslušný komunikačný program. 
@@ -116,7 +116,7 @@ Po dôvodoch, ktoré viedli autora systému k vypusteniu tohto balíka z posl
 ![Soekris embedded firewall s OS m0n0wall a Flash-OFDM wireless broadband](soekris09.jpg)  
 *Obr.9: Soekris embedded firewall s OS m0n0wall a Flash-OFDM wireless broadband*
 
-# Záver
+## Záver
 
 S mojím domácim sieťovým firewallom som nadmieru spokojný. 
 Je malý, má nízku spotrebu a vďaka absencii ventilátorov je aj **absolútne tichý**. 

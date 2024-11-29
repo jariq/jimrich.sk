@@ -16,7 +16,7 @@ Všetky diely seriálu:
 
 Posledný diel seriálu je venovaný viacfaktorovej autentizácii s čipovou kartou.
 
-# 1. Viacfaktorová autentizácia
+## 1. Viacfaktorová autentizácia
 
 Závažným nedostatkom VPN siete z minulej časti bol spôsob uskladnenia privátnych kľúčov, ktoré boli uložené v textovom súbore na pevnom disku a pre zjednodušenie neboli dokonca ani chránené heslom. 
 Ochrana privátneho kľúča tak bola plne prenechaná na oprávnenia súborového systému vynucované operačným systémom. 
@@ -52,7 +52,7 @@ Viacfaktorová autentizácia sa používa aj pri platení platobnou kartou a 
 Pre úplnosť musím dodať, že pod pojmom čipová karta v tomto článku rozumieme inteligentnú kartu (z angl. smartcard) vybavenú vlastným procesorom, EEPROM pamäťou a operačným systémom, schopnú vykonávať kryptografické operácie. 
 Nejedná sa teda o kartu s magnetickým prúžkom, alebo kartu s bezkontaktným čipom, aké sa používajú napríklad pri kontrolovaní prístupu do budov.
 
-# 2. Príprava čipovej karty
+## 2. Príprava čipovej karty
 
 Používanie čipových kariet je v Linuxe možné najmä vďaka projektu [OpenSC][5], ktorého autori vyvíjajú slobodný middleware. 
 Za týmto pojmom sa skrýva sada programov a knižníc, ktoré umožňujú aplikáciám pracovať s čipovou kartou s využitím štandardov ako [PKCS#11 alebo PKCS#15][6].
@@ -203,7 +203,7 @@ ID       : 45
 
 Karta je teda pripravená slúžiť ako bezpečné úložisko privátneho kľúča pre VPN klienta.
 
-# 3. OpenVPN a PKCS#11
+## 3. OpenVPN a PKCS#11
 
 Aplikácia OpenVPN s čipovými kartami spolupracuje pomocou rozhrania [PKCS#11][14], ktoré je de facto štandardným rozhraním pre prácu kryptografickým hardvérom a výrobcovia zväčša spolu s kartami dodávajú aj knižnice s jeho implementáciou. 
 Keďže sme v tomto prípade kartu formátovali pomocou nástrojov OpenSC, budeme k nej pristupovať pomocou knižnice `opensc-pkcs11.so`, ktorá je súčasťou tohoto balíka.
@@ -284,7 +284,7 @@ Sun Jan 11 10:40:12 2009 Initialization Sequence Completed
 V mojom prípade sa zobrazilo aj chybové hlásenie informujúce o neúspechu vykonania "logout" príkazu na čipovej karte. 
 Nespozoroval som však, že by malo na funkčnosť VPN siete nejaký vplyv.
 
-# 4. Naozaj bezpečné?
+## 4. Naozaj bezpečné?
 
 Použitie čipovej karty výrazne znížilo riziko odcudzenia privátneho kľúča, no doteraz opísaný postup má jeden zásadný nedostatok. 
 Privátny kľúč bol generovaný v externej aplikácii (gnoMint) a bol z nej exportovaný do súboru na pevnom disku počítača. 
@@ -296,7 +296,7 @@ Obe činnosti však hravo zvládne aj prehliadač [Mozilla Firefox][17], ktor�
 Konfiguráciu zariadení podporujúcich rozhranie PKCS#11 v ňom nájdete v menu "Preferences > Advanced > Encryption > Security Devices". 
 Po vygenerovaní žiadosti je už potrebné len vydať certifikát napríklad pomocou aplikácie gnoMint a importovať ho na čipovú kartu nástrojom `pkcs15-init`.
 
-# 5. Záver
+## 5. Záver
 
 Tak a máme tu koniec seriálu. 
 Ak sa vám vďaka nemu podarilo postaviť vlastnú VPN sieť, môžeme to považovať za happy-end :) 

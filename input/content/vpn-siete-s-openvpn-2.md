@@ -17,7 +17,7 @@ Všetky diely seriálu:
 Teoretické poznatky o VPN sieťach z prvého dielu dnes rozšírime o prvú praktickú skúsenosť. 
 Názorne si predvedieme nasadenie OpenVPN v najjednoduchšej forme t.j. vo forme VPN serveru pre jediného klienta s využitím statického šifrovacieho kľúča.
 
-# 1. Statický kľúč vs. certifikáty
+## 1. Statický kľúč vs. certifikáty
 
 Jednou z kľúčových vlastností každého VPN riešenia je šifrovanie, ktoré zabraňuje nielen odpočúvaniu prenosov ale aj neoprávnenému pozmeneniu prenášaných údajov. 
 Šifry môžeme vo všeobecnosti rozdeliť na symetrické a asymetrické.
@@ -54,7 +54,7 @@ Riešenie s certifikátmi:
 Ako už bolo spomenuté v úvode, tento diel seriálu sa zaoberá nasadením OpenVPN so statickým kľúčom. 
 Využitie certifikátov bude témou niektorého z ďalších dielov.
 
-# 2. Modelová situácia
+## 2. Modelová situácia
 
 Predpokladajme, že máme k dispozícii dva počítače A a B, medzi ktorými chceme vytvoriť VPN sieť. 
 Prostredie oddeľujúce tieto dva systémy nie je vôbec podstatné, môže to byť napríklad krížený sieťový kábel alebo aj internet. 
@@ -73,7 +73,7 @@ Virtuálne sieťové rozhranie systému A v nej bude používať IP adresu 10.
 
 Systém A bude plniť úlohu VPN servera, čo znamená, že bude na porte 1194/UDP počúvať na prichádzajúce spojenie od systému B, ktorý bude v úlohe VPN klienta.
 
-# 3. Inštalácia OpenVPN
+## 3. Inštalácia OpenVPN
 
 Aplikácia OpenVPN pozostáva z jediného rovnomenného spustiteľného binárneho súboru. 
 Tento súbor sa používa na spustenie serveru i klienta, a preto je nutné rovnakú aplikáciu nainštalovať na oba systémy. 
@@ -104,7 +104,7 @@ Inštaláciu zo zdrojových kódov môžete vykonať napríklad spustením nasl
 
 V tomto prípade bude výsledný binárny súbor `openvpn` umiestnený do adresára `/usr/local/sbin`.
 
-# 4. Virtuálne sieťové rozhrania
+## 4. Virtuálne sieťové rozhrania
 
 OpenVPN pracuje s virtuálnymi sieťovými rozhraniami [TUN/TAP][8], ktoré softvérovo emulujú sieťové zariadenia a musia mať podporu v jadre operačného systému.
 
@@ -129,7 +129,7 @@ Táto vlastnosť sa v prípade OpenVPN využíva o.i. na šifrovanie a deši
 Rozhranie TAP simuluje klasické zariadenie typu Ethernet pracujúce s rámcami na druhej (linkovej) vrstve [OSI modelu][9] a rozhranie TUN simuluje point-to-point zariadenie pracujúce s paketmi na tretej (sieťovej) vrstve rovnakého modelu. 
 Zjednodušene sa dá povedať, že TAP sa primárne používa na vytvorenie bridge-ovanej VPN siete a TUN na vytvorenie route-ovanej VPN siete.
 
-# 5. Spustenie VPN servera a klienta
+## 5. Spustenie VPN servera a klienta
 
 Takmer všetky konfiguračné nastavenia OpenVPN je možné uviesť priamo cez parametre pri spustení, alebo ich aplikácia môže čítať z konfiguračného súboru. 
 Osobne uprednostňujem druhú možnosť kvôli jednoduchšej údržbe, no v nasledujúcom príklade bude kvôli väčšej názornosti konfigurácia vykonaná prostredníctvom parametrov z príkazového riadka. 
@@ -235,7 +235,7 @@ Sat Jan 5 17:17:36 2008 Initialization Sequence Completed
 
 Po úspešnom nadviazaní spojenia medzi klientom a serverom je medzi systémom A a systémom B vytvorená VPN sieť 10.1.1.0/30.
 
-# 6. Overenie funkčnosti VPN siete
+## 6. Overenie funkčnosti VPN siete
 
 Medzi používanými sieťovými rozhraniami by na oboch systémoch malo pribudnúť jedno rozhranie typu TUN. 
 Konfiguráciu sieťových rozhraní systému A môžeme zobraziť príkazom `ifconfig`:
@@ -363,7 +363,7 @@ listening on eth0, link-type EN10MB (Ethernet), capture size 96 bytes
 Tieto výpisy názorne potvrdzujú "princíp šifrovaného tunelu" (vysvetlený v predchádzajúcom dieli tohto seriálu), ktorý spočíva v tom, že pakety pre privátnu sieť sú prenášané v zašifrovanej podobe v dátovej časti verejných paketov. 
 V tomto konkrétnom prípade teda pakety vymieňané medzi verejnými rozhraniami s IP adresami 192.168.1.1 a 192.168.1.2 v sebe obsahujú ICMP komunikáciu medzi IP adresami 10.1.1.1 a 10.1.1.2.
 
-# 7. Záver
+## 7. Záver
 
 V treťom dieli sa pokúsime vylepšiť konfiguráciu dnes vytvorenej VPN siete použitím konfiguračných súborov a daemonizáciou procesu. 
 Pozrieme sa aj na prístup distribúcie Ubuntu, ktorá vhodne kombinuje konfiguračné parametre odovzdávané z príkazového riadka s parametrami načítavanými z konfiguračných súborov. 

@@ -14,7 +14,7 @@ Prioritne sa síce zameriavam na systém GNU/Linux, no mnohé poznatky sú apl
 Web release verzia neobsahuje kapitolu popisujúcu vytvorený inštalačný program a z bezpečnostných dôvodov ani kapitoly s popisom sietí, v ktorých je vytvorený firewallový systém implementovaný. 
 Dúfam, že tento text niekomu poslúži pri rozširovaní vedomostí.
 
-**Web release verzia tejto práce je určená výhradne na vzdelávacie účely. Žiadna časť tejto práce nesmie by reprodukovaná alebo šírená akýmkoľvek spôsobom bez môjho predchádzajúceho súhlasu.**
+> **Upozornenie:** Web release verzia tejto práce je určená výhradne na vzdelávacie účely. Žiadna časť tejto práce nesmie by reprodukovaná alebo šírená akýmkoľvek spôsobom bez môjho predchádzajúceho súhlasu.
 
 Prácu si môžete stiahnuť v [PDF formáte][1].
 

@@ -12,7 +12,7 @@ Operačný systém MS Windows na túto nežiadúcu udalosť upozorňuje varovn�
 Ak však používate operačný systém GNU/Linux a zúčastnili ste sa IP konfliktu, či už ako strana, ktorá ho spôsobila, alebo ako strana ním postihnutá, pravdepodobne ste si všimli iba opakujúce sa výpadky konektivity. 
 Ich skutočnú príčinu by ste však v systémových logoch hľadali márne, pretože linuxové jadro na túto udalosť vôbec nereaguje.
 
-# Detekcia IP konfliktu
+## Detekcia IP konfliktu
 
 IP konflikt je možné odhaliť len v prípadoch, keď váš systém zo siete príjme paket s rovnakou zdrojovou IP adresou ako je ním používaná adresa. 
 Paket však musí pochádzať z iného systému a túto skutočnosť je možné určiť podľa zdrojovej MAC adresy, ktorá je jedinečnou hardvérovou adresou sieťového rozhrania - v prípade počítača sieťovej karty. 
@@ -24,7 +24,7 @@ Takýto paket by však žiadny systém nikdy neodoslal do siete, ale spracova
 Preto je jedinou možnosťou detekovať IP konflikt z tzv. [broadcast paketov][2] (ďalej len obežníky), ktoré sú doručené všetkým zariadeniam na lokálnej sieti. 
 Obežníky vysiela napríklad aj Samba, no tá málokedy beží na všetkých počítačoch v sieti, a preto väčšina operačných systémov detekuje IP konflikt z ARP obežníkov.
 
-# Výpadky konektivity
+## Výpadky konektivity
 
 S [protokolom ARP][3], ktorý slúži o.i. na zisťovanie MAC adries zariadení v lokálnej sieti, priamo súvisia aj výpadky konektivity sprevádzajúce IP konflikt. 
 Ak chce počítač A s IP adresou 10.1.1.2 komunikovať s počítačom B s IP adresou 10.1.1.3, vyšle najskôr ARP obežník adresovaný všetkým systémom na lokálnej sieti, v ktorom sa pýta:
@@ -46,7 +46,7 @@ V skutočnosti je ale jediným problémom nesprávna MAC adresa v "ARP cache"
 Tomuto javu sa dá predísť používaním tzv. statických ARP záznamov, čo je však najmä vo väčších sieťach náročné na údržbu. 
 Dovolím si pripomenúť, že záznamy v "ARP cache" je možné zobraziť a spravovať pomocou utility "arp", ktorá je štandardnou súčasťou väčšiny operačných systémov.
 
-# Zabránenie IP konfliktu
+## Zabránenie IP konfliktu
 
 Mnohé operačné systémy pri svojom zavádzaní alebo pri zmene sieťových nastavení vysielajú do siete špeciálny typ ARP obežníka, tzv. ["gratuitous ARP"][4]. 
 Týmto spôsobom sa snažia zistiť, či náhodou túto IP adresu už nejaké zariadenie v lokálnej sieti nepoužíva. 
@@ -59,7 +59,7 @@ Navyše všetky ostatné systémy na lokálnej sieti po prijatí "gratuitous A
 
 V drvivej väčšine prípadov by bolo možné IP konfliktu zabrániť okamžitým zaslaním odpovede na "gratuitous ARP" a následné vyslanie tohto obežníka by už len zabezpečilo, že všetky systémy upravia údaje vo svojej "ARP cache" na správne hodnoty.
 
-# IP konflikt v Linuxe
+## IP konflikt v Linuxe
 
 V predchádzajúcom texte som už spomínal, že linuxové jadro neobsahuje kód, ktorý by zabezpečil detekciu IP konfliktu a odpovedanie na obežníky typu "gratuitous ARP". 
 Na jednej strane je takéto správanie možné považovať za nesprávne, na druhej strane túto "funkcionalitu" využíva napríklad [High-Availability Linux project][5]. 
@@ -78,7 +78,7 @@ V aktívnom móde okrem toho aj reaguje na obežníky typu "gratuitous ARP" a
 Pre účely tohto článku som pripravil aj [špeciálnu výukovú verziu zdrojových kódov][12], ktorá obsahuje podrobnejšie komentáre. 
 Zatiaľ sa jedná len o beta verziu, a preto uvítam akékoľvek návrhy na zlepšenie kódu alebo architektúry daemona.
 
-# Poznámka na záver
+## Poznámka na záver
 
 Mojím hlavným cieľom bolo v krátkosti a nenáročne objasniť problematiku vzniku a detekcie IP konfliktov, ktorá je však veľmi úzko spätá s protokolom ARP a sieťovým modelom TCP/IP. 
 Zistil som, že je veľmi náročné písať o téme, kde "všetko so všetkým súvisí" a udržať text prehľadný a pochopiteľný pre čo najširší okruh čitateľov. 

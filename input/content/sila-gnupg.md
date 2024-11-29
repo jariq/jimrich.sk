@@ -10,7 +10,7 @@ ji_rss_desc: GnuPG je veľmi silný nástroj na šifrovanie dát a vytváranie
 [GnuPG][1] (GNU Privacy Guard) je veľmi silný nástroj na šifrovanie dát a vytváranie digitálnych podpisov. 
 Dlhšiu dobu sa mi úspešne darilo práci s ním vyhýbať, no odkedy som pochopil princíp jeho činnosti, stal sa neoddeliteľnou súčasťou môjho života.
 
-# 1. Využitie GnuPG
+## 1. Využitie GnuPG
 
 Je všeobecne známe, že akékoľvek dáta, ktoré posielame po sieti, či už lokálnej alebo po internete, sa môžu dostať do rúk nepovolanej osoby. 
 Ako jednoduchý príklad nám poslúži e-mailová správa. 
@@ -22,7 +22,7 @@ Ak chcete takejto situácii zabrániť, máte dve možnosti.
 Buď materiály kolegovi odovzdáte osobne, alebo ušetríte čas a odošlete mu ich zašifrované. 
 A práve to vám umožní GnuPG.
 
-# 2. Ako to funguje
+## 2. Ako to funguje
 
 GnuPG šifruje dáta pomocou kľúčových párov. 
 Dáta zašifrované verejným kľúčom môžu byť dešifrované len prislúchajúcim privátnym (tajným) kľúčom. 
@@ -31,7 +31,7 @@ Ak chcete poslať kolegovi šifrovanú správu, zašifrujete ju jeho verejným
 Každý používateľ GnuPG si teda musí vygenerovať kľúčový pár. 
 Verejný kľúč môže zverejniť napríklad na svojej webovej stránke, no privátny kľúč si musí chrániť ako "oko v hlave".
 
-# 3. Práca s GnuPG
+## 3. Práca s GnuPG
 
 Ukážme si, ako môže Alice zašifrovať pomocou GnuPG súbor pre Boba. 
 Po inštalácii balíka GnuPG si Bob musí vygenerovať svoj vlastný kľúčový pár.
@@ -65,7 +65,7 @@ Bob ho dešifruje príkazom:
 bob@host1$ gpg -d -o udaje.tar udaje.tar.gpg
 ```
 
-# 4. Šifrovať sa dá aj bez kľúčov
+## 4. Šifrovať sa dá aj bez kľúčov
 
 GnuPG poskytuje možnosť šifrovať dáta aj bez kľúčov, len s použitím hesla. 
 Dešifrovať ich samozrejme dokáže iba osoba, ktorá pozná heslo. 
@@ -79,7 +79,7 @@ Ak by ste chceli v predchádzajúcom príklade použiť šifrovanie pomocou he
 alice@host2$ gpg -c -o udaje.tar.gpg udaje.tar
 ```
 
-# 5. Digitálne podpisovanie súborov
+## 5. Digitálne podpisovanie súborov
 
 Predstavte si situáciu, že Alice posiela Bobovi e-mailom daňové priznanie, ktoré je zašifrované jeho verejným kľúčom. 
 Ak by mu chcel niekto narobiť problémy, zabráni doručeniu e-mailu od Alice a podstrčí namiesto neho sfalšovanú verziu. 
@@ -112,7 +112,7 @@ Bob po obdržaní oboch súborov môže overiť pravosť šifrovaného súboru 
 bob@host1$ gpg --verify udaje.tar.gpg.asc udaje.tar.gpg
 ```
 
-# 6. Dôveryhodnosť kľúčov
+## 6. Dôveryhodnosť kľúčov
 
 Šifrovanie s GnuPG je bezpečné len v prípade, ak sme si 100% istí, že verejný kľúč, ktorým šifrujeme, naozaj pochádza od danej osoby. 
 Preto sa dá nastavovať miera dôveryhodnosti kľúča a kľúče je možné podpisovať, čím sa ich dôveryhodnosť zvyšuje. 
@@ -132,7 +132,7 @@ $ gpg --edit-key bob@host1.sk
 Následne zadáte v podmenu príkaz "trust" a vyberiete zodpovedajúce parametre. 
 Ak nemáte zadefinovanú mieru dôveryhodnosti kľúča, bude GnuPG pri jeho používaní zobrazovať upozornenie.
 
-# 7. Záver
+## 7. Záver
 
 GnuPG je veľmi populárne a teší sa širokej podpore v iných softvérových produktoch. 
 Vo forme pluginov je integrovateľné do e-mailových a IM klientov. 

@@ -17,7 +17,7 @@ Je tu a volá sa [Ubuntu][3].
 Hneď v úvode musím upozorniť, že článok nie je určený pre začínajúcich používateľov. 
 Jeho cieľom je stručne previesť mojím "postinštalačným rituálom" používateľa ľubovoľnej inej distribúcie a upozorniť ho na niektoré vlastnosti, ktorými sa tento systém vo verzii 6.06 (Dapper Drake) líši od ostatných distribúcií.
 
-# 1. Kde je root?
+## 1. Kde je root?
 
 Pri inštalácii operačného systému GNU/Linux sa zvyčajne zadáva heslo pre používateľa root a vytvára sa aspoň jedno neprivilegované používateľské konto, ktoré je určené pre správcu systému na vykonávanie bežných činností. 
 Distribúcia Ubuntu však volí iný prístup. 
@@ -41,7 +41,7 @@ $ sudo passwd root
 
 a upravíte súbor `/etc/sudoers`, kde odoberiete právo bežným používateľom využívať delegovanie privilégií programom sudo (`man sudoers`).
 
-# 2. Verzie, zdroje balíkov a nástroje APT
+## 2. Verzie, zdroje balíkov a nástroje APT
 
 Jednotlivé verzie Ubuntu majú samozrejme číselné značenie, no zároveň má každá verzia svoj vlastný názov, ako napríklad "Hoary Hedgehog", "Breezy Badger", či "Dapper Drake". 
 Používatelia vo fórach často používajú radšej tieto mená než numerické verzie, preto by ste si mali čím skôr na ne zvyknúť a overiť si, ako sa volá verzia, ktorú používate.
@@ -117,7 +117,7 @@ Balíky, ktoré už nepotrebujete odoberiete príkazom:
 
 Ďalšie možnosti použitia nástrojov apt môžete nájsť v manuálových stránkach (`man apt`).
 
-# 3. Softvér, ktorý mi po inštalácii chýba
+## 3. Softvér, ktorý mi po inštalácii chýba
 
 Ideálna distribúcia bohužiaľ neexistuje a v každej mi po inštalácii chýbajú niketoré programy, na ktoré som zvyknutý. 
 V Ubuntu pridávam nasledovné balíky:
@@ -170,7 +170,7 @@ Preto ho po inštalácii ešte nastavujem ako predvolený pomocou grafickej ap
 
 Ak vám vadí, že zástupcovia pre Firefox a Thunderbird v menu Applications nepoužívajú oficiálne ikony, môžete si ich stiahnuť z [kde-look.org][7] a pomocou *"Alacarte Menu Editor"* (*"Applications - Accessories - Alacarte Menu Editor"*) to napraviť.
 
-# 4. Podpora slovenčiny
+## 4. Podpora slovenčiny
 
 Základným prvkom podpory slovenčiny je možnosť používať slovenskú klávesnicu. 
 V prostredí Gnome mi však prvý krát spôsobovalo jej nastavenie menšie problémy, preto popíšem postup detailnejšie. 
@@ -188,7 +188,7 @@ Osobne preferujem anglickú verziu systému a ako predvolený jazyk si necháva
 Preto ale musím manuálne vykonať úpravy v OpenOffice. 
 Ak ste sa rozhodli rovnako ako ja, spustite napríklad Writer (*"Application - Office - OpenOffice.org Word Processor"*) a v jeho menu *"Tools - Options - Language Settings - Languages"* nastavte slovenský jazyk.
 
-# 5. Multimédiá
+## 5. Multimédiá
 
 Mnohé distribúcie dnes používajú na spracovávanie multimediálneho obsahu engine zvaný gstreamer. 
 Tento engine pravdepodobne viac vyhovuje ich licenčným podmienkam, pretože neobsahuje kód, ktorý by bol licenčne sporný, no mne sa do neho nikdy nepodarilo pridať podporu pre prehrávanie mp3, DivX či Xvid. 
@@ -225,7 +225,7 @@ No a nakoniec už len inštalujem prehrávač zvukových súborov s názvom
 
 Tento prehrávač používa staré GTK1, preto ak by sa vám jeho vzhľad nepozdával, skúste jeho nasledovníka s názvom Beep Media Player.
 
-# Záver
+## Záver
 
 Ubuntu hodnotím ako skvelý systém na desktop, pretože v oficiálnych repozitároch je dostupné obrovské množstvo balíkov v novších verziách než sú v stable vetve Debianu. 
 Už si ani nespomínam, kedy som naposledy musel kompilovať nejaký program zo zdrojových kódov, lebo na `apt-get install takmerkazdybalik` sa zvyká veľmi ľahko :) 

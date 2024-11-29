@@ -12,7 +12,7 @@ Hlavným dôvodom je, že nemám rád projekty ako napríklad PHPhome (linku ne
 Na škole som sa stretol s mnohými študentami, ktorí nemali ani len najmenšiu predstavu o tom, kde sa nachádzajú jednotlivé konfiguračné súbory alebo o tom, že PHP je príkazový interpret, ktorý nie je nijako zviazaný s webovým serverom Apache. 
 Radšej ani nebudem písať, že stelesnením MySQL bol pre nich [phpMyAdmin][1] a na konzolu sa dokázali iba pozerať.
 
-# 1. Webový daemon (server) APACHE - 2.0.x
+## 1. Webový daemon (server) APACHE - 2.0.x
 
 Apache si môžete stiahnuť zo [stránky projektu][2], a keďže verzie 1.3.x už pre systém Windows nie sú uvoľňované v binárnej podobe, bude logickou voľbou verzia 2.0.x. 
 V mojom prípade som stiahol súbor s názvom `apache_2.0.58-win32-x86-no_ssl.msi`, čo je klasický inštalátor pre systém Windows. 
@@ -31,7 +31,7 @@ Treba si zapamätať, že po každej úprave konfiguračného súboru je nutn�
 Môžete na to použiť príkazy `net stop apache2` a `net start apache2` alebo grafický nástroj systému Windows nachádzajúci sa v sekcii *"Computer Management"* s názvom *"Services"*. 
 Dokumentáciu k serveru Apache nájdete na adrese [http://httpd.apache.org/docs/2.0/][5].
 
-# 2. Interpret jazyka PHP - 5.x
+## 2. Interpret jazyka PHP - 5.x
 
 Málokto si uvedomuje, že PHP nie je nijako viazané na daemon Apache a môže bežať na akomkoľvek webovom serveri, ktorý podporuje rozhranie CGI. 
 Dá sa tiež použiť aj ako samostatný príkazový interpret podobne ako napríklad [Perl][6]. 
@@ -81,7 +81,7 @@ Zobrazená stránka by mala vyzerať nejako takto:
 Nezabúdajte, že ak používate PHP ako modul daemona Apache, tak po každej zmene v konfiguračnom súbore `php.ini` je nutné Apache reštartovať. 
 Oficiálna dokumentácia k PHP je dostupná na adrese [http://www.php.net/docs.php][9] a na českom serveri [linuxsoft.cz][10] vyšiel o tomto jazyku [rozsiahly seriál][11].
 
-# 3. Databázový systém MySQL - 5.0.x
+## 3. Databázový systém MySQL - 5.0.x
 
 Reálna sila PHP ako skriptovacieho jazyka pre prostredie internetu sa ukáže až v spojení s nejakým relačným databázovým systémom. 
 Medzi najpopulárnejšie bezpochýb patrí MySQL. 
@@ -138,7 +138,7 @@ extension=php_mysql.dll
 Ak ste ešte nepracovali so žiadnym databázovým systémom, tak sa na linuxsoft.cz určite pozrite aj na [seriál o MySQL][13]. 
 Nezabúdajte však ani na [oficiálnu dokumentáciu][14], pretože patrí k najlepšie spracovaným dokumentáciam, aké som kedy videl.
 
-# Záver
+## Záver
 
 Pre istotu ešte raz pripomeniem, že **Apache je webový server**, ktorý môže byť doplnený o podporu jazyka PHP a vďaka rozšíreniam sa **interpret jazyka PHP môže pripajáť k rôznym databázovým systémom** ako napríklad MySQL, PostgreSQL alebo Oracle.
 

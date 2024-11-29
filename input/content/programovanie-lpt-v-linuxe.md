@@ -10,7 +10,7 @@ ji_rss_desc: Článok ukazuje, že vyrobiť hardvér pripojiteľný k paraleln
 Ak ste niekedy rozmýšľali nad tým, že by ste pomocou počítača ovládali osvetlenie miestnosti alebo by ste si chceli postaviť vlastného robota ovládaného počítačom, môže vás práve tento článok nasmerovať správnym smerom. 
 Ukazuje totiž, že vyrobiť hardvér pripojiteľný k paralelnému portu a napísať k nemu obslužného daemona v jazyku C nie je vôbec náročné.
 
-# 1. Schéma a popis zostavenia hardvéru
+## 1. Schéma a popis zostavenia hardvéru
 
 Paralelný port označovaný často len skratkou LPT (z angl. Line Printer Terminal) je špecifický 25 pinovým konektorom. 
 Osem pinov (2-9) sa dá použiť na priamy zápis, päť na čítanie (10-13 a 15), štyri na obe operácie (1,14,16 a 17) a zvyšných osem pinov (18-25) je uzemnenie. 
@@ -34,7 +34,7 @@ V takom prípade však postupné rozsvecovanie diód znamená znižovanie svie
 V ďalšom texte sa pokúsim vysvetliť základy práce s LPT v jazyku C pod operačným systémom GNU/Linux. 
 Príklad budem postupne rozširovať o nové funkcie, až nakoniec vznikne program CLM (CPU Led Meter) - daemon zabezpečujúci rozsvecovanie diód na vyššie popísanom hardvéri podľa aktuálneho využitia procesora, ktorý bude schopný spracovávať signály a tiež komunikovať so syslog daemonom.
 
-# 2. Zápis na piny 2-9 - Data register
+## 2. Zápis na piny 2-9 - Data register
 
 Jednotlivé piny LPT portu sú ovládateľné cez tri osembitové registre. 
 Register na adrese `378h` sa nazýva "data register" a prislúchajú mu piny 2 - 9. 
@@ -89,7 +89,7 @@ Pre stiahnutie, skompilovanie a spustenie príkladu stačí ako root spustiť:
 # ./clm1
 ```
 
-# 3. Zápis na piny 1 a 14 - Control register
+## 3. Zápis na piny 1 a 14 - Control register
 
 Ovládanie diód pripojených k pinom prislúchajúcich control registru je trochu komplikovanejšie, pretože piny 1, 14 a 17 sú hardvérovo negované. 
 Ak teda do bitu prislúchajúceho pinu 1 uložíte jednotku, nebude LED dióda k nemu pripojená svietiť. 
@@ -114,7 +114,7 @@ Pre stiahnutie, skompilovanie a spustenie príkladu stačí pod používateľ
 # ./clm2
 ```
 
-# 4. Rozsvietenie diód podľa vyťaženia CPU
+## 4. Rozsvietenie diód podľa vyťaženia CPU
 
 V treťom ukážkovom programe som presunul prácu s LPT do funkcie `rozsviet_led`, ktorá zabezpečuje rozsvietenie príslušného počtu LED diód v závislosti od vstupného parametra `usage`. 
 Hodnotu tohto parametra určuje výstup funkcie `vytazenie_cpu`, ktorá vracia percentuálnu hodnotu aktuálneho vyťaženia CPU. 
@@ -138,7 +138,7 @@ Tento nedostatok je možné odstrániť spustením na pozadí pomocou príkazu:
 
 Oveľa elegantnejším riešením je však upraviť program tak, aby bežal ako [daemon][6].
 
-# 5. Daemonizácia procesu
+## 5. Daemonizácia procesu
 
 Daemonizáciu procesu sprevádzajú činnosti ako napríklad oddelenie detského procesu pomocou funkcie `fork` a `setsid` a následné ukončenie rodičovského procesu volaním funkcie `exit`. 
 Je tiež dobré zmeniť aktuálny adresár na `/` volaním funkcie `chdir`, aby daemon neblokoval žiadny špecifický adresár a tiež zmeniť predvolené nastavenie prístupových práv k vytváraným súborom pomocou funkcie `umask`. 
@@ -160,7 +160,7 @@ Ak neviete ako na to, mohla by vám pomôcť *"Lekcia4 - Získavanie inform�
 
 Za nedostatok však možno považovať fakt, že pri ukončení daemona ostanú niektoré diódy svietiť, a preto v nasledujúcom ukážkovom programe pridáme kód zabezpečujúci obsluhu signálu `SIGTERM`.
 
-# 6. Spracovanie signálu SIGTERM
+## 6. Spracovanie signálu SIGTERM
 
 V programoch pre unixové operačné systémy je možné pomocou funkcie `signal` určiť funkciu, ktorá má byť vykonaná pri prijatí definovaného signálu. 
 Možno vám práve napadlo vytvoriť funkciu, ktorá zabezpečí zhasnutie všetkých diód a s pomocou funkcie `signal` ju vykonať pri prijatí signálu `SIGTERM`. 
@@ -177,7 +177,7 @@ Pre stiahnutie, skompilovanie a spustenie príkladu stačí pod používateľ
 # ./clm5
 ```
 
-# 7. Zaznamenávanie udalostí pomocou syslog daemona
+## 7. Zaznamenávanie udalostí pomocou syslog daemona
 
 Keďže proces pri daemonizácii stráca možnosť využívať štandardný výstup na terminál, nemôže priamo zobrazovať používateľovi správy o svojom behu. 
 Samozrejme je možné presmerovať štandardný výstup do súboru, z ktorého môže používateľ čítať údaje napríklad v textovom editore. 
@@ -196,7 +196,7 @@ Pre stiahnutie, skompilovanie a spustenie príkladu stačí pod používateľ
 # ./clm6
 ```
 
-# 8. Záver
+## 8. Záver
 
 Ukážkový program č. 6 obsahuje na začiatku článku požadovanú funkcionalitu - je to daemon, zabezpečuje rozsvecovanie diód na vyššie popísanom hardvéri podľa aktuálneho využitia procesora, je schopný spracovávať signály a komunikuje so syslog daemonom.
 

@@ -16,7 +16,7 @@ Všetky diely seriálu:
 
 Prvý diel série o OpenVPN je zameraný skôr teoreticky a jeho úlohou je nenáročne objasniť základné princípy virtuálnych privátnych sietí.
 
-# 1. Načo je VPN
+## 1. Načo je VPN
 
 Ak pracujete v IT oblasti, je celkom bežné, že počas práce nevyužívate len váš osobný počítač, ale pristupujete aj na viacero iných systémov vo firemnej sieti. 
 Pokiaľ sedíte v kancelárii nie je to najmenší problém. 
@@ -34,7 +34,7 @@ Ak by sme ale jednotlivé služby publikovali napr. forwardovaním portov na�
 Preto je lepšie sprístupniť všetky služby jednotným spôsobom využívajúcim šifrovanie prenosov prípadne i viac-faktorovú formu autentifikácie používateľov. 
 Takýmto riešením môže byť napríklad umožnenie vzdialeného prístupu do firemnej siete pomocou [VPN][3] - virtuálnej privátnej siete (z angl. virtual private network).
 
-# 2. Ako VPN funguje
+## 2. Ako VPN funguje
 
 VPN siete sú často prevádzkované ako klient-server aplikácie, čoho príkladom môže byť [OpenVPN][4] alebo implementácia [PPTP][5] v MS Windows. 
 VPN server (ďalej len server) vtedy beží priamo na firewallovom systéme a pri svojom spustení vytvorí virtuálne sieťové rozhranie (virtuálnu sieťovú kartu) a tým aj ďalší subnet firemnej siete. 
@@ -46,7 +46,7 @@ Samozrejme spojenia medzi VPN a lokálnou sieťou je možné obmedzovať pomoco
 Ak sa vám predchádzajúci odstavec nezdal zrozumiteľný, nič si z toho nerobte. 
 Po vysvetlení princípu šifrovaného tunelu si ukážeme využitie VPN siete na konkrétnom príklade.
 
-# 3. Princíp šifrovaného tunelu
+## 3. Princíp šifrovaného tunelu
 
 Tunely sú vo všeobecnosti považované za niečo záhadné a každý, kto ich spomenie, je "cool" :). 
 Netreba sa ich však zbytočne báť, pretože ich princíp je veľmi jednoduchý.
@@ -67,7 +67,7 @@ V prípade, že VPN server počúva na porte 443 a komunikujeme s SSH serve
 Pri pohľade na obrázok vám pravdepodobne napadne, že takýto prenos je "mrhanie kapacitou", pretože sivý kamión má menší úložný priestor využiteľný na prepravu tovaru. 
 Analogicky to platí aj pri prenose vo VPN sieti, kde sa v jednom pakete nachádzajú viaceré hlavičky dvakrát a to znamená zníženie využiteľnej prenosovej rýchlosti medzi VPN klientom a systémami z firemnej siete.
 
-# 4. Reálny príklad
+## 4. Reálny príklad
 
 Predstavme si malú firemnú sieť pozostávajúcu z jediného privátneho subnetu, ktorej klienti využívajú na prístup k internetu jednu bránu plniacu zároveň úlohu firewallového systému. 
 Typ pripojenia k internetu nie je v tomto prípade dôležitý, stačí keď povieme, že vonkajšie rozhranie firewallu využíva verejnú IP adresu. 
@@ -87,7 +87,7 @@ Jednotlivé kroky sú zobrazované automaticky po 10 sekundách.
 
 ![Princíp VPN komunikácie](network2.gif)
 
-# 5. Záver
+## 5. Záver
 
 Dúfam, že tento článok splnil svoj cieľ a nenáročnou formou vám priblížil základné princípy VPN sietí. 
 V ďalších dieloch si názorne ukážeme ako vytvoriť VPN sieť s aplikáciou OpenVPN i ako jednoducho vytvoriť vlastnú certifikačnú autoritu, ktorá bude vydávať certifikáty VPN klientom. 

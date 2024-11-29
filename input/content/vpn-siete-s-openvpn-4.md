@@ -16,7 +16,7 @@ Všetky diely seriálu:
 
 Vo štvrtej časti seriálu sa zoznámime s významom pojmu PKI a pozrieme sa bližšie na konfiguráciu OpenVPN s certifikátmi.
 
-# 1. Asymetrické šifrovanie a elektronický podpis
+## 1. Asymetrické šifrovanie a elektronický podpis
 
 V jednej z predchádzajúcich častí seriálu som spomínal, že asymetrické šifry používajú kľúčový pár (napr. RSA) pozostávajúci z privátnej a verejnej časti a že dáta zašifrované verejným kľúčom je možné dešifrovať len privátnym kľúčom a naopak. 
 Pre ľahšie pochopenie významu certifikátov sa najskôr zameriame na pojem elektronický podpis. 
@@ -45,7 +45,7 @@ A to nepočítame s tým, že pri prezradení alebo strate privátneho kľ�
 Riešení tohto problému je viacero. 
 [GnuPG][1] sa ho snaží riešiť princípom tzv. [pavučiny dôvery][2] (z angl. web of trust), no v praxi oveľa viac bežný a rozšírený je princíp [PKI][3] (Public Key Infrastructure) u nás často nazývaný infraštruktúrou verejného kľúča.
 
-# 2. PKI
+## 2. PKI
 
 Aby sme zabránili chaosu pri výmene verejných kľúčov modelom "každý s každým", poveríme jedného zamestnanca evidenciou verejných kľúčov všetkých ostatných - spravíme z neho certifikačnú autoritu (ďalej len CA). 
 Úlohou tejto CA bude dôveryhodným spôsobom zozbierať verejné kľúče všetkých zamestnancov a podpísať ich svojim privátnym kľúčom - vydať certifikáty.
@@ -60,7 +60,7 @@ Pri overovaní podpisu je preto vždy potrebné okrem kontroly pravosti certifi
 Osobne za najväčší problém PKI považujem preukázateľnosť dôveryhodnosti CA, čo je vec, ktorá sa bohužiaľ nedá vyriešiť technologicky. 
 Certifikačné autority síce svoje privátne kľúče uchovávajú v bezpečnom úložisku (kryptografický hardvér podobný čipovej karte), ale ak spravia napríklad pri overovaní identity žiadateľa o certifikát vedome alebo nevedome chybu či výnimku, má to negatívny dopad na všetkých používateľov PKI dôverujúcich tejto autorite.
 
-# 3. Certifikačná autorita s gnoMint
+## 3. Certifikačná autorita s gnoMint
 
 Predpokladám, že základné pojmy ako PKI, certifikát, CA alebo CRL sú z predchádzajúceho textu jasné, a tak sa môžeme smelo pustiť do vytvorenia vlastnej PKI infraštruktúry. 
 Asi nikomu netreba predstavovať aplikáciu [OpenSSL][4], ktorá je de facto štandardným riešením pokiaľ sa jedná o vydávanie certifikátov a prevádzkovanie jednoduchej CA. 
@@ -95,7 +95,7 @@ Ak ste postupovali podľa videa a vydali ste všetky potrebné certifikáty, m
 - `client2.cer`  
   Certifikát Klienta 2 v PEM formáte
 
-# 4. OpenVPN a certifikáty
+## 4. OpenVPN a certifikáty
 
 Konfigurácia OpenVPN s certifikátmi je podobná ako pri statickom kľúči s tým rozdielom, že každá zo zúčastnených strán používa svoj vlastný privátny kľúč a certifikát. 
 Rád by som upozornil, že v nasledujúcom texte už nebudem uvádzať podrobnosti typu kam uložiť konfiguráciu, ako to celé spustiť, ako otestovať či je VPN sieť funkčná alebo kde nájsť chybové hlásenia ak niečo nefunguje. 
@@ -172,7 +172,7 @@ Ak ste ale pozorne sledovali video a postupovali podľa neho pri vydávaní 
 Odkomentujte teda direktívu `crl-verify` v konfigurácii servera, reštartujte na ňom aplikáciu OpenVPN a pokúste sa znova pripojiť s certifikátom Klienta 2. 
 Ak ste nikde neurobili chybu, Klientovi 2 bude prístup do VPN siete naozaj odmietnutý.
 
-# 5. Nie je všetko zlato čo sa blyští
+## 5. Nie je všetko zlato čo sa blyští
 
 Pri používaní PKI si treba v prvom rade uvedomiť, že je len nadstavbou nad asymetrickým šifrovaním. 
 Kľúčové páry používané klientom, serverom či samotnou autoritou sa principiálne nijako nelíšia, a preto je napríklad možné použiť certifikát klienta v úlohe certifikačnej autority alebo servera. 
@@ -198,7 +198,7 @@ Toto riešenie zabraňuje spomínanému MITM útoku a neznamená problém ani v
 Ak pre vás PKI nie je cudzím pojmom, určite viete, že je dobrou praktikou nepoužívať jednu certifikačnú autoritu na všetko, ale vytvoriť sústavu autorít s odlišnými politikami, ktoré vydávajú rôzne typy certifikátov. 
 Táto skutočnosť často uniká dokonca aj komerčným spoločnostiam poskytujúcim certifikačné služby napriek tomu, že sa pravdepodobne jedná o najlepšie riešenie.
 
-# 6. Záver
+## 6. Záver
 
 Piaty diel tohto seriálu bude venovaný viacfaktorovej autentizácii a použitiu čipových kariet ako bezpečného úložiska privátnych kľúčov. 
 Tento diel bude zároveň posledný, a preto sa prosím ozvite v diskusii pod článkom ak si myslíte, že som niektorej téme nevenoval dostatočný priestor. 

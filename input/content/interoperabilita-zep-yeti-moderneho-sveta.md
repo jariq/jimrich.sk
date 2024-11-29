@@ -9,7 +9,7 @@ ji_rss_desc: Článok obsahuje prepis môjho príspevku na konferenciu "Informa
 
 Článok obsahuje prepis môjho príspevku na konferenciu "Informačná bezpečnosť 2012", ktorú organizovalo združenie SASIB (Slovenská asociácia pre informačnú bezpečnosť) a konala sa 15.02.2012 v sále Kongresového centra Technopol v Bratislave.
 
-# 1. Úvod
+## 1. Úvod
 
 Zaručený elektronický podpis (ďalej len ZEP) sa vďaka rozvoju v oblasti eGovernmentu stal bežnou súčasťou nášho života. 
 Šetrí nám čas i peniaze a tak niet divu, že by sme jeho výhody radi využívali aj za hranicami nášho štátu. 
@@ -18,7 +18,7 @@ A čo my?
 Sme schopní akceptovať obdobný elektronický podpis pochádzajúci z ostatných krajín? 
 Odpovede na tieto otázky už hľadalo viacero odborných štúdií, ktoré však v tomto príspevku budú tak trochu zámerne obídené a namiesto toho budú predstavené úskalia slovenskej implementácie ZEP z pohľadu člena tímu vyvíjajúceho aplikácie určené na jeho vytváranie a overovanie.
 
-# 2. Zaručený elektronický podpis
+## 2. Zaručený elektronický podpis
 
 Smernica Európskeho parlamentu a Rady 1999/93/ES z 13. decembra 1999 o rámci spoločenstva pre elektronické podpisy ([1]) priamo definuje dva typy elektronických podpisov:
 
@@ -36,7 +36,7 @@ Požiadavky smernice do slovenskej legislatívy prenáša zákon č. 215/2002�
 
 ZEP je teda zdokonalený elektronický podpis založený na kvalifikovanom certifikáte vytvorený bezpečným zariadením na vytvorenie podpisu s právnou silou vlastnoručného podpisu.
 
-# 3. ETSI a zdokonalené formáty elektronických podpisov
+## 3. ETSI a zdokonalené formáty elektronických podpisov
 
 Použitie ZEP na Slovensku upravuje zákon a vyhlášky Národného Bezpečnostného Úradu (ďalej len NBÚ alebo úrad), ktoré pripúšťajú pri vytváraní ZEP využitie jedného z troch medzinárodne uznávaných formátov zdokonalených elektronických podpisov definovaných inštitútom ETSI:
 
@@ -52,7 +52,7 @@ Uvedené normy je možné získať bezplatne z webových stránok inštitútu E
 Štandard popisujúci formát CAdES môžeme vo všeobecnosti označiť za veľmi kvalitný, pretože komplexne pokrýva problematiku vytvárania a overovania elektronického podpisu nielen z krátkodobého, ale aj z dlhodobého hľadiska. 
 Počas implementácie tohto štandardu sme však identifikovali relatívne závažné nedostatky v podobe absencie referenčnej implementácie, ktorá by na viacerých miestach pomohla spresniť text, a v podobe absencie množiny testov, ktorú by bolo možné použiť na overenie zhody s normou.
 
-## 3.1 Absencia referenčnej implementácie
+### 3.1 Absencia referenčnej implementácie
 
 Viacero odborníkov zastáva názor, že IT štandardy by sa pri popise algoritmov nemali obmedzovať len na slovný popis, ale mali by obsahovať aj grafické znázornenie algoritmu vo forme vývojového diagramu alebo v ideálnom prípade aj jeho referenčnú implementáciu. 
 Môže sa totiž ľahko stať, že slovný popis algoritmu bude interpretovateľný viacerými spôsobmi a dve implementácie toho istého algoritmu budú prinášať rôzne výsledky. 
@@ -64,7 +64,7 @@ V rámci zachovania interoperability musia dnes aplikácie overujúce platnosť
 Tomuto ale aj ďalším podobným problémom by sa určite dalo predísť, ak by autori do štandardu popisujúceho CAdES začlenili aj referenčnú implementáciu vybraných častí, alebo ak by štandard vhodne doplnili ukážkami jednotlivých podpisov. 
 Takýto prístup nie je v oblasti kryptografickým štandardov ničím neobvyklým a skvelou ukážkou je napríklad RFC 3174 popisujúce algoritmus SHA1, v ktorom je referenčnej implementácii algoritmu v jazyku C venovaná samostatná kapitola.
 
-## 3.2. Absencia referenčných testov
+### 3.2. Absencia referenčných testov
 
 Ak vyvíjate aplikáciu implementujúcu tak významný štandard akým je CAdES, určite budete hľadať spôsob na overenie správnosti vašej implementácie. 
 Pravdepodobne začnete pátrať po validátore formátu alebo po referenčných testoch (niečo ako je HTML validátor od konzorcia W3C alebo ACID testy pre webové prehliadače), no postupne pochopíte, že nič také voľne dostupné neexistuje.
@@ -78,12 +78,12 @@ Ako sa bude testovať sa však dozviete až na samotnom podujatí a až po p
 V praxi sa teda bežne stretávame s tým, že účastníci na svojich stránkach zverejňujú len nič nehovoriacu informáciu "absolvovali sme plug testy". 
 Prínos týchto testov pre koncových používateľov je teda takmer nulový a ostáva im len veriť, že implementátori problémy identifikované počas plug testov neskôr aj odstránia.
 
-# 4. Technické úskalia slovenskej implementácie
+## 4. Technické úskalia slovenskej implementácie
 
 Treba veriť, že opísané nedostatky ETSI štandardov pre zdokonalené elektronické podpisy budú raz odstránené, pretože z hľadiska interoperability sú CAdES, XAdES a PAdES pre náš ZEP v súčasnosti tou najlepšou voľbou. 
 Zákon a vyhlášky úradu však zavádzajú pre ZEP aj iné špecifické úpravy a obmedzenia, ktoré môžu mať na jeho interoperabilitu negatívny dopad.
 
-## 4.1. Národné formáty
+### 4.1. Národné formáty
 
 V súčasnosti na Slovensku používame viacero špecifických formátov, ktorých použiteľnosť je obmedzená hranicami nášho štátu.
 
@@ -109,7 +109,7 @@ Pokročilému používateľovi nepomôže ani extrahovať súbor s pôvodným d
 
 Formát ZEPf je vynikajúcim príkladom národného formátu, ktorý relatívne dobre funguje v rámci Slovenska, no nemá práve pozitívny vplyv na interoperabilitu v rámci EÚ.
 
-## 4.2. Formáty dokumentov použiteľné v administratívnom styku
+### 4.2. Formáty dokumentov použiteľné v administratívnom styku
 
 Vyhláška NBÚ 136/2009 Z. z. z 26. marca 2009 ([7]) v prílohe č. 2 definuje formáty dokumentov použiteľné v administratívnom styku. 
 Veľmi zjednodušene môžeme povedať, že vo vyhláške sa za administratívny styk považuje ľubovoľná komunikácia s účasťou verejnej moci využívajúca elektronický podpis alebo ZEP.
@@ -156,7 +156,7 @@ Oba prípady sú absurdné, no bohužiaľ oba sú v súlade s legislatívnymi
 Obmedzenia formátov dokumentov použiteľných v administratívnom styku navyše predstavujú problém aj pre interoperabilitu v rámci EÚ. 
 Asi len ťažko môžeme predpokladať, že aplikácie pre vytváranie podpisu používané v ostatných členských krajinách budú z dokumentov odstraňovať aktívne prvky (ne)definované našim zákonom a vyhláškou.
 
-## 4.3. Dôveryhodný zoznam a TSL
+### 4.3. Dôveryhodný zoznam a TSL
 
 Určenie dôveryhodnosti certifikátov je vo všeobecnosti jedným zo základných konfiguračných nastavení aplikácií pracujúcich s elektronickým podpisom. 
 Pri overovaní platnosti ZEP je na Slovensku za dôveryhodný bod považovaná Koreňová certifikačná autorita KCA 3 prevádzkovaná NBÚ, ktorá vydáva certifikáty podriadením akreditovaným certifikačným autoritám a tie napokon vydávajú kvalifikované certifikáty pre koncových používateľov.
@@ -190,7 +190,7 @@ A podobných príkladov by sme našli určite oveľa viac.
 
 Napriek uvedeným nedostatkom však nemožno povinnému publikovaniu TSL uprieť obrovský prínos pre zvýšenie interoperability elektronických podpisov v rámci EÚ.
 
-## 4.4. Kvalifikovaný certifikát s rodným číslom
+### 4.4. Kvalifikovaný certifikát s rodným číslom
 
 Od novelizácie zákona 215/2002 Z. z. v roku 2008 je v §5 ods. 1 prítomný nasledovný text: 
 
@@ -220,9 +220,9 @@ Je možné predpokladať, že si budú koncoví používatelia obstarávať dva
 
 Nutná prítomnosť rodného čísla v certifikáte znamená aj významnú prekážku pre interoperabilitu elektronického podpisu v rámci EÚ, pretože je len malá pravdepodobnosť, že napríklad francúzsky občan bude mať v kvalifikovanom certifikáte vydanom francúzskou certifikačnou autoritou uvedené rodné číslo.
 
-# 5. Interoperabilita v rámci EÚ
+## 5. Interoperabilita v rámci EÚ
 
-## 5.1. Miesta jednotného kontaktu
+### 5.1. Miesta jednotného kontaktu
 
 Miesta jednotného kontaktu (angl. points of single contact) na Slovensku tiež označované ako jednotné kontaktné miesta (ďalej len JKM) vo všetkých členských štátoch EÚ vznikli na základe ustanovení Smernice 2006/123/ES o službách na vnútornom trhu ([13]). 
 JKM sústreďujú jednotlivé povinné administratívne úkony súvisiace s podnikaním na jedno miesto a zabezpečujú pre podnikateľov všetky formality, ktoré súvisia so získaním prístupu k podnikaniu alebo s jeho výkonom.
@@ -236,14 +236,14 @@ Rozhodnutie komisie 2011/130/EÚ z 25. februára 2011 ([3]) ustanovilo minim
 
 Miesta jednotného kontaktu v členských krajinách EÚ teda v súčasnosti predstavujú zároveň aj miesta, na ktorých by ZEP mal byť s najväčšou pravdepodobnosťou akceptovaný.
 
-## 5.2. Akceptovanie slovenského ZEP v členských krajinách EÚ
+### 5.2. Akceptovanie slovenského ZEP v členských krajinách EÚ
 
 Formáty zdokonalených elektronických podpisov definované inštitútom ETSI predstavujú pre náš ZEP stabilný základ a do istej miery sú aj garanciou jeho interoperability.
 
 Určité technické prekážky pre bezproblémové overenie ZEP v týchto krajinách však môžu predstavovať najmä naše národné formáty ako napríklad už popísaný ZEPf. 
 Manuálnym zásahom do overovacieho procesu je však tento problém prekonateľný a tak skutočnosť, či bude náš ZEP členským štátom uznaný, závisí už len na legislatívnej úprave uznávania zahraničných podpisov platnej v danom štáte.
 
-## 5.3. Akceptovanie zahraničných podpisov na Slovensku
+### 5.3. Akceptovanie zahraničných podpisov na Slovensku
 
 Z technickej stránky môže pri akceptovaní zahraničných podpisov na Slovensku predstavovať problém najmä zákonom vyžadovaná prítomnosť rodného čísla v kvalifikovanom certifikáte a nedostatočne definované obmedzenia formátov dokumentov.
 
@@ -258,13 +258,13 @@ Slovenská legislatíva síce vyžaduje pri vytváraní ZEP použiť úradom ce
 Akceptovaním takéhoto podpisu môžeme dostať do nevýhody nielen slovenských poskytovateľov certifikačných služieb ale aj koncových používateľov úradom certifikovaných prostriedkov. 
 V konečnom dôsledku by sme mohli pozorovať stav, keď slovenskí občania v snahe ušetriť používajú radšej zahraničné prostriedky na vytváranie elektronického podpisu a slovenský ZEP, tak ako ho dnes poznáme, by mohol úplne zaniknúť.
 
-# 6. Záver
+## 6. Záver
 
 Zaručený elektronický podpis v prevažnej miere vychádza z medzinárodne uznávaných štandardov a vďaka tomu má veľký potenciál byť uznávaný aj v ostatných krajinách Európskej únie. 
 Ako už bolo uvedené v predchádzajúcom texte, veľmi pozitívny vplyv na vzájomnú kompatibilitu softvérových riešení používaných v rámci Slovenska by mohla mať prípadná formálna špecifikácia testov pre aplikácie na vytváranie a overovanie ZEP a tiež podrobnejšia špecifikácia množiny nepovolených aktívnych prvkov pre schválené formáty dokumentov. 
 Zvýšenie schopnosti interoperability na úrovni EÚ by zas mohlo priniesť postupné nahradenie národných formátov ich medzinárodne uznávanými alternatívami a opätovné prehodnotenie potreby prítomnosti rodného čísla v kvalifikovaných certifikátoch.
 
-# Literatúra
+## Literatúra
 
 1. SMERNICA EURÓPSKEHO PARLAMENTU A RADY 1999/93/ES z 13. decembra 1999 o rámci spoločenstva pre elektronické podpisy.  
    [Odkaz na online verziu][1]

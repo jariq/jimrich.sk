@@ -29,7 +29,7 @@ Poštové a proxy servery sú styčným bodom lokálnych sietí s okolitým sv
 Vírus poslaný e-mailom síce nenapadne váš poštový server, ale na klientskej stanici môže napáchať veľké škody. 
 Preto je rozumné poštu a súbory sťahované z internetu kontrolovať skôr, než k ním umožníte prístup klientovi.
 
-# 1. ESET Server Security
+## 1. ESET Server Security
 
 ESET Server Security pre Linux/BSD je názov produktového radu spoločnosti ESET určeného pre operačný systém Linux, ktorý v súčasnosti obsahuje tri produkty:
 
@@ -97,7 +97,7 @@ Lepšiu predstavu o vzhľade a možnostiach webového konfiguračného rozhran
 
 Všetky doteraz uvedené vlastnosti sú spoločné pre celý produktový rad ESET Server Security. Poďme sa teraz pozrieť zblízka na jednotlivé produkty.
 
-# 2. ESET Gateway Security
+## 2. ESET Gateway Security
 
 Kúpou produktu ESET Gateway Security získate možnosť používať služby troch špecializovaných agentov - `esets_http`, `esets_ftp` a `esets_ssfi.so`.
 
@@ -140,7 +140,7 @@ Do 12 hodín od zadania požiadavky na podporu mi bola zaslaná nová verzia 
 Cieľovou používateľskou skupinou produktu ESET Gateway Security pre Linux/BSD sú najmä firemní zákazníci a jeho cena je závislá od počtu klientskych staníc. 
 Aktuálnu cenu môžete zistiť v [on-line objednávkovom systéme][11].
 
-# Záver
+## Záver
 
 Dovolím si tvrdiť, že antivírusový program je taký dobrý, aká je dobrá jeho vírusová databáza. 
 Ak sa rozhodnete pre komerčné riešenie, môžete sa spoľahnúť na to, že každý pracovný deň sa nemalá skupina ľudí venuje rozširovaniu a skvalitňovaniu tejto databázy.

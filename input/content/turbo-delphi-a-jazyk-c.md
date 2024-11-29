@@ -13,11 +13,11 @@ Hľadali ste na internete prepis hlavičkových súborov tejto knižnice použi
 Ak ste aspoň na dve z predchádzajúcich otázok odpovedali kladne, je tento článok určený práve pre vás. 
 Predstavuje spôsob, ako napísať časť programu v jazyku C a použiť ju v Delphi.
 
-# Úvod
+## Úvod
 
 Jednou z hlavných úloh tohto článku je názorne predviesť, ako v prostredí [Microsoft Visual Studio 2005 Professional][2] vytvoriť dynamicky linkovanú knižnicu (DLL súbor), ktorá exportuje funkcie obsahujúce potrebný kód napísaný v jazyku C a ako ju následne pripojiť k projektu vyvíjanému v Turbo Delphi.
 
-# Vytvorenie DLL knižnice vo Visual C++
+## Vytvorenie DLL knižnice vo Visual C++
 
 Vo Visual Studiu zvoľte možnosť založiť nový projekt pomocou menu "File > New > Project".
 
@@ -74,7 +74,7 @@ Výberom z rolovacieho menu "Solution Configurations" na paneli "Standard tool
 
 V adresári projektu by sa mal nachádzať podadresár `release` obsahujúci výslednú knižnicu `DLLtest.dll`.
 
-# Volanie funkcií z DLL v Borland Delphi
+## Volanie funkcií z DLL v Borland Delphi
 
 Prekopírujte knižnicu `DLLtest.dll` priamo do adresára vášho delphi projektu.
 
@@ -102,7 +102,7 @@ readln;
 end.
 ```
 
-# Záver
+## Záver
 
 Za nevýhodu tohto riešenia sa dá označiť fakt, že spolu s finálnou verziou vašej aplikácie musíte distribuovať aj balík [Microsoft Visual C++ 2005 Redistributable Package][4], bez ktorého bude vytvorená DLL knižnica nepoužiteľná. 
 Ak teda máte dostatok času a skúseností, môže byť vhodnejším riešením prepísať hlavičkové súbory spomínanej knižnice z jazyka C do jazyka Object Pascal, alebo celú aplikáciu vyvíjať v [Turbo C++][5].

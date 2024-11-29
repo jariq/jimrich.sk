@@ -9,13 +9,13 @@ ji_rss_desc: Informácie a materiály pre účastníkov mnou vedených kurzov 
 
 Informácie a materiály pre účastníkov mnou vedených kurzov o systéme GNU/Linux a sieťových technológiách.
 
-# GNU/Linux - Správa a údržba systému
+## GNU/Linux - Správa a údržba systému
 
 Kurz sa konal v zimnom semestri šk. roku 2005/2006 na novom internáte M.Uhra v Trnave. 
 Organizovalo ho záujmové združenie [Internet Klub][1]. 
 K dispozícii sú kompletné prednášky vo formátoch [ODP][2] a [PDF][3].
 
-# GNU/Linux - Prvé kroky
+## GNU/Linux - Prvé kroky
 
 Kurz sa konal v letnom semestri šk. roku 2005/2006 na [Katedre aplikovanej informatiky a automatizácie][4]. 
 Bol založený na osnovách kurzu "GNU/Linux - Správa a údržba systému", ktoré boli doplnené prezentáciou desktopového riešenia s distribúciou Suse Linux.
@@ -25,7 +25,7 @@ Odporúčané študijné materiály:
 - [GNU/Linux - Správa a údržba systému][3]
 - [vim - skutečný editor textů][5]
 
-# Nasadenie systémov GNU/Linux a OpenBSD v počítačových sieťach
+## Nasadenie systémov GNU/Linux a OpenBSD v počítačových sieťach
 
 Kurz sa konal v letnom semestri šk. roku 2005/2006 na novom internáte M.Uhra v Trnave. 
 Organizovalo ho záujmové združenie [Internet Klub][1].

@@ -10,7 +10,7 @@ ji_rss_desc: V druhej časti tejto dvojdielnej recenzie sa bližšie pozrieme n
 Prvá časť recenzie predstavila architektúru produktov ESET Server Security a obsahovala tiež podrobnejší popis jedného z nich - ESET Gateway Security. 
 Dnes sa bližšie pozrieme na možnosti, ktoré ponúkajú ESET Mail Security a ESET File Security vo verzii 2.71.12.
 
-# 1. ESET Mail Security
+## 1. ESET Mail Security
 
 Skôr než sa pustím do popisu produktu ESET Mail Security, ktorého úlohou je vykonávať antivírusovú a antispamovú kontrolu na poštovom serveri, pripomeňme si architektúru bežného unixového poštového subsystému.
 
@@ -70,7 +70,7 @@ Myslím si, že vďaka veľkému počtu agentov a s nimi spojenými mnohými 
 Jeho masovému rozšíreniu medzi menšími poskytovateľmi však pravdepodobne zabráni cena licencií, ktorá sa odvíja od počtu používateľov poštového systému. 
 Aktuálnu cenu môžete podobne ako pri Gateway Security zistiť v [on-line objednávkovom systéme][15].
 
-# 2. ESET File Security
+## 2. ESET File Security
 
 Ako už názov napovedá, hlavnou úlohou ESET File Security je vykonávať antivírusovú kontrolu súborov na pripojených diskových oddieloch. 
 Na kontrolu súborov sú vo všeobecnosti aplikovateľné dva prístupy: **kontrola na vyžiadanie** (z angl. on-demand scanning) a **kontrola pri prístupe** (z angl. on-access scanning).
@@ -120,7 +120,7 @@ S týmto agentom bez najmenšieho problému fungovala Samba aj FTP daemon vsf
 Je ťažké povedať, ktorá z techník kontroly pri prístupe je lepšia, pretože to závisí od konkrétnej aplikácie, situácie, či potreby používateľa. 
 Osobne sa mi viac pozdáva agent `ESETS_DAC` spolupracujúci s modulom `dazuko` avšak vďaka tomu, že kúpou ESET File Security získavate oba moduly, ostáva rozhodnutie na vás a môžete použiť ten, ktorý viac spĺňa vaše požiadavky.
 
-# Záver
+## Záver
 
 Na webe spoločnosti ESET je v súčasnosti [dostupná verejná beta verzia][21] produktov z rady ESET Server Security 3.0. 
 S potešením môžem konštatovať, že odstraňuje najväčší problém popísaný v predchádzajúcej časti recenzie a síce beh všetkých súčastí pod používateľom root. 

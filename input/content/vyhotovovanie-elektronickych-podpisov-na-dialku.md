@@ -9,13 +9,13 @@ ji_rss_desc: Článok obsahuje prepis príspevku, ktorý som prezentoval 22.03.2
 
 Článok obsahuje prepis príspevku, ktorý som prezentoval 22.03.2017 v sále Kongresového centra Technopol v Bratislave na konferencii "Informačná bezpečnosť 2017" organizovanej združením SASIB (Slovenská asociácia pre informačnú bezpečnosť).
 
-# Abstrakt
+## Abstrakt
 
 Rozmach mobilných platforiem predstavuje pre svet kvalifikovaného elektronického podpisu výzvu, pretože väčšina z nich nedisponuje tradičnými hardvérovými ani softvérovými rozhraniami pre prácu s kryptografickým hardvérom aký predstavujú čipové karty. 
 Nariadenie eIDAS však do praxe zavádza pojem "vyhotovovanie elektronických podpisov na diaľku", za ktorým sa môže skrývať pre koncového používateľa technicky nenáročné a zároveň ekonomicky výhodné riešenie použiteľné na všetkých mobilných ale aj desktopových platformách. 
 V príspevku sú definované hlavné technické, bezpečnostné ale aj ekonomické rozdiely medzi tradičnými decentralizovanými riešeniami a riešeniami pre centralizovanú správu kľúčového materiálu, ktoré môžu byť použité pre vyhotovovanie elektronických podpisov na diaľku.
 
-# 1. Elektronický podpis
+## 1. Elektronický podpis
 
 Používanie elektronického podpisu upravuje na európskej úrovni "Nariadenie Európskeho parlamentu a Rady č. 910/2014 z 23. júla 2014" (ďalej len nariadenie eIDAS v príslušnom gramatickom tvare), ktoré definuje tri typy elektronického podpisu a síce "elektronický podpis", "zdokonalený elektronický podpis" a "kvalifikovaný elektronický podpis" ([1]).
 
@@ -27,7 +27,7 @@ Naopak tretí typ, kvalifikovaný elektronický podpis, má v zmysle nariadenia
 Technológia elektronického podpisu na báze asymetrickej kryptografie s využitím certifikátu verejného kľúča tak vďaka nariadeniu eIDAS získava akýsi špeciálny význam, pretože je ako jediná použiteľná na vyhotovovanie všetkých troch typov podpisov. 
 Ďalší text bude venovaný výlučne tejto technológii.
 
-## 1.1 Elektronický podpis na báze asymetrickej kryptografie
+### 1.1 Elektronický podpis na báze asymetrickej kryptografie
 
 Elektronický podpis na báze asymetrickej kryptografie vo všeobecnosti predpokladá existenciu kľúčového páru zloženého zo súkromnej časti (tzv. privátny kľúč) a verejnej časti (tzv. verejný kľúč).
 
@@ -37,13 +37,13 @@ Privátny kľúč je používaný na vytvorenie podpisu a musí byť prístupn
 Pokiaľ by bol dostupný aj inej entite, nebolo by možné rozlíšiť podpisy tejto entity od podpisov reálneho vlastníka kľúča. 
 Privátny kľúč je preto nutné chrániť a je potrebné zamedziť vytváraniu jeho kópií.
 
-# 2. Lokálne podpisovanie
+## 2. Lokálne podpisovanie
 
 Pri lokálnom podpisovaní sa používajú softvérové alebo hardvérové úložiská privátneho kľúča prístupné priamo systému vyhotovujúcemu podpis.
 
 ![Lokálne podpisovanie](Drawing1.png)
 
-## 2.1 Softvérové úložisko kľúčov
+### 2.1 Softvérové úložisko kľúčov
 
 V najjednoduchších scenároch môže byť privátny kľúč uložený v softvérovom úložisku. 
 Typickým predstaviteľom tohto typu úložiska je súbor vo formáte PKCS#12 alebo softvérové úložisko kľúčov operačného systému.
@@ -54,7 +54,7 @@ Softvérové úložiská síce môžu byť chránené symetrickou šifrou, no p
 
 Napriek uvedeným bezpečnostným nevýhodám však majú softvérové úložiská značnú výhodu v podobe jednoduchej použiteľnosti na mobilných platformách, kde mobilná aplikácia jednoducho načíta privátny kľúč zo súboru a podpis zostaví softvérovou implementáciou podpisového algoritmu.
 
-## 2.2 Hardvérové úložisko kľúčov
+### 2.2 Hardvérové úložisko kľúčov
 
 Kvôli uvedeným bezpečnostným obmedzeniam softvérových úložísk sa privátne kľúče zvyknú presúvať na špecializované bezpečné zariadenia, ktoré predstavujú nezávislý počítač s vlastným operačným systémom a vlastnými bezpečnostnými nastaveniami. 
 Typickým predstaviteľom takéhoto bezpečného zariadenia je napríklad kryptografická čipová karta.
@@ -69,7 +69,7 @@ Toto riešenie sa však v praxi kvôli výrazne vyššej cene používa skôr 
 
 Jednoznačné bezpečnostné výhody hardvérových úložísk sú však bohužiaľ sprevádzané obmedzenou použiteľnosťou na mobilných platformách, na ktorých vo väčšine prípadov chýbajú hardvérové (napr. USB port) a/alebo aj softvérovým rozhrania (napr. PC/SC subsystém operačného systému) potrebné na prácu s týmito úložiskami.
 
-# 2. Podpisovanie na diaľku
+## 2. Podpisovanie na diaľku
 
 Základná idea podpisovania na diaľku je jednoduchá - spočíva v presunutí kľúčov na vzdialený dôveryhodný server a jeho sprístupnení cez sieť pomocou API, ktoré je jednoducho použiteľné na väčšine známych platforiem.
 
@@ -87,7 +87,7 @@ S vyhotovovaním kvalifikovaného elektronického podpisu na diaľku počíta 
 
 Nariadenie eIDAS zároveň predpokladá, že prevádzkovateľ systému na podpisovanie na diaľku musí spĺňať rovnaké požiadavky ako poskytovatelia dôveryhodných služieb.
 
-# 3. Štandardy upravujúce podpisovanie na diaľku
+## 3. Štandardy upravujúce podpisovanie na diaľku
 
 Pri návrhu systémov pre podpisovanie na diaľku sa zohľadňujú bezpečnostné opatrenia definované štandardom CEN/TS 419241:2014 (2) (ďalej len štandard v príslušnom gramatickom tvare) a dopĺňajú sa o ďalšie požiadavky v zmysle normy ISO/IEC 15408, ktorá predstavuje medzinárodné uznávaný základ pre posudzovanie bezpečnosti informačných systémov.
 
@@ -95,7 +95,7 @@ V zmysle článku 26 nariadenia eIDAS musí byť zdokonalený a kvalifikovan�
 
 Štandard definuje dve úrovne výlučnej kontroly, ktorú môže systém pre podpisovanie na diaľku poskytovať používateľovi.
 
-## 3.1 Výlučná kontrola úrovne 1
+### 3.1 Výlučná kontrola úrovne 1
 
 Nasledujúci diagram znázorňuje typické rozloženie komponentov v systéme, ktorý v zmysle štandardu poskytuje podpisovateľovi výlučnú kontrolu úrovne 1.
 
@@ -112,7 +112,7 @@ Narušenie činnosti týchto komponentov môže mať za následok neoprávnené 
 Výlučnú kontrolu úrovne 1 poskytuje väčšina dostupných serverových produktov pre vzdialené podpisovanie. 
 Samotný štandard však nepredpokladá, že by takýto systém bol schopný naplniť požiadavky kladené na SSCD zariadenie použiteľné pre kvalifikovaný elektronický podpis.
 
-## 3.2 Výlučná kontrola úrovne 2
+### 3.2 Výlučná kontrola úrovne 2
 
 Nasledujúci diagram znázorňuje typické rozloženie komponentov v systéme, ktorý v zmysle štandardu poskytuje podpisovateľovi výlučnú kontrolu úrovne 2.
 
@@ -126,9 +126,9 @@ V tomto modeli sa teda využíva end-to-end autentizácia medzi používateľom
 Štandard predpokladá, že systém poskytujúci výlučnú kontrolu úrovne 2 by mal byť schopný naplniť požiadavky kladené na SSCD zariadenie použiteľné pre kvalifikovaný elektronický podpis. 
 Implementácia takéhoto systému je však oveľa náročnejšia, pretože vyžaduje, aby v bezpečnom zariadení na strane servera boli vykonávané algoritmy, ktoré tieto zariadenia štandardne nepodporujú.
 
-# 4. Výhody a nevýhody podpisovania na diaľku
+## 4. Výhody a nevýhody podpisovania na diaľku
 
-## 4.1 Technické výhody
+### 4.1 Technické výhody
 
 V súčasnosti snáď najčastejšie uvádzanou výhodou systémov pre vyhotovovanie elektronických podpisov na diaľku je fakt, že sú ľahko použiteľné na mobilných platformách.
 
@@ -150,7 +150,7 @@ Problém navyše môže nastať aj pri strate alebo poškodení karty.
 Ak neexistuje záloha šifrovacích kľúčov, používateľ sa k obsahu svojich správ s veľkou pravdepodobnosťou už nedostane. 
 Centralizované úložiská riešia oba uvedené problémy, pretože ponúkajú prakticky neobmedzenú úložnú kapacitu a všetky v nich uložené kľúče môžu byť bezpečne a centrálne zálohované.
 
-## 4.2 Bezpečnostné výhody
+### 4.2 Bezpečnostné výhody
 
 Systémy pre vzdialené podpisovanie vo väčšine prípadov môžu byť nezávislé od technológie používanej na autentizáciu koncových používateľov. 
 Vďaka tomu ich je možné integrovať do firemných prostredí s využitím už zavedených autentizačných mechanizmov alebo v prípade potreby môže byť menej bezpečný mechanizmus používaný takýmto systémom nahradený bezpečnejším. 
@@ -163,11 +163,11 @@ Pri takomto postupe je prakticky nemožné dokázať, ktorá z nich vytvorila 
 Pri vzdialenom podpisovaní zdieľaným kľúčom môže centralizované úložisko zaznamenať nielen podpisovaný hash, ale aj identitu používateľa, ktorý ho podpísal. 
 Zároveň umožňuje kedykoľvek zrušiť alebo udeliť prístup ďalším osobám.
 
-## 4.3 Ekonomické výhody
+### 4.3 Ekonomické výhody
 
 Z ekonomického pohľadu je najvýraznejšou výhodou riešení pre podpisovanie na diaľku jednoznačne minimalizácia nákladov na nákup bezpečných zariadení pre koncových používateľov a tiež eliminácia nákladov spojených so správou týchto zariadení a s ich prvotnou distribúciou od vydavateľa k používateľom.
 
-## 4.4 Nevýhody
+### 4.4 Nevýhody
 
 Na rozdiel od lokálneho podpisovania, podpisovanie na diaľku nemôže prebiehať v off-line režime. 
 Podpisová aplikácia bežiaca na zariadení koncového používateľa musí byť schopná nadviazať sieťové spojenie so vzdialeným serverom, na ktorom je uložený privátny kľúč. 
@@ -179,7 +179,7 @@ Málokedy si ale položia aj analogickú otázku, prečo by mali veriť výrob
 V konečnom dôsledku sú obidva prístupy založené na rovnakom princípe - dôvere. 
 V prípade čipovej karty si používateľ vyberá výrobcu, ktorému dôveruje, že jeho výrobok je bezpečný a v prípade podpisovania na diaľku si vyberá poskytovateľa služby, ktorému dôveruje, že ním poskytovaná služba je bezpečná.
 
-# Resumé
+## Resumé
 
 Snaha používať na mobilných platformách tradičné bezpečné zariadenia dlhodobo neprináša pozitívne výsledky. 
 Používateľ je väčšinou zaťažovaný množstvom čítačiek a redukcií s najrôznejšími konektormi, alebo musí používať ďalšie externé zariadenie komunikujúce pomocou technológie bluetooth, ktoré je oveľa väčšie a potrebuje dobíjať batérie.
@@ -189,7 +189,7 @@ Možno konštatovať, že doposiaľ boli v "legislatívnom vákuu", no nariad
 
 Ak systém pre vyhotovovanie elektronických podpisov na diaľku dokáže splniť náročné bezpečnostné požiadavky štandardu CEN/TS 419241:2014 a je schopný koncovému používateľovi poskytnúť výlučnú kontrolu úrovne 2, môže byť používaný nielen na vyhotovovanie zdokonaleného elektronického podpisu ale aj na vyhotovovanie kvalifikovaného elektronického podpisu.
 
-# Literatúra
+## Literatúra
 
 1. NARIADENIE EURÓPSKEHO PARLAMENTU A RADY (EÚ) č. 910/2014 z 23. júla 2014 o elektronickej identifikácii a dôveryhodných službách pre elektronické transakcie na vnútornom trhu a o zrušení smernice 1999/93/ES.  
    [Odkaz na online verziu][1]

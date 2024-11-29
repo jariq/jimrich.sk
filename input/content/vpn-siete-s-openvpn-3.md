@@ -16,7 +16,7 @@ Všetky diely seriálu:
 
 V tretej časti seriálu sa zameriame na vylepšenie konfigurácie VPN siete vytvorenej v predchádzajúcej časti a podrobnejšie sa pozrieme aj na využitie OpenVPN pri tunelovaní proxy serverov.
 
-# 1. Konfiguračné súbory
+## 1. Konfiguračné súbory
 
 Vráťme sa k VPN sieti opisovanej v predchádzajúcej časti.
 
@@ -116,7 +116,7 @@ root@B:~# openvpn --config /root/mojasiet-client.conf
 Aj v tomto prípade odporúčam overiť, či proces beží pomocou nástroja `ps` resp. kontrolou systémových logov. 
 Overenie funkčnosti samotnej VPN siete je možné vykonať spôsobom popísaným v predchádzajúcom článku pomocou programu `ping`.
 
-# 2. OpenVPN v Ubuntu
+## 2. OpenVPN v Ubuntu
 
 Distribúcia Ubuntu sa používateľovi snaží vytváranie OpenVPN sietí čo najviac uľahčiť a robí to najmä vhodnou kombináciou parametrov odovzdávaných z príkazového riadka (v init skripte) s parametrami načítavanými z konfiguračných súborov. 
 Tvorca balíka OpenVPN pre distribúciu Ubuntu predpokladá, že používateľ bude ukladať konfiguračné súbory pre jednotlivé VPN siete do adresára `/etc/openvpn` a dá im príponu `conf`. 
@@ -144,7 +144,7 @@ root@A:~# /etc/init.d/openvpn start
 
 Ak by ste chceli systém pripojiť do ďalšej VPN siete, stačí pre ňu vytvoriť konfiguračný súbor a reštartovať spojenia pomocou init skriptu.
 
-# 3. Tunelovanie proxy servera
+## 3. Tunelovanie proxy servera
 
 V predchádzajúcom dieli som spomínal, že medzi hlavné výhody použitia OpenVPN so statickým kľúčom patrí o.i. jednoduchá konfigurácia a skutočnosť, že na server sa môže pripojiť len jeden klient. 
 Práve kvôli týmto dvom vlastnostiam s obľubou používam konfiguráciu so statickým kľúčom na tunelovanie proxy serverov alebo prechod cez príliš reštriktívne firewally.
@@ -239,7 +239,7 @@ Pri rozpojení VPN siete je smerovacia tabuľka vrátená späť do pôvodnéh
 
 Systémy "PublicSystem" a "PrivateSystem" sú v tomto momente pripravené poskytovať výhody neobmedzeného internetu :)
 
-# 4. Záver
+## 4. Záver
 
 Princíp tunelovania proxy servera alebo firewallového systému prezentovaný v tomto článku nie je ničím novým a je využívaný aj mnohými trójskymi koňmi a inými typmi škodlivého kódu. 
 Skúste si predstaviť, čo sa môže stať, keď do svojho systému nainštalujete aplikáciu z nedôveryhodného zdroja a tá sa pripojí do útočníkom ovládanej VPN siete. 

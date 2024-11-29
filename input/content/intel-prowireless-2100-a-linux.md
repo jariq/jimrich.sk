@@ -93,7 +93,7 @@ Po reštarte si príkazom `lsmod` overte, či kernel používa modul `ipw2100`
 Na záver stačí už len nastaviť parametre bezdrôtovej siete. 
 Nasledovné príklady by vám v tom mohli pomôcť.
 
-**Sieť typu "ad-hoc" so statickou IP adresou:**
+Príklad pre sieť typu "ad-hoc" so statickou IP adresou:
 
 ```
 # iwconfig eth1 mode ad-hoc channel 5 essid linux
@@ -101,7 +101,7 @@ Nasledovné príklady by vám v tom mohli pomôcť.
 # route add default gw 10.1.1.1
 ```
 
-**Sieť typu "infrastructure" s dynamickou IP adresou:**
+Príklad pre sieť typu "infrastructure" s dynamickou IP adresou:
 
 ```
 # iwconfig eth1 mode managed essid provider
