@@ -10,59 +10,57 @@
 </head>
 <body>
 <div class="firstdiv">
-<h1>Turbo Delphi a jazyk C</h1>
 <p>
   <small>
-  Language: <img src="/sk.svg" alt="Slovak flag" class="flag" /> Slovak<br/>
-  Published: 06 April 2007<br/>
-  Length: 3 minutes (457 words)
+  This post was written in Slovak 
+  and published on April 06, 2007. 
+  <br/>
+  You can continue to my <a href="https://jimrich.sk/programovanie-lpt-v-linuxe/">previous post</a>, or  view the <a href="/">list of all posts</a>, or read the <a href="https://jimrich.sk/windows-ako-router/">next post</a>.
   </small>
 </p>
-<p>
-Move to <a href="https://jimrich.sk/programovanie-lpt-v-linuxe/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/windows-ako-router/">newer post</a>.
-</p>
 <div lang="sk" class="content">
-<p>Vyvíjate aplikácie v <a href="https://en.wikipedia.org/wiki/Turbo_Delphi">Turbo Delphi</a>?
-Stalo sa vám už, že ste chceli v niektorej z nich použiť knižnicu, ktorá poskytovala rozhranie iba pre jazyk C?
-Hľadali ste na internete prepis hlavičkových súborov tejto knižnice použiteľný v Delphi, no vaša snaha bola márna?
-Ak ste aspoň na dve z predchádzajúcich otázok odpovedali kladne, je tento článok určený práve pre vás.
-Predstavuje spôsob, ako napísať časť programu v jazyku C a použiť ju v Delphi.</p>
-<h1 id="úvod">Úvod</h1>
-<p>Jednou z hlavných úloh tohto článku je názorne predviesť, ako v prostredí <a href="https://www.visualstudio.com/">Microsoft Visual Studio 2005 Professional</a> vytvoriť dynamicky linkovanú knižnicu (DLL súbor), ktorá exportuje funkcie obsahujúce potrebný kód napísaný v jazyku C a ako ju následne pripojiť k projektu vyvíjanému v Turbo Delphi.</p>
-<h1 id="vytvorenie-dll-knižnice-vo-visual-c">Vytvorenie DLL knižnice vo Visual C++</h1>
-<p>Vo Visual Studiu zvoľte možnosť založiť nový projekt pomocou menu &ldquo;File &gt; New &gt; Project&rdquo;.</p>
-<p>V okne &ldquo;Project Types&rdquo; vyberte voľbu &ldquo;Visual C++ &gt; Win32 &gt; Win32 Console Application&rdquo; a zvoľte názov projektu <code>DLLtest</code>.</p>
+<h1>Turbo Delphi a jazyk C</h1>
+<p>Vyvíjate aplikácie v <a href="https://en.wikipedia.org/wiki/Turbo_Delphi">Turbo Delphi</a>?
+Stalo sa vám už, že ste chceli v niektorej z nich použiť knižnicu, ktorá poskytovala rozhranie iba pre jazyk C?
+Hľadali ste na internete prepis hlavičkových súborov tejto knižnice použiteľný v Delphi, no vaša snaha bola márna?
+Ak ste aspoň na dve z predchádzajúcich otázok odpovedali kladne, je tento článok určený práve pre vás.
+Predstavuje spôsob, ako napísať časť programu v jazyku C a použiť ju v Delphi.</p>
+<h2 id="úvod">Úvod</h2>
+<p>Jednou z hlavných úloh tohto článku je názorne predviesť, ako v prostredí <a href="https://www.visualstudio.com/">Microsoft Visual Studio 2005 Professional</a> vytvoriť dynamicky linkovanú knižnicu (DLL súbor), ktorá exportuje funkcie obsahujúce potrebný kód napísaný v jazyku C a ako ju následne pripojiť k projektu vyvíjanému v Turbo Delphi.</p>
+<h2 id="vytvorenie-dll-knižnice-vovisual-c">Vytvorenie DLL knižnice vo Visual C++</h2>
+<p>Vo Visual Studiu zvoľte možnosť založiť nový projekt pomocou menu &ldquo;File &gt; New &gt; Project&rdquo;.</p>
+<p>V okne &ldquo;Project Types&rdquo; vyberte voľbu &ldquo;Visual C++ &gt; Win32 &gt; Win32 Console Application&rdquo; a zvoľte názov projektu <code>DLLtest</code>.</p>
 <p><img src="dll1.jpg" alt="Screenshot"></p>
-<p>V nasledujúcom okne s názvom &ldquo;Win32 Application Wizard&rdquo; zvoľte &ldquo;Application Type: DLL&rdquo; a &ldquo;Additional options: Export symbols&rdquo;.</p>
+<p>V nasledujúcom okne s názvom &ldquo;Win32 Application Wizard&rdquo; zvoľte &ldquo;Application Type: DLL&rdquo; a &ldquo;Additional options: Export symbols&rdquo;.</p>
 <p><img src="dll2.jpg" alt="Screenshot"></p>
-<p>Visual Studio vygeneruje súbor <code>DLLtest.cpp</code>, v ktorom sa nachádza ukážková funkcia <code>fnDLLtest</code>:</p>
+<p>Visual Studio vygeneruje súbor <code>DLLtest.cpp</code>, v ktorom sa nachádza ukážková funkcia <code>fnDLLtest</code>:</p>
 <pre tabindex="0"><code>DLLTEST_API int fnDLLtest(void)
 {
   return 42;
 }
-</code></pre><p>Dopíšte pod ňu vlastnú funkciu <code>fnDLLtext</code> pracujúcu s reťazcami:</p>
+</code></pre><p>Dopíšte pod ňu vlastnú funkciu <code>fnDLLtext</code> pracujúcu s reťazcami:</p>
 <pre tabindex="0"><code>DLLTEST_API char * fnDLLtext(char * retazec)
 {
   return retazec;
 }
 </code></pre><p><img src="dll3.jpg" alt="Screenshot"></p>
-<p>V paneli &ldquo;Solution Explorer&rdquo; kliknite pravým tlačidlom myši na váš projekt a z kontextového menu vyberte voľbu &ldquo;Add &gt; New item&rdquo;.</p>
+<p>V paneli &ldquo;Solution Explorer&rdquo; kliknite pravým tlačidlom myši na váš projekt a z kontextového menu vyberte voľbu &ldquo;Add &gt; New item&rdquo;.</p>
 <p><img src="dll4.jpg" alt="Screenshot"></p>
-<p>V okne &ldquo;Add New Item - DLLtest&rdquo; vyberte voľbu &ldquo;Visual C++ &gt; Code &gt; Module-Definition File (.def)&rdquo; a ako názov nového súboru zadajte <code>DLLtest</code>.</p>
+<p>V okne &ldquo;Add New Item - DLLtest&rdquo; vyberte voľbu &ldquo;Visual C++ &gt; Code &gt; Module-Definition File (.def)&rdquo; a ako názov nového súboru zadajte <code>DLLtest</code>.</p>
 <p><img src="dll5.jpg" alt="Screenshot"></p>
-<p>Upravte čerstvo pridaný súbor <code>DLLtest.def</code> tak, aby obsahoval mená exportovaných funkcií:</p>
+<p>Upravte čerstvo pridaný súbor <code>DLLtest.def</code> tak, aby obsahoval mená exportovaných funkcií:</p>
 <pre tabindex="0"><code>LIBRARY &#34;DLLtest&#34;
 EXPORTS
 fnDLLtest
 fnDLLtext
 </code></pre><p><img src="dll6.jpg" alt="Screenshot"></p>
-<p>Výberom z rolovacieho menu &ldquo;Solution Configurations&rdquo; na paneli &ldquo;Standard toolbar&rdquo; zmeňte profil z &ldquo;Debug&rdquo; na &ldquo;Release&rdquo; a skompilujte knižnicu pomocou menu &ldquo;BUILD &gt; Build solution&rdquo;.</p>
+<p>Výberom z rolovacieho menu &ldquo;Solution Configurations&rdquo; na paneli &ldquo;Standard toolbar&rdquo; zmeňte profil z &ldquo;Debug&rdquo; na &ldquo;Release&rdquo; a skompilujte knižnicu pomocou menu &ldquo;BUILD &gt; Build solution&rdquo;.</p>
 <p><img src="dll7.jpg" alt="Screenshot"></p>
-<p>V adresári projektu by sa mal nachádzať podadresár <code>release</code> obsahujúci výslednú knižnicu <code>DLLtest.dll</code>.</p>
-<h1 id="volanie-funkcií-z-dll-v-borland-delphi">Volanie funkcií z DLL v Borland Delphi</h1>
-<p>Prekopírujte knižnicu <code>DLLtest.dll</code> priamo do adresára vášho delphi projektu.</p>
-<p>Za deklaráciou funkcií z knižnice použite klauzuly <a href="https://en.wikipedia.org/wiki/Calling_convention"><code>cdecl</code></a> a <code>external</code>.</p>
-<p>Nasledujúci jednoduchý program demonštruje použitie funkcií exportovaných DLL knižnicou vytvorenou podla tohto článku:</p>
+<p>V adresári projektu by sa mal nachádzať podadresár <code>release</code> obsahujúci výslednú knižnicu <code>DLLtest.dll</code>.</p>
+<h2 id="volanie-funkcií-zdll-vborland-delphi">Volanie funkcií z DLL v Borland Delphi</h2>
+<p>Prekopírujte knižnicu <code>DLLtest.dll</code> priamo do adresára vášho delphi projektu.</p>
+<p>Za deklaráciou funkcií z knižnice použite klauzuly <a href="https://en.wikipedia.org/wiki/Calling_convention"><code>cdecl</code></a> a <code>external</code>.</p>
+<p>Nasledujúci jednoduchý program demonštruje použitie funkcií exportovaných DLL knižnicou vytvorenou podľa tohto článku:</p>
 <pre tabindex="0"><code>program Project1;
 
 {$APPTYPE CONSOLE}
@@ -80,21 +78,23 @@ writeln(&#39;Vystup funkcie vracajucej &#34;string&#34;: &#39; + fnDLLtext( 
 readln;
 
 end.
-</code></pre><h1 id="záver">Záver</h1>
-<p>Za nevýhodu tohto riešenia sa dá označiť fakt, že spolu s finálnou verziou vašej aplikácie musíte distribuovať aj balík <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist">Microsoft Visual C++ 2005 Redistributable Package</a>, bez ktorého bude vytvorená DLL knižnica nepoužiteľná.
-Ak teda máte dostatok času a skúseností, môže byť vhodnejším riešením prepísať hlavičkové súbory spomínanej knižnice z jazyka C do jazyka Object Pascal, alebo celú aplikáciu vyvíjať v <a href="https://en.wikipedia.org/wiki/Turbo_C%2B%2B">Turbo C++</a>.</p>
+</code></pre><h2 id="záver">Záver</h2>
+<p>Za nevýhodu tohto riešenia sa dá označiť fakt, že spolu s finálnou verziou vašej aplikácie musíte distribuovať aj balík <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist">Microsoft Visual C++ 2005 Redistributable Package</a>, bez ktorého bude vytvorená DLL knižnica nepoužiteľná.
+Ak teda máte dostatok času a skúseností, môže byť vhodnejším riešením prepísať hlavičkové súbory spomínanej knižnice z jazyka C do jazyka Object Pascal, alebo celú aplikáciu vyvíjať v <a href="https://en.wikipedia.org/wiki/Turbo_C%2B%2B">Turbo C++</a>.</p>
 
 </div>
 <p>
-Move to <a href="https://jimrich.sk/programovanie-lpt-v-linuxe/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/windows-ako-router/">newer post</a>.
+  <small>
+  You can continue to my <a href="https://jimrich.sk/programovanie-lpt-v-linuxe/">previous post</a>, or  view the <a href="/">list of all posts</a>, or read the <a href="https://jimrich.sk/windows-ako-router/">next post</a>.
+  </small>
 </p>
 <p>
   <small>
-  License: Unless stated otherwise, all published content is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
-  Disclaimer: The views expressed on this website are my own and do not reflect the views of my employer or any organization I am or have been associated with.<br/>
-  Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
-  Technology: This website lives in its own <a href="https://github.com/jariq/jimrich.sk">git repository</a> and breaths thanks to <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
-  Legalities: This website does not use any cookies.<br/>
+    License: Unless otherwise stated, all content on this website is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
+    Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
+    Disclaimer: The views expressed on this website are my own and do not reflect the views of my employer or any organizations with which I am or have been associated.<br/>
+    Technology: This website is maintained in its own <a href="https://github.com/jariq/jimrich.sk">Git repository</a> and brought to life by the <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
+    Legalities: This website does not use cookies.<br/> 
   </small>
 </p>
 </div>

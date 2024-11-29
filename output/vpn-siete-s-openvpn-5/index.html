@@ -10,79 +10,77 @@
 </head>
 <body>
 <div class="firstdiv">
-<h1>VPN siete s OpenVPN (5)</h1>
 <p>
   <small>
-  Language: <img src="/sk.svg" alt="Slovak flag" class="flag" /> Slovak<br/>
-  Published: 21 January 2009<br/>
-  Length: 10 minutes (2061 words)
+  This post was written in Slovak 
+  and published on January 21, 2009. 
+  <br/>
+  You can continue to my <a href="https://jimrich.sk/vpn-siete-s-openvpn-4/">previous post</a>, or  view the <a href="/">list of all posts</a>, or read the <a href="https://jimrich.sk/migrujem-z-nucleuscms-na-wordpress/">next post</a>.
   </small>
 </p>
-<p>
-Move to <a href="https://jimrich.sk/vpn-siete-s-openvpn-4/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/migrujem-z-nucleuscms-na-wordpress/">newer post</a>.
-</p>
 <div lang="sk" class="content">
+<h1>VPN siete s OpenVPN (5)</h1>
 <p>Všetky diely seriálu:
 <a href="/vpn-siete-s-openvpn-1/">1</a>
 <a href="/vpn-siete-s-openvpn-2/">2</a>
 <a href="/vpn-siete-s-openvpn-3/">3</a>
 <a href="/vpn-siete-s-openvpn-4/">4</a>
 5</p>
-<p>Posledný diel seriálu je venovaný viacfaktorovej autentizácii s čipovou kartou.</p>
-<h1 id="1-viacfaktorová-autentizácia">1. Viacfaktorová autentizácia</h1>
-<p>Závažným nedostatkom VPN siete z minulej časti bol spôsob uskladnenia privátnych kľúčov, ktoré boli uložené v textovom súbore na pevnom disku a pre zjednodušenie neboli dokonca ani chránené heslom.
-Ochrana privátneho kľúča tak bola plne prenechaná na oprávnenia súborového systému vynucované operačným systémom.
-Ak by sa niekomu podarilo získať kópiu dát z nášho pevného disku napr. odcudzením zálohy alebo disku samotného, dostal by sa mu do rúk aj privátny kľúč a s ním aj prístup do VPN siete.
-Ak by bol kľúč chránený heslom (symetrická šifra), útočník by musel túto ochranu najskôr prelomiť napríklad <a href="https://en.wikipedia.org/wiki/Brute-force_attack">útokom hrubou silou</a> (z angl. brute force attack).
-V ideálnom prípade by sa nám podarilo kompromitáciu privátneho kľúča odhaliť skôr, než by sa útočníkovi podarilo získať heslo a príslušný certifikát by sme jednoducho zrušili.</p>
-<p>Oveľa bezpečnejšie je použiť na uskladnenie privátnych kľúčov špecializované hardvérové zariadenie - <a href="https://en.wikipedia.org/wiki/Smart_card">čipovú kartu</a>, <a href="https://en.wikipedia.org/wiki/Security_token">USB token</a> alebo <a href="https://en.wikipedia.org/wiki/Hardware_security_module">HSM modul</a>.
-Ich najväčšou výhodou je skutočnosť, že privátne kľúče z nich nie je možné exportovať.
-Odcudzenie kľúča je možné dosiahnuť len odcudzením samotného zariadenia.
-Vo väčšine prípadov si však zmiznutie čipovej karty všimnete ľahšie a oveľa skôr, než skopírovanie súboru.
-Spomínané zariadenia navyše kontrolujú prístup k privátnemu kľúču a vyžadujú od používateľa zadanie PIN kódu.
-Princíp PIN a PUK kódu je podobný ako pri SIM kartách, na ktoré sme zvyknutí z mobilných telefónov t.j. 3 nesprávne zadania PIN kódu spôsobia zablokovanie karty a 10 nesprávnych zadaní PUK kódu spôsobí trvalé znefunkčnenie celej karty.
-Tieto zariadenia teda efektívne potláčajú aj útok hrubou silou.</p>
-<p>S nasadzovaním PKI a čipových kariet do informačných systémov je úzko spätý aj pojem viacfaktorová autentizácia.
-Ak sa naň pozrieme z trošku teoretickej roviny, tak môžeme zjednodušene povedať, že autentizácia je overenie identity používateľa a autentizačný faktor je informácia použitá pri vykonávaní tohto overenia.
-Ak by sa vám výraz autentizácia náhodou nepozdával, kľudne si jeho výskyt v texte nahraďte pojmom autentifikácia - oba totiž predstavujú to isté.</p>
+<p>Posledný diel seriálu je venovaný viacfaktorovej autentizácii s čipovou kartou.</p>
+<h2 id="1-viacfaktorová-autentizácia">1. Viacfaktorová autentizácia</h2>
+<p>Závažným nedostatkom VPN siete z minulej časti bol spôsob uskladnenia privátnych kľúčov, ktoré boli uložené v textovom súbore na pevnom disku a pre zjednodušenie neboli dokonca ani chránené heslom.
+Ochrana privátneho kľúča tak bola plne prenechaná na oprávnenia súborového systému vynucované operačným systémom.
+Ak by sa niekomu podarilo získať kópiu dát z nášho pevného disku napr. odcudzením zálohy alebo disku samotného, dostal by sa mu do rúk aj privátny kľúč a s ním aj prístup do VPN siete.
+Ak by bol kľúč chránený heslom (symetrická šifra), útočník by musel túto ochranu najskôr prelomiť napríklad <a href="https://en.wikipedia.org/wiki/Brute-force_attack">útokom hrubou silou</a> (z angl. brute force attack).
+V ideálnom prípade by sa nám podarilo kompromitáciu privátneho kľúča odhaliť skôr, než by sa útočníkovi podarilo získať heslo a príslušný certifikát by sme jednoducho zrušili.</p>
+<p>Oveľa bezpečnejšie je použiť na uskladnenie privátnych kľúčov špecializované hardvérové zariadenie - <a href="https://en.wikipedia.org/wiki/Smart_card">čipovú kartu</a>, <a href="https://en.wikipedia.org/wiki/Security_token">USB token</a> alebo <a href="https://en.wikipedia.org/wiki/Hardware_security_module">HSM modul</a>.
+Ich najväčšou výhodou je skutočnosť, že privátne kľúče z nich nie je možné exportovať.
+Odcudzenie kľúča je možné dosiahnuť len odcudzením samotného zariadenia.
+Vo väčšine prípadov si však zmiznutie čipovej karty všimnete ľahšie a oveľa skôr, než skopírovanie súboru.
+Spomínané zariadenia navyše kontrolujú prístup k privátnemu kľúču a vyžadujú od používateľa zadanie PIN kódu.
+Princíp PIN a PUK kódu je podobný ako pri SIM kartách, na ktoré sme zvyknutí z mobilných telefónov t.j. 3 nesprávne zadania PIN kódu spôsobia zablokovanie karty a 10 nesprávnych zadaní PUK kódu spôsobí trvalé znefunkčnenie celej karty.
+Tieto zariadenia teda efektívne potláčajú aj útok hrubou silou.</p>
+<p>S nasadzovaním PKI a čipových kariet do informačných systémov je úzko spätý aj pojem viacfaktorová autentizácia.
+Ak sa naň pozrieme z trošku teoretickej roviny, tak môžeme zjednodušene povedať, že autentizácia je overenie identity používateľa a autentizačný faktor je informácia použitá pri vykonávaní tohto overenia.
+Ak by sa vám výraz autentizácia náhodou nepozdával, kľudne si jeho výskyt v texte nahraďte pojmom autentifikácia - oba totiž predstavujú to isté.</p>
 <p>Medzi najznámejšie autentizačné faktory patria:</p>
 <ul>
-<li><strong>vlastníctvo</strong> – niečo čo používateľ vlastní<br>
+<li><strong>vlastníctvo</strong> - niečo čo používateľ vlastní<br>
 Napríklad čipová karta, mobilný telefón, grid karta atď.</li>
-<li><strong>vedomosť</strong> – niečo čo používateľ vie<br>
+<li><strong>vedomosť</strong> - niečo čo používateľ vie<br>
 Napríklad login, heslo, PIN atď.</li>
-<li><strong>existencia</strong> – niečo čo používateľ je<br>
+<li><strong>existencia</strong> - niečo čo používateľ je<br>
 Napríklad odtlačok prsta, overenie hlasu, biometrické údaje atď.</li>
 </ul>
-<p>Ak na prihlasovanie do VPN siete použijeme certifikát a privátny kľúč uložený na čipovej karte, jedná sa o dvojfaktorovú autentizáciu.
-Pri prihlasovaní totiž budeme musieť použiť niečo, čo vlastníme - čipovú kartu - a niečo, čo vieme - PIN kód.
-Viacfaktorová autentizácia sa používa aj pri platení platobnou kartou a vo všeobecnosti platí, že čím viac autentizačných faktorov je pri autentizácii použitých, tým je bezpečnejšia.</p>
-<p>Pre úplnosť musím dodať, že pod pojmom čipová karta v tomto článku rozumieme inteligentnú kartu (z angl. smartcard) vybavenú vlastným procesorom, EEPROM pamäťou a operačným systémom, schopnú vykonávať kryptografické operácie.
-Nejedná sa teda o kartu s magnetickým prúžkom, alebo kartu s bezkontaktným čipom, aké sa používajú napríklad pri kontrolovaní prístupu do budov.</p>
-<h1 id="2-príprava-čipovej-karty">2. Príprava čipovej karty</h1>
-<p>Používanie čipových kariet je v Linuxe možné najmä vďaka projektu <a href="https://github.com/OpenSC/OpenSC/wiki">OpenSC</a>, ktorého autori vyvíjajú slobodný middleware.
-Za týmto pojmom sa skrýva sada programov a knižníc, ktoré umožňujú aplikáciám pracovať s čipovou kartou s využitím štandardov ako <a href="https://en.wikipedia.org/wiki/PKCS">PKCS#11 alebo PKCS#15</a>.</p>
-<p>Na pripojenie čipovej karty k PC je potrebná špeciálna čítačka.
-Ja v súčasnosti používam USB čítačku od výrobcu <a href="http://www.scmmicro.com/">SCM Microsystems</a>, konkrétne model <a href="scm_scr_3310.pdf">SCR 3310</a>, ktorý stojí cca 32 EUR s DPH.
-Táto čítačka pre svoju činnosť vyžaduje balík <a href="https://pcsclite.alioth.debian.org/">pcsc-lite</a> a ovládač <a href="https://pcsclite.alioth.debian.org/ccid.html">CCID</a>, ktorý podporuje nielen túto ale aj viacero ďalších čítačiek.
-Zoznam podporovaných modelov aj s ich fotkami môžete nájsť na <a href="https://pcsclite.alioth.debian.org/ccid.html">domovskej stránke projektu</a>.</p>
+<p>Ak na prihlasovanie do VPN siete použijeme certifikát a privátny kľúč uložený na čipovej karte, jedná sa o dvojfaktorovú autentizáciu.
+Pri prihlasovaní totiž budeme musieť použiť niečo, čo vlastníme - čipovú kartu - a niečo, čo vieme - PIN kód.
+Viacfaktorová autentizácia sa používa aj pri platení platobnou kartou a vo všeobecnosti platí, že čím viac autentizačných faktorov je pri autentizácii použitých, tým je bezpečnejšia.</p>
+<p>Pre úplnosť musím dodať, že pod pojmom čipová karta v tomto článku rozumieme inteligentnú kartu (z angl. smartcard) vybavenú vlastným procesorom, EEPROM pamäťou a operačným systémom, schopnú vykonávať kryptografické operácie.
+Nejedná sa teda o kartu s magnetickým prúžkom, alebo kartu s bezkontaktným čipom, aké sa používajú napríklad pri kontrolovaní prístupu do budov.</p>
+<h2 id="2-príprava-čipovej-karty">2. Príprava čipovej karty</h2>
+<p>Používanie čipových kariet je v Linuxe možné najmä vďaka projektu <a href="https://github.com/OpenSC/OpenSC/wiki">OpenSC</a>, ktorého autori vyvíjajú slobodný middleware.
+Za týmto pojmom sa skrýva sada programov a knižníc, ktoré umožňujú aplikáciám pracovať s čipovou kartou s využitím štandardov ako <a href="https://en.wikipedia.org/wiki/PKCS">PKCS#11 alebo PKCS#15</a>.</p>
+<p>Na pripojenie čipovej karty k PC je potrebná špeciálna čítačka.
+Ja v súčasnosti používam USB čítačku od výrobcu <a href="http://www.scmmicro.com/">SCM Microsystems</a>, konkrétne model <a href="scm_scr_3310.pdf">SCR 3310</a>, ktorý stojí cca 32 EUR s DPH.
+Táto čítačka pre svoju činnosť vyžaduje balík <a href="https://pcsclite.apdu.fr/">pcsc-lite</a> a ovládač <a href="https://ccid.apdu.fr/">CCID</a>, ktorý podporuje nielen túto ale aj viacero ďalších čítačiek.
+Zoznam podporovaných modelov aj s ich fotkami môžete nájsť na <a href="https://ccid.apdu.fr/">domovskej stránke projektu</a>.</p>
 <p><img src="scm_scr_3310.jpg" alt="Čítačka čipových kariet SCM SCR 3310"></p>
-<p>Pre účely tohto článku som sa rozhodol použiť čipovú kartu od spoločnosti <a href="https://www.gi-de.com/">Giesecke &amp; Devrient</a> vybavenú operačným systémom <a href="starcos.pdf">STARCOS SPK 2.3</a>, ktorá stojí cca 24 EUR s DPH.</p>
+<p>Pre účely tohto článku som sa rozhodol použiť čipovú kartu od spoločnosti <a href="https://www.gi-de.com/">Giesecke &amp; Devrient</a> vybavenú operačným systémom <a href="starcos.pdf">STARCOS SPK 2.3</a>, ktorá stojí cca 24 EUR s DPH.</p>
 <p><img src="starcos.jpg" alt="Čipová karta Starcos SPK 2.3"></p>
-<p>Jedná sa o projektom OpenSC dobre podporovanú kartu, ktorá má však jedno dosť výrazné obmedzenie - podporu kľúčov do veľkosti max. 1024kB.
-Táto skutočnosť mi zabránila použiť certifikát vydaný aplikáciou gnoMint v predchádzajúcej časti, pretože bol vydaný pre kľúč s veľkosťou 2048kB.
-Vygeneroval som teda nový, menší kľúč, a rovnakým postupom som k nemu vydal certifikát.
-Z pohľadu operačného systému si táto čipová karta vystačí s už spomínaným balíkom OpenSC, z ktorého použijeme najmä aplikáciu <code>pkcs15-init</code> na naformátovanie karty a import privátneho kľúča s certifikátom, aplikáciu <code>pkcs15-tool</code> na prezeranie obsahu karty a knižnicu <code>opensc-pkcs11.so</code>, cez ktorú bude s kartou pracovať aplikácia OpenVPN.</p>
-<p>Po nainštalovaní vyššie uvedených balíkov (pcsc-lite, ccid driver a opensc) je najskôr potrebné overiť, či systém správne detekoval pripojenú čítačku.
-Je na to možné použiť nasledovný príkaz:</p>
+<p>Jedná sa o projektom OpenSC dobre podporovanú kartu, ktorá má však jedno dosť výrazné obmedzenie - podporu kľúčov do veľkosti max. 1024kB.
+Táto skutočnosť mi zabránila použiť certifikát vydaný aplikáciou gnoMint v predchádzajúcej časti, pretože bol vydaný pre kľúč s veľkosťou 2048kB.
+Vygeneroval som teda nový, menší kľúč, a rovnakým postupom som k nemu vydal certifikát.
+Z pohľadu operačného systému si táto čipová karta vystačí s už spomínaným balíkom OpenSC, z ktorého použijeme najmä aplikáciu <code>pkcs15-init</code> na naformátovanie karty a import privátneho kľúča s certifikátom, aplikáciu <code>pkcs15-tool</code> na prezeranie obsahu karty a knižnicu <code>opensc-pkcs11.so</code>, cez ktorú bude s kartou pracovať aplikácia OpenVPN.</p>
+<p>Po nainštalovaní vyššie uvedených balíkov (pcsc-lite, ccid driver a opensc) je najskôr potrebné overiť, či systém správne detekoval pripojenú čítačku.
+Je na to možné použiť nasledovný príkaz:</p>
 <pre tabindex="0"><code>root@system:~# opensc-tool --list-readers
 Readers known about:
 Nr.    Driver     Name
 0      pcsc       SCM SCR 3310 (21120804236493) 00 00
-</code></pre><p>Ak vo výpise vidieť uvedenú čítačku, môžeme do nej vložiť kartu a inicializovať ju príkazom:</p>
+</code></pre><p>Ak vo výpise vidieť uvedenú čítačku, môžeme do nej vložiť kartu a inicializovať ju príkazom:</p>
 <pre tabindex="0"><code>root@system:~# pkcs15-init --create-pkcs15 --no-so-pin
-</code></pre><p>Tento príkaz zabezpečí vytvorenie súborového systému PKCS#15 bez SO (Security Officer) PIN kódu.
-SO PIN sa používa v organizáciách, kde je potrebné koncovým používateľom zabrániť v manipulácii s objektmi uloženými na karte, pretože ak je vytvorený, vyžaduje sa jeho zadanie pri vytváraní, importe alebo mazaní ľubovoľného objektu (kľúčového páru, certifikátu, súboru).</p>
+</code></pre><p>Tento príkaz zabezpečí vytvorenie súborového systému PKCS#15 bez SO (Security Officer) PIN kódu.
+SO PIN sa používa v organizáciách, kde je potrebné koncovým používateľom zabrániť v manipulácii s objektmi uloženými na karte, pretože ak je vytvorený, vyžaduje sa jeho zadanie pri vytváraní, importe alebo mazaní ľubovoľného objektu (kľúčového páru, certifikátu, súboru).</p>
 <p>Následne je potrebné vytvoriť používateľský PIN príkazom:</p>
 <pre tabindex="0"><code>root@system:~# pkcs15-init --store-pin --auth-id 01 --label &#34;jimrich&#34;
 New User PIN.
@@ -91,9 +89,9 @@ Please type again to verify:
 Unblock Code for New User PIN (Optional - press return for no PIN).
 Please enter User unblocking PIN (PUK):
 Please type again to verify:
-</code></pre><p>Tento PIN kód bude označovaný identifikátorom &ldquo;01&rdquo; a pre jednoduchšiu orientáciu som mu priradil aj názov &ldquo;jimrich&rdquo;.
-Pri vytváraní PIN kódu je možné zadať aj PUK kód.</p>
-<p>Pomocou nástroja <code>pkcs15-tool</code> si teraz môžeme zobraziť informácie o čipovej karte a overiť tak úspešnosť predchádzajúcich krokov:</p>
+</code></pre><p>Tento PIN kód bude označovaný identifikátorom &ldquo;01&rdquo; a pre jednoduchšiu orientáciu som mu priradil aj názov &ldquo;jimrich&rdquo;.
+Pri vytváraní PIN kódu je možné zadať aj PUK kód.</p>
+<p>Pomocou nástroja <code>pkcs15-tool</code> si teraz môžeme zobraziť informácie o čipovej karte a overiť tak úspešnosť predchádzajúcich krokov:</p>
 <pre tabindex="0"><code>root@system:~# pkcs15-tool --dump
 PKCS#15 Card [OpenSC Card]:
 Version        : 1
@@ -111,19 +109,19 @@ Pad char  : 0x00
 Reference : 131
 Type      : ascii-numeric
 Path      : 3f005015
-</code></pre><p>Výpis by mal obsahovať informácie o formáte karty a o objekte predstavujúcom používateľský PIN kód.</p>
-<p>V tejto chvíli nám už nič nebráni v tom, aby sme na kartu importovali privátny kľúč VPN klienta uložený v súbore s názvom <code>client1.key</code>.
-Keďže formát karty PKCS#15 podporuje existenciu viacerých používateľských PIN kódov, je potrebné v nasledujúcom príkaze pomocou parametra <code>--auth-id</code> určiť identifikátor PIN kódu, ktorým bude chránený prístup k tomuto privátnemu kľúču:</p>
+</code></pre><p>Výpis by mal obsahovať informácie o formáte karty a o objekte predstavujúcom používateľský PIN kód.</p>
+<p>V tejto chvíli nám už nič nebráni v tom, aby sme na kartu importovali privátny kľúč VPN klienta uložený v súbore s názvom <code>client1.key</code>.
+Keďže formát karty PKCS#15 podporuje existenciu viacerých používateľských PIN kódov, je potrebné v nasledujúcom príkaze pomocou parametra <code>--auth-id</code> určiť identifikátor PIN kódu, ktorým bude chránený prístup k tomuto privátnemu kľúču:</p>
 <pre tabindex="0"><code>root@system:~# pkcs15-init --store-private-key client1.key --auth-id 01
 User PIN required.
 Please enter User PIN:
-</code></pre><p>Obdobne môžeme importovať aj certifikát VPN klienta:</p>
+</code></pre><p>Obdobne môžeme importovať aj certifikát VPN klienta:</p>
 <pre tabindex="0"><code>root@system:~# pkcs15-init --store-certificate client1.cer
 User PIN required.
 Please enter User PIN:
-</code></pre><p>Certifikát je na karte uložený ako verejný objekt, ktorý nie je chránený PIN kódom, a preto nie je potrebné uvádzať parameter <code>--auth-id</code>.
-Pri vytváraní objektu je však potrebné zadať používateľský PIN kód, pretože vytvoriť objekt na čipovej karte môže len autentizovaný používateľ.</p>
-<p>V tomto momente sa už na karte nachádza privátny kľúč i certifikát VPN klienta a jej štruktúra je nasledovná:</p>
+</code></pre><p>Certifikát je na karte uložený ako verejný objekt, ktorý nie je chránený PIN kódom, a preto nie je potrebné uvádzať parameter <code>--auth-id</code>.
+Pri vytváraní objektu je však potrebné zadať používateľský PIN kód, pretože vytvoriť objekt na čipovej karte môže len autentizovaný používateľ.</p>
+<p>V tomto momente sa už na karte nachádza privátny kľúč i certifikát VPN klienta a jej štruktúra je nasledovná:</p>
 <pre tabindex="0"><code>root@system:~# pkcs15-tool --dump
 PKCS#15 Card [OpenSC Card]:
 Version        : 1
@@ -169,13 +167,13 @@ Flags    : 2
 Authority: no
 Path     : 3f0050153149
 ID       : 45
-</code></pre><p>Karta je teda pripravená slúžiť ako bezpečné úložisko privátneho kľúča pre VPN klienta.</p>
-<h1 id="3-openvpn-a-pkcs11">3. OpenVPN a PKCS#11</h1>
-<p>Aplikácia OpenVPN s čipovými kartami spolupracuje pomocou rozhrania <a href="https://en.wikipedia.org/wiki/PKCS_11">PKCS#11</a>, ktoré je de facto štandardným rozhraním pre prácu kryptografickým hardvérom a výrobcovia zväčša spolu s kartami dodávajú aj knižnice s jeho implementáciou.
-Keďže sme v tomto prípade kartu formátovali pomocou nástrojov OpenSC, budeme k nej pristupovať pomocou knižnice <code>opensc-pkcs11.so</code>, ktorá je súčasťou tohoto balíka.</p>
-<p>Aplikácia OpenVPN podporuje rozhranie PKCS#11 až od rady 2.1, z ktorej doposiaľ nevyšla stabilná verzia, takže vo väčšine prípadov si ju budete musieť zostaviť zo zdrojových kódov sami.
-Nie je to žiadny problém, no ešte pred tým však budete potrebovať nainštalovať aj knižnicu <a href="https://github.com/OpenSC/OpenSC/wiki/pkcs11-helper">pkcs11-helper</a>, ktorá je jedným z podprojektov OpenSC.</p>
-<p>Aby ste si pri zostavovaní &ldquo;nestabilnej&rdquo; verzie OpenVPN neprepísali vašu distribučnú verziu, odporúčam inštalovať do adresára <code>/usr/local</code> napríklad nasledujúcim postupom:</p>
+</code></pre><p>Karta je teda pripravená slúžiť ako bezpečné úložisko privátneho kľúča pre VPN klienta.</p>
+<h2 id="3-openvpn-apkcs11">3. OpenVPN a PKCS#11</h2>
+<p>Aplikácia OpenVPN s čipovými kartami spolupracuje pomocou rozhrania <a href="https://en.wikipedia.org/wiki/PKCS_11">PKCS#11</a>, ktoré je de facto štandardným rozhraním pre prácu kryptografickým hardvérom a výrobcovia zväčša spolu s kartami dodávajú aj knižnice s jeho implementáciou.
+Keďže sme v tomto prípade kartu formátovali pomocou nástrojov OpenSC, budeme k nej pristupovať pomocou knižnice <code>opensc-pkcs11.so</code>, ktorá je súčasťou tohoto balíka.</p>
+<p>Aplikácia OpenVPN podporuje rozhranie PKCS#11 až od rady 2.1, z ktorej doposiaľ nevyšla stabilná verzia, takže vo väčšine prípadov si ju budete musieť zostaviť zo zdrojových kódov sami.
+Nie je to žiadny problém, no ešte pred tým však budete potrebovať nainštalovať aj knižnicu <a href="https://github.com/OpenSC/pkcs11-helper">pkcs11-helper</a>, ktorá je jedným z podprojektov OpenSC.</p>
+<p>Aby ste si pri zostavovaní &ldquo;nestabilnej&rdquo; verzie OpenVPN neprepísali vašu distribučnú verziu, odporúčam inštalovať do adresára <code>/usr/local</code> napríklad nasledujúcim postupom:</p>
 <pre tabindex="0"><code>root@system:~# wget http://openvpn.net/release/openvpn-2.1_rc15.tar.gz
 root@system:~# gunzip openvpn-2.1_rc15.tar.gz
 root@system:~# tar -xvf openvpn-2.1_rc15.tar
@@ -183,7 +181,7 @@ root@system:~# cd openvpn-2.1_rc15
 root@system:~# ./configure --prefix=/usr/local
 root@system:~# make
 root@system:~# make install
-</code></pre><p>Cesty k súborom s privátnym kľúčom a certifikátom v konfiguračnom súbore VPN klienta používajúceho čipovú kartu nahrádza identifikátor objektu na čipovej karte.
+</code></pre><p>Cesty k súborom s privátnym kľúčom a certifikátom v konfiguračnom súbore VPN klienta používajúceho čipovú kartu nahrádza identifikátor objektu na čipovej karte.
 Identifikátory objektov akceptované aplikáciou OpenVPN je možné zobraziť nasledovným príkazom:</p>
 <pre tabindex="0"><code>root@system:~# /usr/local/sbin/openvpn --show-pkcs11-ids /usr/lib/pkcs11/opensc-pkcs11.so
 
@@ -195,9 +193,9 @@ Certificate
 DN:             /C=SK/L=Bratislava/CN=Client 1
 Serial:         C8
 Serialized id:  OpenSCx20Project/PKCSx20x2315x20SCard/1490552300041722/OpenSCx20Cardx20x28jimrichx29/45
-</code></pre><p>Ak by vám aplikácia OpenVPN pri použití parametru <code>--show-pkcs11-ids</code> vypísala chybu, tak pravdepodobne používate verziu z rady staršej než 2.1 alebo vami použitá verzia nebola zostavená s podporou rozhrania PKCS#11.
-V takom prípade pomôže overiť, či v systéme máte nainštalovanú knižnicu pkcs11-helper a znova zostaviť OpenVPN zo zdrojových kódov.</p>
-<p>Hodnota položky &ldquo;Serialized id&rdquo; vo vyššie uvedenom výpise je spomínaný identifikátor objektu (privátneho kľúča a certifikátu), a preto je potrebné ju prekopírovať do konfiguračného súboru VPN klienta, ktorý bude mať v tomto prípade nasledovný obsah:</p>
+</code></pre><p>Ak by vám aplikácia OpenVPN pri použití parametru <code>--show-pkcs11-ids</code> vypísala chybu, tak pravdepodobne používate verziu z rady staršej než 2.1 alebo vami použitá verzia nebola zostavená s podporou rozhrania PKCS#11.
+V takom prípade pomôže overiť, či v systéme máte nainštalovanú knižnicu pkcs11-helper a znova zostaviť OpenVPN zo zdrojových kódov.</p>
+<p>Hodnota položky &ldquo;Serialized id&rdquo; vo vyššie uvedenom výpise je spomínaný identifikátor objektu (privátneho kľúča a certifikátu), a preto je potrebné ju prekopírovať do konfiguračného súboru VPN klienta, ktorý bude mať v tomto prípade nasledovný obsah:</p>
 <pre tabindex="0"><code># Konfiguracny subor VPN klienta
 client
 dev tun
@@ -212,7 +210,7 @@ ping-timer-rem
 persist-tun
 persist-key
 daemon
-</code></pre><p>Po spustení si OpenVPN vyžiada zadanie PIN kódu, ktorým je chránený privátny kľúč uložený na karte:</p>
+</code></pre><p>Po spustení si OpenVPN vyžiada zadanie PIN kódu, ktorým je chránený privátny kľúč uložený na karte:</p>
 <pre tabindex="0"><code>root@system:~# /usr/local/sbin/openvpn --config ~/client.conf
 Sun Jan 11 10:40:02 2009 OpenVPN 2.1_rc15 i686-pc-linux-gnu [SSL] [LZO2] [EPOLL] [PKCS11] built on Jan 10 2009
 Sun Jan 11 10:40:02 2009 PKCS#11: Adding PKCS#11 provider &#39;/usr/lib/pkcs11/opensc-pkcs11.so&#39;
@@ -228,22 +226,22 @@ Sun Jan 11 10:40:09 2009 /sbin/ifconfig tun1 10.1.1.6 pointopoint 10.1.1.5 mtu 1
 [opensc-pkcs11] card-starcos.c:1346:starcos_logout: APDU re-transmit failed: Unknown error
 [opensc-pkcs11] card-starcos.c:1346:starcos_logout: APDU re-transmit failed: Unknown error
 Sun Jan 11 10:40:12 2009 Initialization Sequence Completed
-</code></pre><p>V mojom prípade sa zobrazilo aj chybové hlásenie informujúce o neúspechu vykonania &ldquo;logout&rdquo; príkazu na čipovej karte.
-Nespozoroval som však, že by malo na funkčnosť VPN siete nejaký vplyv.</p>
-<h1 id="4-naozaj-bezpečné">4. Naozaj bezpečné?</h1>
-<p>Použitie čipovej karty výrazne znížilo riziko odcudzenia privátneho kľúča, no doteraz opísaný postup má jeden zásadný nedostatok.
-Privátny kľúč bol generovaný v externej aplikácii (gnoMint) a bol z nej exportovaný do súboru na pevnom disku počítača.
+</code></pre><p>V mojom prípade sa zobrazilo aj chybové hlásenie informujúce o neúspechu vykonania &ldquo;logout&rdquo; príkazu na čipovej karte.
+Nespozoroval som však, že by malo na funkčnosť VPN siete nejaký vplyv.</p>
+<h2 id="4-naozaj-bezpečné">4. Naozaj bezpečné?</h2>
+<p>Použitie čipovej karty výrazne znížilo riziko odcudzenia privátneho kľúča, no doteraz opísaný postup má jeden zásadný nedostatok.
+Privátny kľúč bol generovaný v externej aplikácii (gnoMint) a bol z nej exportovaný do súboru na pevnom disku počítača.
 Počas tejto doby teda mohol byť odcudzený.
-Navyše ak zdrojový súbor z disku nebol odstránený bezpečným spôsobom, môže byť jeho obsah za istých okolností obnoviteľný.</p>
-<p>Preto je oveľa bezpečnejšie generovať privátny kľúč priamo na karte napríklad aplikáciou <code>pkcs15-init</code> a aplikáciou <a href="https://www.openssl.org/">OpenSSL</a> zostavenou s podporou pre rozhranie PKCS#11 vytvoriť žiadosť o vydanie certifikátu vo formáte PKCS#10.
-Obe činnosti však hravo zvládne aj prehliadač <a href="https://www.mozilla.com/firefox/">Mozilla Firefox</a>, ktorý tieto schopnosti zdedil po svojom predkovi z balíka Mozilla Suite.
-Konfiguráciu zariadení podporujúcich rozhranie PKCS#11 v ňom nájdete v menu &ldquo;Preferences &gt; Advanced &gt; Encryption &gt; Security Devices&rdquo;.
-Po vygenerovaní žiadosti je už potrebné len vydať certifikát napríklad pomocou aplikácie gnoMint a importovať ho na čipovú kartu nástrojom <code>pkcs15-init</code>.</p>
-<h1 id="5-záver">5. Záver</h1>
-<p>Tak a máme tu koniec seriálu.
-Ak sa vám vďaka nemu podarilo postaviť vlastnú VPN sieť, môžeme to považovať za happy-end :)
-Ak ste v ňom niečo postrádali, obráťte sa na <a href="https://www.openvpn.net/index.php/documentation/howto.html">oficiálne howto</a>, ktoré bolo mojím hlavným zdrojom informácií.</p>
-<p><a href="https://linuxos.sk/clanok/vpn-siete-s-openvpn-5/">Článok bol publikovaný aj na portáli linuxos.sk</a></p>
+Navyše ak zdrojový súbor z disku nebol odstránený bezpečným spôsobom, môže byť jeho obsah za istých okolností obnoviteľný.</p>
+<p>Preto je oveľa bezpečnejšie generovať privátny kľúč priamo na karte napríklad aplikáciou <code>pkcs15-init</code> a aplikáciou <a href="https://www.openssl.org/">OpenSSL</a> zostavenou s podporou pre rozhranie PKCS#11 vytvoriť žiadosť o vydanie certifikátu vo formáte PKCS#10.
+Obe činnosti však hravo zvládne aj prehliadač <a href="https://www.mozilla.com/firefox/">Mozilla Firefox</a>, ktorý tieto schopnosti zdedil po svojom predkovi z balíka Mozilla Suite.
+Konfiguráciu zariadení podporujúcich rozhranie PKCS#11 v ňom nájdete v menu &ldquo;Preferences &gt; Advanced &gt; Encryption &gt; Security Devices&rdquo;.
+Po vygenerovaní žiadosti je už potrebné len vydať certifikát napríklad pomocou aplikácie gnoMint a importovať ho na čipovú kartu nástrojom <code>pkcs15-init</code>.</p>
+<h2 id="5-záver">5. Záver</h2>
+<p>Tak a máme tu koniec seriálu.
+Ak sa vám vďaka nemu podarilo postaviť vlastnú VPN sieť, môžeme to považovať za happy-end :)
+Ak ste v ňom niečo postrádali, obráťte sa na <a href="https://www.openvpn.net/index.php/documentation/howto.html">oficiálne howto</a>, ktoré bolo mojím hlavným zdrojom informácií.</p>
+<p><a href="https://linuxos.sk/clanok/vpn-siete-s-openvpn-5/">Článok bol publikovaný aj na portáli linuxos.sk</a></p>
 <p>Všetky diely seriálu:
 <a href="/vpn-siete-s-openvpn-1/">1</a>
 <a href="/vpn-siete-s-openvpn-2/">2</a>
@@ -253,15 +251,17 @@ Ak ste v ňom niečo postrádali, obráťte sa na <a href="https://www.openvpn.n
 
 </div>
 <p>
-Move to <a href="https://jimrich.sk/vpn-siete-s-openvpn-4/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/migrujem-z-nucleuscms-na-wordpress/">newer post</a>.
+  <small>
+  You can continue to my <a href="https://jimrich.sk/vpn-siete-s-openvpn-4/">previous post</a>, or  view the <a href="/">list of all posts</a>, or read the <a href="https://jimrich.sk/migrujem-z-nucleuscms-na-wordpress/">next post</a>.
+  </small>
 </p>
 <p>
   <small>
-  License: Unless stated otherwise, all published content is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
-  Disclaimer: The views expressed on this website are my own and do not reflect the views of my employer or any organization I am or have been associated with.<br/>
-  Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
-  Technology: This website lives in its own <a href="https://github.com/jariq/jimrich.sk">git repository</a> and breaths thanks to <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
-  Legalities: This website does not use any cookies.<br/>
+    License: Unless otherwise stated, all content on this website is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
+    Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
+    Disclaimer: The views expressed on this website are my own and do not reflect the views of my employer or any organizations with which I am or have been associated.<br/>
+    Technology: This website is maintained in its own <a href="https://github.com/jariq/jimrich.sk">Git repository</a> and brought to life by the <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
+    Legalities: This website does not use cookies.<br/> 
   </small>
 </p>
 </div>

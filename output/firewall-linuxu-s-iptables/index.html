@@ -10,35 +10,33 @@
 </head>
 <body>
 <div class="firstdiv">
-<h1>Firewall linuxu s iptables</h1>
 <p>
   <small>
-  Language: <img src="/sk.svg" alt="Slovak flag" class="flag" /> Slovak<br/>
-  Published: 19 July 2005<br/>
-  Length: 8 minutes (1585 words)
+  This post was written in Slovak 
+  and published on July 19, 2005. 
+  <br/>
+  You can continue to my <a href="https://jimrich.sk/let-the-show-begin/">previous post</a>, or  view the <a href="/">list of all posts</a>, or read the <a href="https://jimrich.sk/monitoring-serveru-s-mobilom-siemens/">next post</a>.
   </small>
 </p>
-<p>
-Move to <a href="https://jimrich.sk/let-the-show-begin/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/monitoring-serveru-s-mobilom-siemens/">newer post</a>.
-</p>
 <div lang="sk" class="content">
-<p>Systémy pracujúce s jadrom Linux využívajú na filtrovanie paketov jeho časť zvanú <a href="https://www.netfilter.org">netfilter</a>.
-Konfigurácia netfiltru sa vykonáva pomocou obslužných programov <code>ipchains</code> alebo <code>iptables</code>.
-Ipchains sú k dispozícii pre jadrá 2.2 a pre jadrá 2.4 a vyššie je možné použiť aj iptables.
-Nie je ich však možné kombinovať, čo znamená, že buď máte firewall vytvorený iba s iptables alebo iba s ipchains.
-Syntax oboch programov je veľmi podobná, avšak významný rozdiel medzi nimi je v tom, že iptables poskytujú možnosti stavového firewallu, čo veľmi uľahčuje vytváranie pravidiel najmä pre gateway, ale i bežnú pracovnú stanicu či server.
-Preto sa budeme zaoberať práve tvorbou firewallu pomocou iptables.</p>
-<h1 id="1-úvod">1. Úvod</h1>
-<p>Pravidlá pre filtrovanie paketov sa pomocou iptables zoraďujú do troch hlavných reťazí - <strong>INPUT</strong>, <strong>OUTPUT</strong> a <strong>FORWARD</strong>.
-Reťaz INPUT, ako už jej názov napovedá, bude obsahovať pravidlá pre pakety vstupujúce do systému zo siete.
-Reťaz OUTPUT zas obsahuje pravidlá pre pakety odchádzajúce z nášho systému do siete a reťaz FORWARD sa využíva pri budovaní routerov a firewallov oddeľujúcich siete.
-Pri bežnom zabezpečení pracovnej stanice alebo servera sa reťaz FORWARD nevyužíva.</p>
-<p>Paket, ktorý príde do systému je porovnávaný postupne so všetkými pravidlami odpovedajúcej reťaze (pre prichádzajúce pakety je to INPUT) a pri nájdení prvého pravidla, ktorému vyhovuje sa s ním vykoná akcia, ktorú toto pravidlo definuje.
-Najbežnejšie akcie sú <strong>ACCEPT</strong>, <strong>REJECT</strong> a <strong>DROP</strong>.
-ACCEPT povolí prechod paketu, DROP paket zahodí a REJECT paket odmietne, pričom o tom pomocou ICMP správy informuje jeho zdroj.</p>
-<p>Na výpis všetkých pravidiel definovaných pomocou iptables použijeme príkaz <code>iptables -L</code>.
+<h1>Firewall linuxu s iptables</h1>
+<p>Systémy pracujúce s jadrom Linux využívajú na filtrovanie paketov jeho časť zvanú <a href="https://www.netfilter.org">netfilter</a>.
+Konfigurácia netfiltru sa vykonáva pomocou obslužných programov <code>ipchains</code> alebo <code>iptables</code>.
+Ipchains sú k dispozícii pre jadrá 2.2 a pre jadrá 2.4 a vyššie je možné použiť aj iptables.
+Nie je ich však možné kombinovať, čo znamená, že buď máte firewall vytvorený iba s iptables alebo iba s ipchains.
+Syntax oboch programov je veľmi podobná, avšak významný rozdiel medzi nimi je v tom, že iptables poskytujú možnosti stavového firewallu, čo veľmi uľahčuje vytváranie pravidiel najmä pre gateway, ale i bežnú pracovnú stanicu či server.
+Preto sa budeme zaoberať práve tvorbou firewallu pomocou iptables.</p>
+<h2 id="1-úvod">1. Úvod</h2>
+<p>Pravidlá pre filtrovanie paketov sa pomocou iptables zoraďujú do troch hlavných reťazí - <strong>INPUT</strong>, <strong>OUTPUT</strong> a <strong>FORWARD</strong>.
+Reťaz INPUT, ako už jej názov napovedá, bude obsahovať pravidlá pre pakety vstupujúce do systému zo siete.
+Reťaz OUTPUT zas obsahuje pravidlá pre pakety odchádzajúce z nášho systému do siete a reťaz FORWARD sa využíva pri budovaní routerov a firewallov oddeľujúcich siete.
+Pri bežnom zabezpečení pracovnej stanice alebo servera sa reťaz FORWARD nevyužíva.</p>
+<p>Paket, ktorý príde do systému je porovnávaný postupne so všetkými pravidlami odpovedajúcej reťaze (pre prichádzajúce pakety je to INPUT) a pri nájdení prvého pravidla, ktorému vyhovuje sa s ním vykoná akcia, ktorú toto pravidlo definuje.
+Najbežnejšie akcie sú <strong>ACCEPT</strong>, <strong>REJECT</strong> a <strong>DROP</strong>.
+ACCEPT povolí prechod paketu, DROP paket zahodí a REJECT paket odmietne, pričom o tom pomocou ICMP správy informuje jeho zdroj.</p>
+<p>Na výpis všetkých pravidiel definovaných pomocou iptables použijeme príkaz <code>iptables -L</code>.
 Samozrejme musíme byť prihlásený ako používateľ root.
-Ak počítač nemá definované pravidlá, teda je úplne otvorený, bude výpis vyzerať nasledovne:</p>
+Ak počítač nemá definované pravidlá, teda je úplne otvorený, bude výpis vyzerať nasledovne:</p>
 <pre tabindex="0"><code>[root@linux root]# iptables -L
 Chain INPUT (policy ACCEPT)
 target prot opt source destination
@@ -48,30 +46,30 @@ target prot opt source destination
 
 Chain OUTPUT (policy ACCEPT)
 target prot opt source destination
-</code></pre><p>Na výpise môžeme vidieť už spomínané tri hlavné reťaze a za každou z nich v zátvorke uvedenú politiku reťaze.
-Politika reťaze je základným pravidlom, ktoré platí pre paket, ktorý sa nezhoduje so žiadnym pravidlom z danej reťaze.
-Z príkladu je zrejmé, že pre pakety prichádzajúce do systému zo siete (INPUT) je politika ACCEPT a pretože reťaz neobsahuje žiadne pravidlá, budú všetky pakety prijaté.
-Obdobná situácia je aj v reťaziach FORWARD a OUTPUT.</p>
-<h1 id="2-syntax">2. Syntax</h1>
-<p>Po nutnom, avšak veľmi odľahčenom teoretickom úvode nasleduje názorná ukážka syntaxe iptables.
-Tieto príklady obsahujú popis len základných parametrov.
-Pre kompletný opis možností odporúčam preštudovať manuálové stránky programu iptables <code>man iptables</code>.</p>
+</code></pre><p>Na výpise môžeme vidieť už spomínané tri hlavné reťaze a za každou z nich v zátvorke uvedenú politiku reťaze.
+Politika reťaze je základným pravidlom, ktoré platí pre paket, ktorý sa nezhoduje so žiadnym pravidlom z danej reťaze.
+Z príkladu je zrejmé, že pre pakety prichádzajúce do systému zo siete (INPUT) je politika ACCEPT a pretože reťaz neobsahuje žiadne pravidlá, budú všetky pakety prijaté.
+Obdobná situácia je aj v reťaziach FORWARD a OUTPUT.</p>
+<h2 id="2-syntax">2. Syntax</h2>
+<p>Po nutnom, avšak veľmi odľahčenom teoretickom úvode nasleduje názorná ukážka syntaxe iptables.
+Tieto príklady obsahujú popis len základných parametrov.
+Pre kompletný opis možností odporúčam preštudovať manuálové stránky programu iptables <code>man iptables</code>.</p>
 <pre tabindex="0"><code># iptables -F
-</code></pre><p>Vymaže všetky definované pravidlá v reťaziach INPUT OUTPUT a FORWARD.</p>
+</code></pre><p>Vymaže všetky definované pravidlá v reťaziach INPUT OUTPUT a FORWARD.</p>
 <pre tabindex="0"><code># iptables -P INPUT DROP
-</code></pre><p>Nastaví politiku (-P) pre reťaz INPUT na DROP.
-Na vstupe zo siete sú teda odhadzované všetky pakety, pre ktoré neexistuje iné pravidlo.</p>
+</code></pre><p>Nastaví politiku (<code>-P</code>) pre reťaz INPUT na DROP.
+Na vstupe zo siete sú teda odhadzované všetky pakety, pre ktoré neexistuje iné pravidlo.</p>
 <pre tabindex="0"><code># iptables -A INPUT -p tcp --dport 80 -m state --state NEW -j ACCEPT
-</code></pre><p>Do reťaze INPUT pridá (-A) stavové pravidlo (-m state), ktoré povolí (-j ACCEPT) zahájiť nové (&ndash;state NEW) TCP spojenie (-p tcp) smerované na cieľový port 80 (&ndash;dport 80).</p>
+</code></pre><p>Do reťaze INPUT pridá (<code>-A</code>) stavové pravidlo (<code>-m state</code>), ktoré povolí (<code>-j ACCEPT</code>) zahájiť nové (<code>--state NEW</code>) TCP spojenie (<code>-p tcp</code>) smerované na cieľový port 80 (<code>--dport 80</code>).</p>
 <pre tabindex="0"><code># iptables -A INPUT -p tcp --dport 22 -s 10.1.1.15 -m state --state NEW -j ACCEPT
-</code></pre><p>Do reťaze INPUT pridá (-A) stavové pravidlo (-m state), ktoré povolí (-j ACCEPT) zahájiť nové (&ndash;state NEW) TCP spojenie (-p tcp) smerované na cieľový port 22 (&ndash;dport 22).
-Toto spojenie však musí pochádzať z IP adresy 10.1.1.15 (-s 10.1.1.15).</p>
+</code></pre><p>Do reťaze INPUT pridá (<code>-A</code>) stavové pravidlo (<code>-m state</code>), ktoré povolí (<code>-j ACCEPT</code>) zahájiť nové (<code>--state NEW</code>) TCP spojenie (<code>-p tcp</code>) smerované na cieľový port 22 (<code>--dport 22</code>).
+Toto spojenie však musí pochádzať z IP adresy 10.1.1.15 (<code>-s 10.1.1.15</code>).</p>
 <pre tabindex="0"><code># iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
-</code></pre><p>Do reťaze INPUT pridá (-A) stavové pravidlo (-m state), ktoré povolí (-j ACCEPT) prechod pre pakety, ktoré sú príbuzné alebo patria do už nadviazaného spojenia (&ndash;state ESTABLISHED,RELATED).</p>
-<h1 id="3-pracovná-stanica">3. Pracovná stanica</h1>
-<p>Toto boli príklady pravidiel, ktorých znalosť je postačujúca pre vytvorenie firewallu určeného pre pracovnú stanicu či server.
-Ukážme si ďalej príklad kompletného firewallového skriptu pre pracovnú stanicu, na ktorej nebežia žiadne sieťové služby (ftp, www, samba..), ku ktorým by pristupovali užívatelia z iných systémov.
-(Všetky tu uvedené ukážkové skripty sú obyčajné shell skripty. Každý z nich môžeme uložiť, napríklad ako <code>/etc/rc.d/rc.firewall</code> a jeho spúšťanie pri štarte počítača zabezpečíme pridaním záznamu do <code>/etc/rc.d/rc.local</code>)</p>
+</code></pre><p>Do reťaze INPUT pridá (<code>-A</code>) stavové pravidlo (<code>-m state</code>), ktoré povolí (<code>-j ACCEPT</code>) prechod pre pakety, ktoré sú príbuzné alebo patria do už nadviazaného spojenia (<code>--state ESTABLISHED,RELATED</code>).</p>
+<h2 id="3-pracovná-stanica">3. Pracovná stanica</h2>
+<p>Toto boli príklady pravidiel, ktorých znalosť je postačujúca pre vytvorenie firewallu určeného pre pracovnú stanicu či server.
+Ukážme si ďalej príklad kompletného firewallového skriptu pre pracovnú stanicu, na ktorej nebežia žiadne sieťové služby (ftp, www, samba..), ku ktorým by pristupovali užívatelia z iných systémov.
+(Všetky tu uvedené ukážkové skripty sú obyčajné shell skripty. Každý z nich môžeme uložiť, napríklad ako <code>/etc/rc.d/rc.firewall</code> a jeho spúšťanie pri štarte počítača zabezpečíme pridaním záznamu do <code>/etc/rc.d/rc.local</code>)</p>
 <pre tabindex="0"><code>#!/bin/sh
 iptables -P INPUT DROP
 iptables -P FORWARD DROP
@@ -80,21 +78,21 @@ iptables -F
 iptables -A INPUT -s 127.0.0.1 -i lo -m state --state NEW -j ACCEPT
 iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 echo &#34;Pravidla firewallu zavedene..&#34;
-</code></pre><p>Tento skript je naozaj veľmi krátky, no aj účinný.
-Na začiatku skriptu sa nastavuje politika hlavných reťazí a vymazujú sa všetky existujúce pravidlá.
-Reťaz INPUT má politiku DROP, aby sa zamedzilo pokusom o pripojenie sa k nejakej na počítači bežiacej sieťovej službe.
-Reťaz FORWARD má politiku DROP, pretože sa jedná o jednoduchý systém, ktorý nepreposiela pakety medzi dvoma sieťami.
-Politika ACCEPT reťaze OUTPUT znamená, že akákoľvek sieťová komunikácia, ktorú zahájime z našej stanice je povolená.
-Nasledujúce pravidlo povoľuje spojenia z localhostu.
-Localhost je fiktívne sieťové rozhranie reprezentujúce náš systém a ten sám so sebou komunikovať môže.
-Ak by toto pravidlo chýbalo, nemusel by vôbec na pracovnej stanici fungovať grafický X-server.
-Posledné pravidlo skriptu garantuje vstup do systému paketom, ktoré pochádzajú z niektorého spojenia, ktoré sme nadviazali z našej stanice.
-Teda z vonkajšej siete nemôže byť zahájená komunikácia s naším systémom, ale náš systém môže zahájit komunikáciu s vonkajšími systémami a tejto komunikácii bude garantovaný hladký priebeh.</p>
-<h1 id="4-webový-server">4. Webový server</h1>
-<p>Ďalší príklad bude firewallový skript pre webový server.
-Webový server zvyčajne obsluhuje pripojenia na port 80/TCP.
-Predpokladajme, že náš fiktívny server má byť dostupný pre celý svet, ale nesmie byť vôbec dostupný pre IP adresu 10.1.1.145, z ktorej sme zaznamenali pokusy o útok.
-Skript bude opäť veľmi jednoduchý a bude to vlastne len doplnený predchádzajúci skript.</p>
+</code></pre><p>Tento skript je naozaj veľmi krátky, no aj účinný.
+Na začiatku skriptu sa nastavuje politika hlavných reťazí a vymazujú sa všetky existujúce pravidlá.
+Reťaz INPUT má politiku DROP, aby sa zamedzilo pokusom o pripojenie sa k nejakej na počítači bežiacej sieťovej službe.
+Reťaz FORWARD má politiku DROP, pretože sa jedná o jednoduchý systém, ktorý nepreposiela pakety medzi dvoma sieťami.
+Politika ACCEPT reťaze OUTPUT znamená, že akákoľvek sieťová komunikácia, ktorú zahájime z našej stanice je povolená.
+Nasledujúce pravidlo povoľuje spojenia z localhostu.
+Localhost je fiktívne sieťové rozhranie reprezentujúce náš systém a ten sám so sebou komunikovať môže.
+Ak by toto pravidlo chýbalo, nemusel by vôbec na pracovnej stanici fungovať grafický X-server.
+Posledné pravidlo skriptu garantuje vstup do systému paketom, ktoré pochádzajú z niektorého spojenia, ktoré sme nadviazali z našej stanice.
+Teda z vonkajšej siete nemôže byť zahájená komunikácia s naším systémom, ale náš systém môže zahájit komunikáciu s vonkajšími systémami a tejto komunikácii bude garantovaný hladký priebeh.</p>
+<h2 id="4-webový-server">4. Webový server</h2>
+<p>Ďalší príklad bude firewallový skript pre webový server.
+Webový server zvyčajne obsluhuje pripojenia na port 80/TCP.
+Predpokladajme, že náš fiktívny server má byť dostupný pre celý svet, ale nesmie byť vôbec dostupný pre IP adresu 10.1.1.145, z ktorej sme zaznamenali pokusy o útok.
+Skript bude opäť veľmi jednoduchý a bude to vlastne len doplnený predchádzajúci skript.</p>
 <pre tabindex="0"><code>#!/bin/sh
 iptables -P INPUT DROP
 iptables -P FORWARD DROP
@@ -106,18 +104,18 @@ iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 iptables -A INPUT -s 10.1.1.145 -j DROP
 iptables -A INPUT -p tcp --dport 80 -m state --state NEW -j ACCEPT
 echo &#34;Pravidla firewallu zavedene..&#34;
-</code></pre><p>Vidíme, že kostra skriptu ostala úplne rovnaká a rovnaký je aj jej význam.
+</code></pre><p>Vidíme, že kostra skriptu ostala úplne rovnaká a rovnaký je aj jej význam.
 Doplnené pravidlá odzrkadľujú presne naše požiadavky.
-IP adresu 10.1.1.145 sme úplne zbavili prístupu a povolili sme prichádzajúcu komunikáciu len na port 80/TCP.</p>
-<h1 id="5-pokročilý-skript">5. Pokročilý skript</h1>
+IP adresu 10.1.1.145 sme úplne zbavili prístupu a povolili sme prichádzajúcu komunikáciu len na port 80/TCP.</p>
+<h2 id="5-pokročilý-skript">5. Pokročilý skript</h2>
 <p>Jednoduché skripty máme za sebou.
-Ukážeme si aj jeden mierne pokročilý.
-Pokročilý však iba v tom, že je trošku programátorsky &ldquo;vyfintený&rdquo;.
-Avšak už základné ukážkové skripty poskytujú postačujúcu ochranu pre pracovnú stanicu, poprípade server v sieti, ktorá je chránená firewallom.
-Predpokladajme teda, že tvoríme skript pre počítač, na ktorom má bežat ftp server a webový server aj s podporou šifrovaného spojenia https.
-Ďalej je len pre administrátora prístupný SSH server.
-O všetkých prípadných pokusoch pripojenia na SSH server inou osobou než administrátor chceme mať záznam v logoch.
-Tiež odpovedať na ping má server iba administrátorovi.
+Ukážeme si aj jeden mierne pokročilý.
+Pokročilý však iba v tom, že je trošku programátorsky &ldquo;vyfintený&rdquo;.
+Avšak už základné ukážkové skripty poskytujú postačujúcu ochranu pre pracovnú stanicu, poprípade server v sieti, ktorá je chránená firewallom.
+Predpokladajme teda, že tvoríme skript pre počítač, na ktorom má bežat ftp server a webový server aj s podporou šifrovaného spojenia https.
+Ďalej je len pre administrátora prístupný SSH server.
+O všetkých prípadných pokusoch pripojenia na SSH server inou osobou než administrátor chceme mať záznam v logoch.
+Tiež odpovedať na ping má server iba administrátorovi.
 Skript môže byť nasledujúci:</p>
 <pre tabindex="0"><code>#!/bin/sh
 
@@ -162,36 +160,38 @@ $IPT -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 modprobe ip_conntrack_ftp
 
 echo &#34;Pravidla firewallu zavedene..&#34;
-</code></pre><p>Premenné a cyklus sú v tomto skripte použité kvôli uľahčeniu písania skriptu a ten sa zároveň aj nepatrne skracuje.
+</code></pre><p>Premenné a cyklus sú v tomto skripte použité kvôli uľahčeniu písania skriptu a ten sa zároveň aj nepatrne skracuje.
 Trochu neznáme sa môže zdať vytvorenie vlastnej reťaze SSHDROP.
-To má na starosti riadok <code>$IPT -N SSHDROP 2&gt; /dev/null</code>, ktorý zároveň presmeruje chybovú hlášku v prípade, že reťaz s týmto menom už existuje.
-Táto reťaz len zoskupuje viaceré pravidlá, s ktorými sa bude porovnávať na ňu odoslaný paket.
-V našom prípade, ak príde požiadavka na SSH server z inej IP adresy než je administrátorova, budú sa tieto pakety spracovávať reťazou SSHDROP.
-To znamená, že budú zalogované do kernelových logov a následne zahodené.
-Na povolenie vybraných TCP portov je použitý cyklus, ktorý sa vykoná pre všetky hodnoty v reťazci SLUZBY.
-No a posledný riadok skriptu zavedie do jadra modul ip_conntrack_ftp, ktorý pomáha netfiltru sledovať stav FTP spojení a umožnuje využívať službu FTP v aktívnom i v pasívnom móde.
-Nezabúdajte, že výpis pravidiel pomocou už notoricky známeho <code>iptables -L</code> je skvelý na kontrolu správnosti skriptu.</p>
-<h1 id="6-záver">6. Záver</h1>
-<p>Filtrovanie paketov pomocou iptables sa dá využiť nielen na ochranu počítača pred sieťou, ale aj na ochranu siete pred používateľmi počítača.
-Pridaním pravidiel povoľujúcich iba služby DNS a WEB do reťaze OUTPUT môžeme docieliť, že bežný používateľ systému bude môcť využívať iba programy pracujúce s týmto portom, čiže webové prehliadače.
-Tu však možnosti iptables ani zďaleka nekončia.
+To má na starosti riadok <code>$IPT -N SSHDROP 2&gt; /dev/null</code>, ktorý zároveň presmeruje chybovú hlášku v prípade, že reťaz s týmto menom už existuje.
+Táto reťaz len zoskupuje viaceré pravidlá, s ktorými sa bude porovnávať na ňu odoslaný paket.
+V našom prípade, ak príde požiadavka na SSH server z inej IP adresy než je administrátorova, budú sa tieto pakety spracovávať reťazou SSHDROP.
+To znamená, že budú zalogované do kernelových logov a následne zahodené.
+Na povolenie vybraných TCP portov je použitý cyklus, ktorý sa vykoná pre všetky hodnoty v reťazci SLUZBY.
+No a posledný riadok skriptu zavedie do jadra modul ip_conntrack_ftp, ktorý pomáha netfiltru sledovať stav FTP spojení a umožnuje využívať službu FTP v aktívnom i v pasívnom móde.
+Nezabúdajte, že výpis pravidiel pomocou už notoricky známeho <code>iptables -L</code> je skvelý na kontrolu správnosti skriptu.</p>
+<h2 id="6-záver">6. Záver</h2>
+<p>Filtrovanie paketov pomocou iptables sa dá využiť nielen na ochranu počítača pred sieťou, ale aj na ochranu siete pred používateľmi počítača.
+Pridaním pravidiel povoľujúcich iba služby DNS a WEB do reťaze OUTPUT môžeme docieliť, že bežný používateľ systému bude môcť využívať iba programy pracujúce s týmto portom, čiže webové prehliadače.
+Tu však možnosti iptables ani zďaleka nekončia.
 Dajú sa pomocou nich vytvárať dedikované firewallové systémy brániace celé siete.
-Konfigurácia takýchto zariadení je však omnoho zložitejšia, lebo neraz obsahujú aj tri, či štyri sieťové adaptéry a človek vykonávajúci túto prácu sa musí dobre orientovať aj v otázkach bezpečnosti linuxového jadra.
-Je jasné, že tento článok iba načrtol ako sa dá vytvárať firewall.
-Viac informácií môžete nájsť v manuálových stránkach alebo na adrese spomínanej v úvode.</p>
-<p><a href="https://linuxos.sk/clanok/firewall-linuxu-s-iptables/">Článok bol publikovaný aj na portáli linuxos.sk</a></p>
+Konfigurácia takýchto zariadení je však omnoho zložitejšia, lebo neraz obsahujú aj tri, či štyri sieťové adaptéry a človek vykonávajúci túto prácu sa musí dobre orientovať aj v otázkach bezpečnosti linuxového jadra.
+Je jasné, že tento článok iba načrtol ako sa dá vytvárať firewall.
+Viac informácií môžete nájsť v manuálových stránkach alebo na adrese spomínanej v úvode.</p>
+<p><a href="https://linuxos.sk/clanok/firewall-linuxu-s-iptables/">Článok bol publikovaný aj na portáli linuxos.sk</a></p>
 
 </div>
 <p>
-Move to <a href="https://jimrich.sk/let-the-show-begin/">older post</a> or to <a href="/">index</a> or to <a href="https://jimrich.sk/monitoring-serveru-s-mobilom-siemens/">newer post</a>.
+  <small>
+  You can continue to my <a href="https://jimrich.sk/let-the-show-begin/">previous post</a>, or  view the <a href="/">list of all posts</a>, or read the <a href="https://jimrich.sk/monitoring-serveru-s-mobilom-siemens/">next post</a>.
+  </small>
 </p>
 <p>
   <small>
-  License: Unless stated otherwise, all published content is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
-  Disclaimer: The views expressed on this website are my own and do not reflect the views of my employer or any organization I am or have been associated with.<br/>
-  Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
-  Technology: This website lives in its own <a href="https://github.com/jariq/jimrich.sk">git repository</a> and breaths thanks to <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
-  Legalities: This website does not use any cookies.<br/>
+    License: Unless otherwise stated, all content on this website is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br/>
+    Contact: Feel free to drop me an e-mail to <a href="mailto:jimrich@jimrich.sk">jimrich@jimrich.sk</a> if you have any questions or comments.<br/>
+    Disclaimer: The views expressed on this website are my own and do not reflect the views of my employer or any organizations with which I am or have been associated.<br/>
+    Technology: This website is maintained in its own <a href="https://github.com/jariq/jimrich.sk">Git repository</a> and brought to life by the <a href="https://gohugo.io/">Hugo</a> static site generator.<br/>
+    Legalities: This website does not use cookies.<br/> 
   </small>
 </p>
 </div>

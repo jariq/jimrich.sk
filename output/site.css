@@ -57,6 +57,7 @@ code {
   color: #222222;
   padding: 0.1rem;
   overflow-x: auto;
+  white-space: nowrap;
 }
 
 pre {
@@ -71,6 +72,7 @@ pre {
 
 pre > code {
   background-color: transparent;
+  white-space: pre;
 }
 
 table, tr, th, td  {
@@ -91,18 +93,13 @@ blockquote {
 }
 
 ul {
-  list-style-type: none;
+  list-style-type: disc;
   margin: 1.5em;
   padding: 0px;
 }
 
 li {
   margin-bottom: 0.5em;
-}
-
-.flag {
-  height: 0.75em;
-  width: auto;
 }
 
 .content {
@@ -114,4 +111,11 @@ li {
 img {
   max-width: 100%;
   height: auto;
+}
+
+table.indexlist, tr.indexlist, th.indexlist, td.indexlist {
+  border: 0px;
+  padding: 0.3em 0em 0em 0.6em;
+  vertical-align:top;
+  text-align: left;
 }
