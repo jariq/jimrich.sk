@@ -2,9 +2,13 @@
 <h1>{{.Site.Title}}</h1>
 <p><img src="/jimrich.jpg" alt="Jaroslav Imrich" /></p>
 {{.Content}}
-<p>
+<table class="indexlist">
 {{range .Data.Pages}}
-{{- .Date.Format "2006-01-02"}} - <img src="/{{.Params.ji_lang_code}}.svg" alt="{{.Params.ji_lang_name}} flag" class="flag" /> - <a href="{{.Permalink}}">{{.Title}}</a><br/>
+  <tr class="indexlist">
+    <td class="indexlist" style="white-space: nowrap;">{{- .Date.Format "2006-01-02"}}</td>
+    <td class="indexlist" style="white-space: nowrap;">{{if eq .Params.ji_lang_code "sk"}}<span style="color: #d32f2f">SK</span>{{else}}<span style="color: #388e3c">EN</span>{{end}}</td>
+    <td class="indexlist" style="white-space: normal;"><a href="{{.Permalink}}">{{.Title}}</a></td>
+  </tr>
 {{end}}
-</p>
+</table>
 {{partial "footer.html" .}}
