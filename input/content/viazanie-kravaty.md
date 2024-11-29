@@ -9,11 +9,9 @@ ji_rss_desc: Kravatu nosím naozaj iba občas a ako naschvál vždy zabudnem a
 
 Kravatu nosím naozaj iba občas a ako naschvál vždy zabudnem ako sa viaže. 
 Dnes som sa to zase raz naučil (už aspoň desiaty krát), a tak si to radšej zapíšem :) 
+
+<div class="youtube-container">
+<iframe src="https://www.youtube.com/embed/hk4Lmgjmb90" title="How To Tie A Tie - Full Windsor Knot" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+
 Prepare, position your tie, up, under, over, across and down. Tighten.
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/hk4Lmgjmb90?rel=0" frameborder="0" allowfullscreen></iframe>
-
-[How To Tie A Tie - Full Windsor Knot][1]
-
-
-[1]: https://www.youtube.com/watch?v=hk4Lmgjmb90

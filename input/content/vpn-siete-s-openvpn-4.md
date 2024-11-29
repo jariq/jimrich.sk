@@ -74,7 +74,9 @@ Nech už sa rozhodnete pre ktorúkoľvek zo spomínaných aplikácií, pre 
 Pôvodne som chcel na tomto mieste popísať proces vytvorenia a prevádzky CA s aplikáciou gnoMint pomocou screenshot-ov, no kvôli značnej rozsiahlosti som od tohto zámeru upustil a pripravil som radšej [video][8]. 
 K dispozícii sú tiež anglické a slovenské titulky, ktoré je nutné manuálne zapnúť v pravom dolnom rohu videa.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/KbInXaFbC8g?rel=0" frameborder="0" allowfullscreen></iframe>
+<div class="youtube-container">
+<iframe src="https://www.youtube.com/embed/KbInXaFbC8g" title="Certificates for OpenVPN with gnoMint" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
 
 Ak ste postupovali podľa videa a vydali ste všetky potrebné certifikáty, mali by ste mať k dispozícii nasledovné súbory:
 

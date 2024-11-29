@@ -2,12 +2,12 @@
 <h1>{{.Site.Title}}</h1>
 <p><img src="/jimrich.jpg" alt="Jaroslav Imrich" /></p>
 {{.Content}}
-<table class="indexlist">
+<table class="index-list">
 {{range .Data.Pages}}
-  <tr class="indexlist">
-    <td class="indexlist" style="white-space: nowrap;">{{- .Date.Format "2006-01-02"}}</td>
-    <td class="indexlist" style="white-space: nowrap;">{{if eq .Params.ji_lang_code "sk"}}<span style="color: #d32f2f">SK</span>{{else}}<span style="color: #388e3c">EN</span>{{end}}</td>
-    <td class="indexlist" style="white-space: normal;"><a href="{{.Permalink}}">{{.Title}}</a></td>
+  <tr class="index-list">
+    <td class="index-list" style="white-space: nowrap;">{{- .Date.Format "2006-01-02"}}</td>
+    <td class="index-list" style="white-space: nowrap;">{{if eq .Params.ji_lang_code "sk"}}<span style="color: #d32f2f">SK</span>{{else}}<span style="color: #388e3c">EN</span>{{end}}</td>
+    <td class="index-list" style="white-space: normal;"><a href="{{.Permalink}}">{{.Title}}</a></td>
   </tr>
 {{end}}
 </table>
