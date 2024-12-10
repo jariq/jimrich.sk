@@ -106,6 +106,7 @@ RewriteRule ^xml-rss2.php$ https://jimrich.sk/index.xml [R=301,L]
 
 # Other changes
 RewriteRule ^my-360-photo-gallery/$ https://jimrich.sk/my-360-photo-journey-part-1/ [R=301,L]
+RewriteRule ^stoparov-sprievodca-ferratami/(.*)$ https://leziem-istim.sk/2024-08-30-via-ferrata-sprievodca-pre-novacikov/$1 [R=301,L]
 
 # Redirect all HTTP requests to HTTPS
 RewriteCond %{HTTPS} !=on
