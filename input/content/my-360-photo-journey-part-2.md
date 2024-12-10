@@ -107,7 +107,7 @@ All parts of the journey:
 [1]: https://www.kuk360.com/
 [2]: https://github.com/jariq/KUK360
 [3]: https://github.com/jariq/KUK360/releases/latest
-[4]: https://www.instagram.com/leziem.istim/
+[4]: https://leziem-istim.sk/
 [5]: https://web.archive.org/web/20220706192732/https://www.mi.com/us/mi-sphere-camera-kit
 [6]: https://www.insta360.com/product/insta360-x3
 [7]: https://en.wikipedia.org/wiki/High_dynamic_range
