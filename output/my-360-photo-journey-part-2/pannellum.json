@@ -1,0 +1,6 @@
+{
+	"type": "equirectangular",
+	"autoLoad": true,
+	"compass": false,
+	"autoRotate": -3
+}

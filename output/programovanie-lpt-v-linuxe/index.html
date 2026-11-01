@@ -4,7 +4,7 @@
   <title>Jaroslav IMRICH - Open Source Developer</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="/site.css?v=20241210191406" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/site.css?v=20261101193616" type="text/css" media="screen" />
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   
 </head>
@@ -54,55 +54,55 @@ Do tohto registra sa zapisuje číselná hodnota celého byte-u (bajtu) určuj�
 Ak chceme, aby svietila iba dióda pripojená k pinu č. 2, musíme na port s adresou <code>378h</code> odoslať binárne číslo <code>00000001</code>, čo je v desiatkovej sústave číslo <code>1</code>.
 Jednoduché príklady hodnôt tohto registra sú uvedené v nasledujúcej tabuľke.</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: center">Svietiace LED diódy pripojené k pinom</th>
-          <th style="text-align: center">Hodnota registra v dvojkovej sústave</th>
-          <th style="text-align: center">Hodnota registra v desiatkovej sústave</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: center">2</td>
-          <td style="text-align: center">00000001</td>
-          <td style="text-align: center">1</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">3,2</td>
-          <td style="text-align: center">00000011</td>
-          <td style="text-align: center">3</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">4,3,2</td>
-          <td style="text-align: center">00000111</td>
-          <td style="text-align: center">7</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">5,4,3,2</td>
-          <td style="text-align: center">00001111</td>
-          <td style="text-align: center">15</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">6,5,4,3,2</td>
-          <td style="text-align: center">00011111</td>
-          <td style="text-align: center">31</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">7,6,5,4,3,2</td>
-          <td style="text-align: center">00111111</td>
-          <td style="text-align: center">63</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">8,7,6,5,4,3,2</td>
-          <td style="text-align: center">01111111</td>
-          <td style="text-align: center">127</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">9,8,7,6,5,4,3,2</td>
-          <td style="text-align: center">11111111</td>
-          <td style="text-align: center">255</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th style="text-align: center">Svietiace LED diódy pripojené k pinom</th>
+					<th style="text-align: center">Hodnota registra v dvojkovej sústave</th>
+					<th style="text-align: center">Hodnota registra v desiatkovej sústave</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: center">2</td>
+					<td style="text-align: center">00000001</td>
+					<td style="text-align: center">1</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">3,2</td>
+					<td style="text-align: center">00000011</td>
+					<td style="text-align: center">3</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">4,3,2</td>
+					<td style="text-align: center">00000111</td>
+					<td style="text-align: center">7</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">5,4,3,2</td>
+					<td style="text-align: center">00001111</td>
+					<td style="text-align: center">15</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">6,5,4,3,2</td>
+					<td style="text-align: center">00011111</td>
+					<td style="text-align: center">31</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">7,6,5,4,3,2</td>
+					<td style="text-align: center">00111111</td>
+					<td style="text-align: center">63</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">8,7,6,5,4,3,2</td>
+					<td style="text-align: center">01111111</td>
+					<td style="text-align: center">127</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">9,8,7,6,5,4,3,2</td>
+					<td style="text-align: center">11111111</td>
+					<td style="text-align: center">255</td>
+			</tr>
+	</tbody>
 </table>
 <p>Samozrejme na tento port môžete odoslať akékoľvek binárne číslo do maximálnej veľkosti 8 bitov.
 Ak vyšlete číslo <code>00100101</code> budú svietiť diódy pripojené k pinom 2, 4 a 7.
@@ -127,40 +127,40 @@ Pre stiahnutie, skompilovanie a spustenie príkladu stačí ako root spustiť:
 Ak teda do bitu prislúchajúceho pinu 1 uložíte jednotku, nebude LED dióda k nemu pripojená svietiť.
 Ak do neho uložíte nulu, rozsvieti sa.</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: center">Svietiace LED diódy pripojené k pinom</th>
-          <th style="text-align: center">Hodnota registra v dvojkovej sústave</th>
-          <th style="text-align: center">Hodnota registra v desiatkovej sústave</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: center">žiadna</td>
-          <td style="text-align: center">00001011</td>
-          <td style="text-align: center">11</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">1</td>
-          <td style="text-align: center">00001010</td>
-          <td style="text-align: center">10</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">1,14</td>
-          <td style="text-align: center">00001000</td>
-          <td style="text-align: center">8</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">1,14,16</td>
-          <td style="text-align: center">00001100</td>
-          <td style="text-align: center">12</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">1,14,16,17</td>
-          <td style="text-align: center">00000100</td>
-          <td style="text-align: center">4</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th style="text-align: center">Svietiace LED diódy pripojené k pinom</th>
+					<th style="text-align: center">Hodnota registra v dvojkovej sústave</th>
+					<th style="text-align: center">Hodnota registra v desiatkovej sústave</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: center">žiadna</td>
+					<td style="text-align: center">00001011</td>
+					<td style="text-align: center">11</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">1</td>
+					<td style="text-align: center">00001010</td>
+					<td style="text-align: center">10</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">1,14</td>
+					<td style="text-align: center">00001000</td>
+					<td style="text-align: center">8</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">1,14,16</td>
+					<td style="text-align: center">00001100</td>
+					<td style="text-align: center">12</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">1,14,16,17</td>
+					<td style="text-align: center">00000100</td>
+					<td style="text-align: center">4</td>
+			</tr>
+	</tbody>
 </table>
 <p>V <a href="clm2.c">ukážkovom programe č. 2</a> je kód, ktorý zabezpečí na vytvorenom zariadení postupné rozsvietenie všetkých 10 diód.
 Pripomínam, že posledné dve diódy sú pripojené k pinom control registra.</p>
