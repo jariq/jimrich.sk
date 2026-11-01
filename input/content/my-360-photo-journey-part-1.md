@@ -34,35 +34,35 @@ _**Update 01/2024:** I replaced the initial photos with a complete set from�
 
 Please note that photos are published here in their full resolution of 6912*3456 pixels but with JPEG quality reduced to 50% in order to decrease their size and save the bandwidth.
 
-[![360° Photo - Dyrhólaey peninsula - Iceland](IMG_20180809_131427_Dyrholaey_cover.jpg)](pannellum.htm#autoLoad=true&panorama=IMG_20180809_131427_Dyrholaey.jpg)  
-[360° Photo - Dyrhólaey peninsula - Iceland](pannellum.htm#autoLoad=true&panorama=IMG_20180809_131427_Dyrholaey.jpg)
+[![360° Photo - Dyrhólaey peninsula - Iceland](IMG_20180809_131427_Dyrholaey_cover.jpg)](pannellum.htm#config=pannellum.json&panorama=IMG_20180809_131427_Dyrholaey.jpg)  
+[360° Photo - Dyrhólaey peninsula - Iceland](pannellum.htm#config=pannellum.json&panorama=IMG_20180809_131427_Dyrholaey.jpg)
 
-[![360° Photo - Reynisfjara black-sand beach - Iceland](IMG_20180809_141454_Reynisfjara_cover.jpg)](pannellum.htm#autoLoad=true&panorama=IMG_20180809_141454_Reynisfjara.jpg)  
-[360° Photo - Reynisfjara black-sand beach - Iceland](pannellum.htm#autoLoad=true&panorama=IMG_20180809_141454_Reynisfjara.jpg)
+[![360° Photo - Reynisfjara black-sand beach - Iceland](IMG_20180809_141454_Reynisfjara_cover.jpg)](pannellum.htm#config=pannellum.json&panorama=IMG_20180809_141454_Reynisfjara.jpg)  
+[360° Photo - Reynisfjara black-sand beach - Iceland](pannellum.htm#config=pannellum.json&panorama=IMG_20180809_141454_Reynisfjara.jpg)
 
-[![360° Photo - Skógafoss waterfall - Iceland](IMG_20180809_183920_Skogafoss_cover.jpg)](pannellum.htm#autoLoad=true&panorama=IMG_20180809_183920_Skogafoss.jpg)  
-[360° Photo - Skógafoss waterfall - Iceland](pannellum.htm#autoLoad=true&panorama=IMG_20180809_183920_Skogafoss.jpg)
+[![360° Photo - Skógafoss waterfall - Iceland](IMG_20180809_183920_Skogafoss_cover.jpg)](pannellum.htm#config=pannellum.json&panorama=IMG_20180809_183920_Skogafoss.jpg)  
+[360° Photo - Skógafoss waterfall - Iceland](pannellum.htm#config=pannellum.json&panorama=IMG_20180809_183920_Skogafoss.jpg)
 
-[![360° Photo - Seljalandsfoss waterfall - Iceland](IMG_20180809_194519_Seljalandsfoss_cover.jpg)](pannellum.htm#autoLoad=true&panorama=IMG_20180809_194519_Seljalandsfoss.jpg)  
-[360° Photo - Seljalandsfoss waterfall - Iceland](pannellum.htm#autoLoad=true&panorama=IMG_20180809_194519_Seljalandsfoss.jpg)
+[![360° Photo - Seljalandsfoss waterfall - Iceland](IMG_20180809_194519_Seljalandsfoss_cover.jpg)](pannellum.htm#config=pannellum.json&panorama=IMG_20180809_194519_Seljalandsfoss.jpg)  
+[360° Photo - Seljalandsfoss waterfall - Iceland](pannellum.htm#config=pannellum.json&panorama=IMG_20180809_194519_Seljalandsfoss.jpg)
 
-[![360° Photo - The highland center Hrauneyjar - Iceland](IMG_20180811_094101_Hrauneyjar_cover.jpg)](pannellum.htm#autoLoad=true&panorama=IMG_20180811_094101_Hrauneyjar.jpg)  
-[360° Photo - The highland center Hrauneyjar - Iceland](pannellum.htm#autoLoad=true&panorama=IMG_20180811_094101_Hrauneyjar.jpg)
+[![360° Photo - The highland center Hrauneyjar - Iceland](IMG_20180811_094101_Hrauneyjar_cover.jpg)](pannellum.htm#config=pannellum.json&panorama=IMG_20180811_094101_Hrauneyjar.jpg)  
+[360° Photo - The highland center Hrauneyjar - Iceland](pannellum.htm#config=pannellum.json&panorama=IMG_20180811_094101_Hrauneyjar.jpg)
 
-[![360° Photo - Hnausapollur (Bláhylur) lake - Iceland](IMG_20180811_111555_Blahylur_cover.jpg)](pannellum.htm#autoLoad=true&panorama=IMG_20180811_111555_Blahylur.jpg)  
-[360° Photo - Hnausapollur (Bláhylur) lake - Iceland](pannellum.htm#autoLoad=true&panorama=IMG_20180811_111555_Blahylur.jpg)
+[![360° Photo - Hnausapollur (Bláhylur) lake - Iceland](IMG_20180811_111555_Blahylur_cover.jpg)](pannellum.htm#config=pannellum.json&panorama=IMG_20180811_111555_Blahylur.jpg)  
+[360° Photo - Hnausapollur (Bláhylur) lake - Iceland](pannellum.htm#config=pannellum.json&panorama=IMG_20180811_111555_Blahylur.jpg)
 
-[![360° Photo - Laugahraun lava field in the Landmannalaugar area - Iceland](IMG_20180811_141328_Landmannalaugar_cover.jpg)](pannellum.htm#autoLoad=true&panorama=IMG_20180811_141328_Landmannalaugar.jpg)  
-[360° Photo - Laugahraun lava field in the Landmannalaugar area - Iceland](pannellum.htm#autoLoad=true&panorama=IMG_20180811_141328_Landmannalaugar.jpg)
+[![360° Photo - Laugahraun lava field in the Landmannalaugar area - Iceland](IMG_20180811_141328_Landmannalaugar_cover.jpg)](pannellum.htm#config=pannellum.json&panorama=IMG_20180811_141328_Landmannalaugar.jpg)  
+[360° Photo - Laugahraun lava field in the Landmannalaugar area - Iceland](pannellum.htm#config=pannellum.json&panorama=IMG_20180811_141328_Landmannalaugar.jpg)
 
-[![360° Photo - Gullfoss waterfall - Iceland](IMG_20180812_110854_Gullfoss_cover.jpg)](pannellum.htm#autoLoad=true&panorama=IMG_20180812_110854_Gullfoss.jpg)  
-[360° Photo - Gullfoss waterfall - Iceland](pannellum.htm#autoLoad=true&panorama=IMG_20180812_110854_Gullfoss.jpg)
+[![360° Photo - Gullfoss waterfall - Iceland](IMG_20180812_110854_Gullfoss_cover.jpg)](pannellum.htm#config=pannellum.json&panorama=IMG_20180812_110854_Gullfoss.jpg)  
+[360° Photo - Gullfoss waterfall - Iceland](pannellum.htm#config=pannellum.json&panorama=IMG_20180812_110854_Gullfoss.jpg)
 
-[![360° Photo - Öxarárfoss waterfall - Iceland](IMG_20180812_151049_Oxararfoss_cover.jpg)](pannellum.htm#autoLoad=true&panorama=IMG_20180812_151049_Oxararfoss.jpg)  
-[360° Photo - Öxarárfoss waterfall - Iceland](pannellum.htm#autoLoad=true&panorama=IMG_20180812_151049_Oxararfoss.jpg)
+[![360° Photo - Öxarárfoss waterfall - Iceland](IMG_20180812_151049_Oxararfoss_cover.jpg)](pannellum.htm#config=pannellum.json&panorama=IMG_20180812_151049_Oxararfoss.jpg)  
+[360° Photo - Öxarárfoss waterfall - Iceland](pannellum.htm#config=pannellum.json&panorama=IMG_20180812_151049_Oxararfoss.jpg)
 
-[![360° Photo - Hallgrímskirkja church - Iceland](IMG_20180813_150536_Hallgrimskirkja_cover.jpg)](pannellum.htm#autoLoad=true&panorama=IMG_20180813_150536_Hallgrimskirkja.jpg)  
-[360° Photo - Hallgrímskirkja church - Iceland](pannellum.htm#autoLoad=true&panorama=IMG_20180813_150536_Hallgrimskirkja.jpg)
+[![360° Photo - Hallgrímskirkja church - Iceland](IMG_20180813_150536_Hallgrimskirkja_cover.jpg)](pannellum.htm#config=pannellum.json&panorama=IMG_20180813_150536_Hallgrimskirkja.jpg)  
+[360° Photo - Hallgrímskirkja church - Iceland](pannellum.htm#config=pannellum.json&panorama=IMG_20180813_150536_Hallgrimskirkja.jpg)
 
 All parts of the journey: 
 1 

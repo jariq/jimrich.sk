@@ -75,26 +75,26 @@ OK, that's enough of ranting for now 🙃. I'll end this post with a few ph
 
 Please note that photos are published here in their full resolution of 6912*3456 pixels but with JPEG quality reduced to 50% in order to decrease their size and save the bandwidth.
 
-[![360° Photo - Ferrata Zobor - Slovakia](IMG_20220905_132820_Zobor_cover.jpg)](pannellum.htm#autoLoad=true&panorama=IMG_20220905_132820_Zobor.jpg)  
-[360° Photo - Ferrata Zobor - Slovakia](pannellum.htm#autoLoad=true&panorama=IMG_20220905_132820_Zobor.jpg)
+[![360° Photo - Ferrata Zobor - Slovakia](IMG_20220905_132820_Zobor_cover.jpg)](pannellum.htm#config=pannellum.json&panorama=IMG_20220905_132820_Zobor.jpg)  
+[360° Photo - Ferrata Zobor - Slovakia](pannellum.htm#config=pannellum.json&panorama=IMG_20220905_132820_Zobor.jpg)
 
-[![360° Photo - Hans von Haidsteig Klettersteig - Austria](IMG_20221008_115349_Hans_Haid_Steig_cover.jpg)](pannellum.htm#autoLoad=true&panorama=IMG_20221008_115349_Hans_Haid_Steig.jpg)  
-[360° Photo - Hans von Haidsteig Klettersteig - Austria](pannellum.htm#autoLoad=true&panorama=IMG_20221008_115349_Hans_Haid_Steig.jpg)
+[![360° Photo - Hans von Haidsteig Klettersteig - Austria](IMG_20221008_115349_Hans_Haid_Steig_cover.jpg)](pannellum.htm#config=pannellum.json&panorama=IMG_20221008_115349_Hans_Haid_Steig.jpg)  
+[360° Photo - Hans von Haidsteig Klettersteig - Austria](pannellum.htm#config=pannellum.json&panorama=IMG_20221008_115349_Hans_Haid_Steig.jpg)
 
-[![360° Photo - Ferrata Priečne sedlo - Slovakia](IMG_20221017_105652_Priecne_sedlo_cover.jpg)](pannellum.htm#autoLoad=true&panorama=IMG_20221017_105652_Priecne_sedlo.jpg)  
-[360° Photo - Ferrata Priečne sedlo - Slovakia](pannellum.htm#autoLoad=true&panorama=IMG_20221017_105652_Priecne_sedlo.jpg)
+[![360° Photo - Ferrata Priečne sedlo - Slovakia](IMG_20221017_105652_Priecne_sedlo_cover.jpg)](pannellum.htm#config=pannellum.json&panorama=IMG_20221017_105652_Priecne_sedlo.jpg)  
+[360° Photo - Ferrata Priečne sedlo - Slovakia](pannellum.htm#config=pannellum.json&panorama=IMG_20221017_105652_Priecne_sedlo.jpg)
 
-[![360° Photo - Ferrata Dve veže - Slovakia](IMG_20230616_111822_Ferrata_Dve_veze_cover.jpg)](pannellum.htm#autoLoad=true&panorama=IMG_20230616_111822_Ferrata_Dve_veze.jpg)  
-[360° Photo - Ferrata Dve veže - Slovakia](pannellum.htm#autoLoad=true&panorama=IMG_20230616_111822_Ferrata_Dve_veze.jpg)
+[![360° Photo - Ferrata Dve veže - Slovakia](IMG_20230616_111822_Ferrata_Dve_veze_cover.jpg)](pannellum.htm#config=pannellum.json&panorama=IMG_20230616_111822_Ferrata_Dve_veze.jpg)  
+[360° Photo - Ferrata Dve veže - Slovakia](pannellum.htm#config=pannellum.json&panorama=IMG_20230616_111822_Ferrata_Dve_veze.jpg)
 
-[![360° Photo - Königschusswandsteig Klettersteig - Austria](IMG_20230901_104417_Konigschusswandsteig_cover.jpg)](pannellum.htm#autoLoad=true&panorama=IMG_20230901_104417_Konigschusswandsteig.jpg)  
-[360° Photo - Königschusswandsteig Klettersteig - Austria](pannellum.htm#autoLoad=true&panorama=IMG_20230901_104417_Konigschusswandsteig.jpg)
+[![360° Photo - Königschusswandsteig Klettersteig - Austria](IMG_20230901_104417_Konigschusswandsteig_cover.jpg)](pannellum.htm#config=pannellum.json&panorama=IMG_20230901_104417_Konigschusswandsteig.jpg)  
+[360° Photo - Königschusswandsteig Klettersteig - Austria](pannellum.htm#config=pannellum.json&panorama=IMG_20230901_104417_Konigschusswandsteig.jpg)
 
-[![360° Photo - Kaiser Franz Joseph Klettersteig - Austria](IMG_20231012_113749_Kaiser_Franz_Joseph_Klettersteig_cover.jpg)](pannellum.htm#autoLoad=true&panorama=IMG_20231012_113749_Kaiser_Franz_Joseph_Klettersteig.jpg)  
-[360° Photo - Kaiser Franz Joseph Klettersteig - Austria](pannellum.htm#autoLoad=true&panorama=IMG_20231012_113749_Kaiser_Franz_Joseph_Klettersteig.jpg)
+[![360° Photo - Kaiser Franz Joseph Klettersteig - Austria](IMG_20231012_113749_Kaiser_Franz_Joseph_Klettersteig_cover.jpg)](pannellum.htm#config=pannellum.json&panorama=IMG_20231012_113749_Kaiser_Franz_Joseph_Klettersteig.jpg)  
+[360° Photo - Kaiser Franz Joseph Klettersteig - Austria](pannellum.htm#config=pannellum.json&panorama=IMG_20231012_113749_Kaiser_Franz_Joseph_Klettersteig.jpg)
 
-[![360° Photo - Ferrata HZS Martinské hole - Slovakia](IMG_20231222_133621_Ferrata_HZS_cover.jpg)](pannellum.htm#autoLoad=true&panorama=IMG_20231222_133621_Ferrata_HZS.jpg)  
-[360° Photo - Ferrata HZS Martinské hole - Slovakia](pannellum.htm#autoLoad=true&panorama=IMG_20231222_133621_Ferrata_HZS.jpg)
+[![360° Photo - Ferrata HZS Martinské hole - Slovakia](IMG_20231222_133621_Ferrata_HZS_cover.jpg)](pannellum.htm#config=pannellum.json&panorama=IMG_20231222_133621_Ferrata_HZS.jpg)  
+[360° Photo - Ferrata HZS Martinské hole - Slovakia](pannellum.htm#config=pannellum.json&panorama=IMG_20231222_133621_Ferrata_HZS.jpg)
 
 All parts of the journey: 
 [1](/my-360-photo-journey-part-1/) 
